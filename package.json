@@ -1,9 +1,17 @@
 {
-	"name": "application-name",
-	"version": "0.0.1",
-	"private": true,
-	"dependencies": {
-		"express": "~3.2.6",
-		"jade": "~0.31.2"
-	}
+  "name": "whatifv3",
+  "version": "0.3.1",
+  "private": true,
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "~3.2.6",
+    "express-session": "^1.15.3",
+    "jade": "~0.31.2",
+    "mongoose": "^4.11.3",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0"
+  }
 }

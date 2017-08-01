@@ -1,0 +1,33 @@
+div(ng-controller='SearchCtrl').navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
+  button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
+    span.navbar-toggler-icon
+  a(class='navbar-brand',href='messages') Whatif! {{status}}
+
+  div.collapse.navbar-collapse#navbarsExampleDefault
+    ul.navbar-nav.mr-auto
+      li.nav-item active
+        a(href='#').nav-link
+          span.sr-only (current)
+      //- li.nav-item
+      //-   a(href='messages').nav-link Messages
+      li.nav-item.dropdown
+        a(href='messages',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Messages
+        div(class='dropdown-menu',aria-labelledby='dropdown01')
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages/new').dropdown-item New
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages').dropdown-item All
+          //- a(href='#').dropdown-item Something else
+      li.nav-item
+        a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='profiles').nav-link Profiles
+      li.nav-item
+        a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='factories').nav-link Factories
+      //- li.nav-item
+      //-   a(href='#').nav-link.disabled
+      li.nav-item.dropdown
+        a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Empty
+        div(class='dropdown-menu',aria-labelledby='dropdown01')
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#',).dropdown-item Action
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Another action
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Something else
+    form(name='searchForm',method='post',novalidate).form-inline.my-2.my-lg-0
+      input(type='text',placeholder='Search',ng-model='searchForm.searchvalue').form-control.mr-sm-2
+      input(data-toggle='collapse',data-target='#navbarsExampleDefault',type='submit',value='Search',ng-click='search()').btn.btn-outline-success.my-2.my-sm-0 Search

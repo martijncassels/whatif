@@ -1,37 +1,38 @@
 extends layout
 
 block body
-  .navbar.navbar-default.navbar-fixed-top(role="navigation")
-    .navbar-header
-      button.navbar-toggle(type="button", data-toggle="collapse", data-target=".navbar-ex1-collapse")
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand(href="#") Brand
-    
-    .collapse.navbar-collapse.navbar-ex1-collapse
-      ul.nav.navbar-nav
-        li
-          a(href="view1") View1
-        li  
-          a(href="view2") View2 
+  include ./partials/navbar.jade
   .container      
-    div(ng-controller='AppCtrl')
-      .jumbotron  
-        h1 Hello {{name}}
+    div
+      div(ng-controller='MainCtrl as main').jumbotron  
+        h1 {{main.title}}
       div(ng-view)
     hr  
     div
       | Angular seed app: v
       span(app-version)
 
-  script(src='js/lib/angular/angular.js')
-  script(src='js/lib/angular/angular-route.js')
+  //- script(src='js/lib/angular/angular.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js')
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js')
+  //- script(src='js/lib/angular/angular-route.js')
+  //- script(src='https://ajax.googleapis.com/ajax/libs/angular-ui-router/1.0.0-rc.1/angular-ui-router.min.js')
   script(src='js/app.js')
   script(src='js/services.js')
+  script(src='js/AuthService.js')
   script(src='js/controllers.js')
+  script(src='js/loginControllers.js')
+  script(src='js/messageControllers.js')
+  script(src='js/profileControllers.js')
+  script(src='js/factoryControllers.js')
   script(src='js/filters.js')
   script(src='js/directives.js')
-  script(src='js/lib/jquery/jquery-2.0.3.min.js')
-  script(src='bootstrap/js/bootstrap.min.js')
+  script(src='js/ui-bootstrap-2.5.0.min.js')
+  script(src='js/ui-bootstrap-tpls-2.5.0.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js')
+  script(src='//cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js')
+  //- script(src='js/lib/jquery/jquery-2.0.3.min.js')
+  //- script(src='bootstrap/js/bootstrap.min.js')
+  script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js',integrity='sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n',crossorigin='anonymous')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js',integrity='sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb',crossorigin='anonymous')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js',integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn',crossorigin='anonymous')

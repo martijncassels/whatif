@@ -1,0 +1,27 @@
+div(class='card',ng-repeat='message in messages')
+	h3.card-header.text-center Featured
+	.card-block.justify-content-end
+		.d-flex.flex-row
+			.mr-auto.p-2
+				h4.card-title {{message.title}} - {{message._id}}
+			.p-2
+				div(class='btn-group',role='group',aria-label='Basic Example')
+					a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary view 
+					a(href='message/update/{{message._id}}').btn.btn-sm.btn-primary update 
+					button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary delete 
+		p(class='card-text') {{message.body}}
+		a(href='#').btn.btn-primary Go somewhere
+	div(ng-repeat='child in message.childs').card-footer.text-muted.justify-content-end
+			.d-flex.flex-row
+				.mr-auto.p-2
+					p(ng-show='child.title') title: {{child.title}} {{child._id}}
+				.p-2
+					div(class='btn-group',role='group',aria-label='Basic Example')
+						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}') update 
+						button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button') delete
+			p {{child.body}}
+	.card-footer.text-muted
+		include ../forms/commentForm.jade
+hr
+.container
+	include ../forms/messageForm.jade

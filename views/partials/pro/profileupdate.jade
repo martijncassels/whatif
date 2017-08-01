@@ -1,0 +1,52 @@
+//- form(name='formData4',method='put',novalidate) {{formData4._id}}
+//- 	div(ng-show='success',class="alert alert-success",role="alert")
+//- 		strong Well done! {{success}}
+//- 	div(ng-show='error',class="alert alert-danger",role="alert")
+//- 		strong Oh no! {{error}}
+//- 	div(class='form-group',ng-class="{ 'has-danger' : formData4.username.$invalid && !formData4.username.$pristine , 'has-success' : formData4.username.$valid && !formData4.username.$pristine }")
+//- 		label(class='form-control-label',for='username') username 
+//- 		input(class='form-control',type='text',name='username',id='username',placeholder='username',ng-model='formData4.username',required)
+//- 	div(class='form-group')
+//- 		label(class='form-control-label',for='firstname') firstname 
+//- 		input(class='form-control',type='text',name='firstname',id='firstname',placeholder='firstname',ng-model='formData4.firstname',required)
+//- 		div(class='form-control-feedback',ng-show='formData4.firstname.$error.required') Required!
+//- 	div(class='form-group')
+//- 		label(class='form-control-label',for='lastname') lastname 
+//- 		input(class='form-control',type='text',name='lastname',id='lastname',placeholder='lastname',ng-model='formData4.lastname',required)
+//- 		div(class='form-control-feedback',ng-show='formData4.lastname.$error.required') Required! 
+//- 	p {{formData4.skills[0].name}}
+//- 	div(class='form-control-feedback',ng-show='formData4.skills[0].value.$invalid') Required! 
+//- 	div(class='form-group',ng-repeat='skill in profile.skills track by $index')
+//- 		label(class='form-control-label',for='{{skill.name}}') {{skill.name}} 
+//- 		input(class='form-control',type='number',ng-model='$parent.formData4.skills[$index].value',min="0",max="10",integer,required) 
+//- 		div(class='form-control-feedback',ng-show='$parent.formData4.skills[$index].value.$error.required') Required! 
+//- 	input(class='form-control',type='number',name='{{skill.name}}',id='{{skill.name}}',ng-model='formData4.skills[4].value',min="0",max="10",integer,required)
+//- 	input(type='submit',ng-click='updateProfile(formData4._id)',value='submit')
+form(name='formData4',method='post',novalidate)
+	div(ng-show='success',class="alert alert-success",role="alert")
+		strong Well done! {{success}}
+	div(ng-show='error',class="alert alert-danger",role="alert")
+		strong Oh no! {{error}}
+	div(ng-class="{ 'has-danger' : formData4.username.$invalid && !formData4.username.$pristine , 'has-success' : formData4.username.$valid && !formData4.username.$pristine }").form-group.row
+		label.col-form-label Username
+		input(ng-class="{ 'form-control-danger' : formData4.username.$invalid && !formData4.username.$pristine , 'form-control-success' : formData4.username.$valid && !formData4.username.$pristine }",type='text',name='username',id='username',placeholder='username',ng-model='profile.username',required).form-control.form-control-sm
+	div(ng-class="{ 'has-danger' : formData4.firstname.$invalid && !formData4.firstname.$pristine , 'has-success' : formData4.firstname.$valid && !formData4.firstname.$pristine }").form-group.row
+		label.col-form-label Firstname
+		input(ng-class="{ 'form-control-danger' : formData4.firstname.$invalid && !formData4.firstname.$pristine , 'form-control-success' : formData4.firstname.$valid && !formData4.firstname.$pristine }",type='text',name='firstname',id='firstname',placeholder='firstname',ng-model='profile.firstname',required).form-control.form-control-sm
+	div(ng-class="{ 'has-danger' : formData4.lastname.$invalid && !formData4.lastname.$pristine , 'has-success' : formData4.lastname.$valid && !formData4.lastname.$pristine }").form-group.row
+		label.col-form-label Lastname
+		input(ng-class="{ 'form-control-danger' : formData4.lastname.$invalid && !formData4.lastname.$pristine , 'form-control-success' : formData4.lastname.$valid && !formData4.lastname.$pristine }",type='text',name='lastname',id='lastname',placeholder='lastname',ng-model='profile.lastname',required).form-control.form-control-sm
+	div(ng-class="{ 'has-danger' : formData4.memberof.$invalid && !formData4.memberof.$pristine , 'has-success' : formData4.memberof.$valid && !formData4.memberof.$pristine }").form-group.row
+		select(ng-options='factory._id as factory.title for factory in factories track by factory._id',ng-model='memberof',multiple).form-control
+	//- outer scope
+	//- div(ng-class="{ 'has-danger' : formData4.1.$invalid && !formData4.1.$pristine , 'has-success' : formData4.1.$valid && !formData4.1.$pristine }").form-group.row
+	//- 	label.col-form-label {{profile.skills[0].name}}
+	//- 	input(ng-class="{ 'form-control-danger' : formData4.1.value.$invalid && !formData4.1.$pristine , 'form-control-success' : formData4.1.$valid && !formData4.1.$pristine }",type='number',name='1',id='1',placeholder='points',ng-model='profile.skills[0].value',required).form-control.form-control-sm
+	//- inner scope
+	div(ng-repeat='skill in profile.skills',ng-class="{ 'has-danger' : $parent.formData4.skill{{skill.name}}.$invalid && !$parent.formData4.skill{{skill.name}}.$pristine , 'has-success' : $parent.formData4.skill{{skill.name}}.$valid && !$parent.formData4.skill{{skill.name}}.$pristine }").form-group.row
+		label.col-form-label {{skill.name}}
+		input(ng-class="{ 'form-control-danger' : $parent.formData4.skill{{skill.name}}.$invalid && !$parent.formData4.skill{{skill.name}}.$pristine , 'form-control-success' : $parent.formData4.skill{{skill.name}}.$valid && !$parent.formData4.skill{{skill.name}}.$pristine }",type='number',name='skill{{skill.name}}',placeholder='points',ng-model='$parent.profile.skills[$index].value',required).form-control.form-control-sm
+	.form-group.row
+		input(type='submit',ng-disabled='formData4.$invalid',ng-click='updateProfile(profile._id)',value='submit').btn.btn-sm.btn-primary
+	div(ng-repeat='factory in factories')
+		p{{factory.title}}

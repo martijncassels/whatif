@@ -1,0 +1,15 @@
+form(name='form',method='post',novalidate)
+	div(ng-class="{ 'has-danger' : form.title.$invalid && !form.title.$pristine , 'has-success' : form.title.$valid && !form.title.$pristine }").form-group
+		label.col-sm-2.col-form-label title
+		input(ng-class="{ 'form-control-danger' : form.title.$invalid && !form.title.$pristine , 'form-control-success' : form.title.$valid && !form.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='formData.title',required,ng-minlength='3').form-control
+		div(ng-show='form.title.$invalid && !form.title.$pristine').form-control-feedback Title is required and a minimum of 3 characters.
+	div(ng-class="{ 'has-danger' : form.body.$invalid && !form.body.$pristine , 'has-success' : !form.body.$invalid && !form.body.$pristine }").form-group
+		label.col-sm-2.col-form-label body
+		input(ng-class="{ 'form-control-danger' : form.body.$invalid && !form.body.$pristine , 'form-control-success' : !form.body.$invalid && !form.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='formData.body',required,ng-minlength='3').form-control
+		div(ng-show='form.body.$invalid && !form.body.$pristine').form-control-feedback Body is required and a minimum of 3 characters.
+	div(ng-class="{ 'has-danger' : form.author.$invalid && !form.author.$pristine , 'has-success' : !form.author.$invalid && !form.author.$pristine }").form-group
+		label.col-sm-2.col-form-label author 
+		input(ng-class="{ 'form-control-danger' : form.author.$invalid && !form.author.$pristine , 'form-control-success' : !form.author.$invalid && !form.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='formData.author',required,ng-minlength='3').form-control
+		div(ng-show='form.author.$invalid && !form.author.$pristine').form-control-feedback Author is required and a minimum of 3 characters.
+	.form-group
+		input(type='submit',value='submit',ng-disabled='form.$invalid',ng-click='createMessage()').btn.btn-sm.btn-primary

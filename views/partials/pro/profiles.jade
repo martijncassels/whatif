@@ -1,0 +1,26 @@
+div(ng-repeat='profile in profiles')
+	.d-flex.flex-row
+		.mr-auto.p-2
+			p username: {{profile.username}} {{profile._id}}
+		.p-2
+			div(class='btn-group',role='group',aria-label='Basic Example')
+				a(href='profiles/view/{{profile._id}}').btn.btn-sm.btn-primary view 
+				a(class='btn btn-sm btn-primary',href='profile/update/{{profile._id}}') update 
+				button(class='btn btn-sm btn-primary',ng-click='deleteProfile(profile._id)',value='button') delete 
+	.d-flex.flex-row
+		.mr-auto.p-2
+			p {{profile.body}}
+form(method='post',validate=false)
+		p
+			label
+				| username 
+				input(type='text',name='username',id='username',placeholder='username',ng-model='formData.username',required=true)
+		p
+			label
+				| firstname
+				input(type='text',name='firstname',id='firstname',placeholder='firstname',ng-model='formData.firstname')
+		p
+			label
+				| lastname 
+				input(type='text',name='lastname',id='lastname',placeholder='lastname',ng-model='formData.lastname')
+		input(type='submit',ng-click='createProfile()',value='submit')

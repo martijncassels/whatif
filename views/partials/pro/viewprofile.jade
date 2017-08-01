@@ -1,0 +1,29 @@
+div(class='card')
+	h3.card-header.text-center {{profiles.username}}
+	.card-block.justify-content-end
+		.d-flex.flex-row
+			.mr-auto.p-2
+				h4.card-title {{profiles.username}} - {{profiles._id}}
+			.p-2
+				div(class='btn-group',role='group',aria-label='Basic Example')
+					a(href='profile/update/{{profiles._id}}').btn.btn-sm.btn-primary update 
+					button(ng-click='deleteprofile(profiles._id)',value='button').btn.btn-sm.btn-primary delete 
+		p(class='card-text') {{profiles.body}}
+		div(ng-repeat='skill in profiles.skills') name: {{skill.name}}
+			.progress
+				div(class='progress-bar bg-{{skill.name}}',role='progressbar',style='width: {{skill.value*10}}%',aria-valuenow='{{skill.value}}',aria-valuemin='0',aria-valuemax='10') {{skill.value}}
+		br
+		label Total:
+		.progress
+			div(class='progress-bar bg-{{skill.name}}',ng-repeat='skill in profiles.skills',role='progressbar',style='width: {{skill.value*10}}%',aria-valuenow='{{skill.value}}',aria-valuemin='0',aria-valuemax='10') {{skill.name}}
+		br
+		a(href='#').btn.btn-primary Go somewhere
+		.container
+			.row.align-items-center
+				.col-sm
+					canvas(id='polar-area',chart-data='data',chart-labels='labels',chart-series='series',chart-options='options2').chart.chart-polar-area
+				.col-sm
+					canvas(id='radar',chart-data='data',chart-labels='labels',chart-series='series',chart-options='options2').chart.chart-radar
+				.col-sm
+					canvas(id='bar',chart-data='data',chart-labels='labels',chart-series='series',chart-options='options').chart.chart-bar
+	.card-footer.text-muted

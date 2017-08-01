@@ -1,0 +1,27 @@
+div(ng-repeat='factory in vm.factories')
+	.d-flex.flex-row
+		.mr-auto.p-2
+			p title: {{factory.title}} {{factory._id}}
+		.p-2
+			div(class='btn-group',role='group',aria-label='Basic Example')
+				a(href='factories/view/{{factory._id}}').btn.btn-sm.btn-primary view 
+				a(class='btn btn-sm btn-primary',href='factories/update/{{factory._id}}') update 
+				button(class='btn btn-sm btn-primary',ng-click='vm.deleteFactory(factory._id)',value='button') delete 
+	.d-flex.flex-row
+		.mr-auto.p-2
+			p {{factory.body}}
+//- hr
+//- form(name='formData',method='post',validate=false)
+//- 		p
+//- 			label
+//- 				| title 
+//- 				input(type='text',name='title',id='title',placeholder='title',ng-model='formData.title',required=true)
+//- 		p
+//- 			label
+//- 				| body
+//- 				input(type='text',name='body',id='body',placeholder='body',ng-model='formData.body')
+//- 		p
+//- 			label
+//- 				| author 
+//- 				input(type='text',name='author',id='author',placeholder='author',ng-model='formData.author')
+//- 		input(type='submit',ng-click='vm.createFactory()',value='submit')

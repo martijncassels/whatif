@@ -1,0 +1,44 @@
+script(type="text/ng-template",id="customTemplate.html")
+	a
+		span(ng-bind-html="match.label | uibTypeaheadHighlight:query")
+script(type="text/ng-template",id="customPopupTemplate.html")
+	div(ng-style="{top: position().top+'px', left: position().left+'px'}",style="display: block;",ng-show="isOpen() && !moveInProgress",aria-hidden="{{!isOpen()}}").dropdown-menu
+		//- div(ng-repeat="match in matches track by $index",ng-class="{active: isActive($index) }",ng-mouseenter="selectActive($index)",ng-click="selectMatch($index)",role="option",id="{{::match.id}}").dropdown-item
+		div(ng-repeat="match in matches track by $index",ng-class="{active: isActive($index) }",ng-mouseenter="selectActive($index)",ng-click="selectMatch($index)",role="option",id="{{::match.id}}").dropdown-item
+			a(uib-typeahead-match,index="$index",match="match",query="query",template-url="templateUrl")
+//- then use in input-tag
+//- typeahead-popup-template-url="customPopupTemplate.html",typeahead-template-url="customTemplate.html"
+	
+form(name='formData8',method='put',novalidate) {{vm.data._id}}
+	div(ng-show='vm.success',class="alert alert-success",role="alert")
+		strong Well done! {{success}}
+	div(ng-show='vm.error',class="alert alert-danger",role="alert")
+		strong Oh no! {{error}}
+	div(ng-class="{ 'has-danger' : formData8.title.$invalid && !formData8.title.$pristine , 'has-success' : formData8.title.$valid && !formData8.title.$pristine }").form-group
+		label.col-form-label title 
+		input(ng-class="{ 'form-control-danger' : formData8.title.$invalid && !formData8.title.$pristine , 'form-control-success' : formData8.title.$valid && !formData8.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='vm.data.title',required).form-control
+		div(class='form-control-feedback',ng-show='formData8.title.$error.required') Required!
+	div(ng-class="{ 'has-danger' : formData8.body.$invalid && !formData8.body.$pristine , 'has-success' : formData8.body.$valid && !formData8.body.$pristine }").form-group
+		label(class='form-control-label',for='body') body 
+		textarea(ng-class="{ 'form-control-danger' : formData8.body.$invalid && !formData8.body.$pristine , 'formData8-control-success' : !formData8.body.$invalid && !formData8.body.$pristine }",rows='6',class='form-control',type='text',name='body',id='body',placeholder='body',ng-model='vm.data.body',required)
+		div(class='form-control-feedback',ng-show='formData8.author.$error.required') Required!
+	div(ng-class="{ 'has-danger' : formData8.author.$invalid && !formData8.author.$pristine , 'has-success' : formData8.author.$valid && !formData8.author.$pristine }").form-group
+		label(class='form-control-label',for='author') author 
+		input(ng-class="{ 'form-control-danger' : formData8.author.$invalid && !formData8.author.$pristine , 'formData8-control-success' : !formData8.author.$invalid && !formData8.author.$pristine }",class='form-control',type='text',name='author',id='author',placeholder='author',ng-model='vm.data.author',required)
+		div(class='form-control-feedback',ng-show='formData8.author.$error.required') Required!
+	div(ng-class="{ 'has-danger' : formData8.members.$invalid && !formData8.members.$pristine , 'has-success' : formData8.members.$valid && !formData8.members.$pristine }").form-group
+		label(class='form-control-label',for='members') members 
+		//- select(ng-options="member as member.username for member in vm.data.members track by member._id",ng-model="vm.data.members")
+		//- input(type="text",ng-model="selected",uib-typeahead="member.username for member in vm.members | filter:$viewValue | limitTo:8",).form-control.typeahead-demo
+		//- div(ng-show='vm.members',ng-repeat='member in vm.members')
+		p(ng-show='vm.data.members',ng-repeat='member in vm.data.members') {{member.username}} : {{member._id}} 
+			i(aria-hidden="true",ng-click='vm.removeMember($index)').fa.fa-times.fa-lg 
+		input(type="text",ng-model="vm.selected",name='members',uib-typeahead="member.username for member in vm.getMembers($viewValue)",typeahead-loading="loadingMembers",typeahead-no-results="noResults",typeahead-on-select="vm.pushMember($item)",typeahead-popup-template-url="customPopupTemplate.html",typeahead-template-url="customTemplate.html").form-control.typeahead-demo.dropdown
+		i(aria-hidden="true",ng-show="loadingMembers").fa.fa-refresh
+		div(ng-show="noResults")
+			i(aria-hidden="true",ng-click='vm.removeMember($index)').fa.fa-times 
+			| No Results Found
+		//- input(ng-class="{ 'form-control-danger' : formData8.members.$invalid && !formData8.members.$pristine , 'formData8-control-success' : !formData8.members.$invalid && !formData8.members.$pristine }",class='form-control',type='select',name='members',id='members',placeholder='members',ng-model='vm.data.members',required)
+		//- div(class='form-control-feedback',ng-show='formData8.members.$error.required') Required!
+		input(type='hidden',ng-model='vm.data.members',name='members',id='members')
+	input(type='submit',ng-click='vm.updateFactory(vm.data._id)',value='submit',ng-disabled='formData8.$invalid').btn.btn-sm.btn-primary
