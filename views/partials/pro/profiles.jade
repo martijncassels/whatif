@@ -23,4 +23,24 @@ form(method='post',validate=false)
 			label
 				| lastname 
 				input(type='text',name='lastname',id='lastname',placeholder='lastname',ng-model='formData.lastname')
+		p
+			label
+				| skill1 
+				input(type='text',name='skill1',id='skill1',placeholder='skill1',ng-model='formData.skill1')
+		p
+			label
+				| skill2 
+				input(type='text',name='skill2',id='skill2',placeholder='skill2',ng-model='formData.skill2')
+		p
+			label
+				| skill3 
+				input(type='text',name='skill3',id='skill3',placeholder='skill3',ng-model='formData.skill3')
+		p
+			label
+				| skill4 
+				input(type='text',name='skill4',id='skill4',placeholder='skill4',ng-model='formData.skill4')
+		p
+			label
+				| skill5 
+				input(type='text',name='skill5',id='skill5',placeholder='skill5',ng-model='formData.skill5')
 		input(type='submit',ng-click='createProfile()',value='submit')

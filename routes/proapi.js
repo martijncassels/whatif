@@ -36,9 +36,17 @@ exports.postprofile = function(req, res) {
 
     //create a profiles, information comes from AJAX request from Angular
     Profiles.create({
-        username:      req.body.username,
-        firstname:       req.body.firstname,
-        lastname:     req.body.lastname
+        username:           req.body.username,
+        firstname:          req.body.firstname,
+        lastname:           req.body.lastname,
+        skills:    [
+            {name: '1',value: req.body.skill1},
+            {name: '2',value: req.body.skill2},
+            {name: '3',value: req.body.skill3},
+            {name: '4',value: req.body.skill4},
+            {name: '5',value: req.body.skill5},
+            ],
+        
         // isparent:   true,
         // isfactory:  false,
         // iscomment:  false

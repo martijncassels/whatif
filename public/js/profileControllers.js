@@ -27,7 +27,7 @@ angular.module('whatif.controllers')
     $scope.deleteProfile = function(id) {
         $http.delete('/api/profiles/' + id)
             .success(function(data) {
-                $scope.messages = data;
+                $scope.profiles = data;
                 //console.log(data);
             })
             .error(function(data) {

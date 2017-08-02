@@ -20,7 +20,7 @@ var Profile = new Schema({
 		    	body: String
 		    },
 		    skills: [{
-		    	name: String, value: {type:Number, default: 0}
+		    	name: {type:String}, value: {type:Number, default: 0}
 
 		    	// 1: {type:Number, default: 0},
 		    	// 2: {type:Number, default: 0},
