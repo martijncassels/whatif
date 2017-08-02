@@ -9,7 +9,7 @@ script(type="text/ng-template",id="customPopupTemplate.html")
 //- then use in input-tag
 //- typeahead-popup-template-url="customPopupTemplate.html",typeahead-template-url="customTemplate.html"
 	
-form(name='formData8',method='put',novalidate) {{vm.data._id}}
+form(name='formData8',method='put',novalidate)
 	div(ng-show='vm.success',class="alert alert-success",role="alert")
 		strong Well done! {{success}}
 	div(ng-show='vm.error',class="alert alert-danger",role="alert")
@@ -31,8 +31,8 @@ form(name='formData8',method='put',novalidate) {{vm.data._id}}
 		//- select(ng-options="member as member.username for member in vm.data.members track by member._id",ng-model="vm.data.members")
 		//- input(type="text",ng-model="selected",uib-typeahead="member.username for member in vm.members | filter:$viewValue | limitTo:8",).form-control.typeahead-demo
 		//- div(ng-show='vm.members',ng-repeat='member in vm.members')
-		p(ng-show='vm.data.members',ng-repeat='member in vm.data.members') {{member.username}} : {{member._id}} 
-			i(aria-hidden="true",ng-click='vm.removeMember($index)').fa.fa-times.fa-lg 
+		p(ng-show='vm.data.members',ng-repeat='member in vm.data.members') {{member.username}} 
+			i(aria-hidden="true",ng-click='vm.removeMember($index)',data-toggle="tooltip",data-placement="top",title="Remove user").fa.fa-times.fa-lg 
 		input(type="text",ng-model="vm.selected",name='members',uib-typeahead="member.username for member in vm.getMembers($viewValue)",typeahead-loading="loadingMembers",typeahead-no-results="noResults",typeahead-on-select="vm.pushMember($item)",typeahead-popup-template-url="customPopupTemplate.html",typeahead-template-url="customTemplate.html").form-control.typeahead-demo.dropdown
 		i(aria-hidden="true",ng-show="loadingMembers").fa.fa-refresh
 		div(ng-show="noResults")

@@ -50,7 +50,7 @@ angular.module('whatif.controllers')
 
 }])
 
-.controller('MsgViewCtrl', ['$scope', '$http', '$routeParams',function($scope, $http, $routeParams) {
+.controller('MsgViewCtrl', ['$scope', '$http', '$routeParams', '$location',function($scope, $http, $routeParams, $location) {
     //$scope.message = {};
     $http.get('/api/messages/' + $routeParams.entity + '/' + $routeParams.id)
         .success(function(data) {
@@ -77,6 +77,7 @@ angular.module('whatif.controllers')
         $http.delete('/api/comments/single/' + id)
             .success(function(data) {
                 $scope.message = data;
+                location.path('/messages');
             })
             .error(function(data) {
                 console.log('Error: ' + data);

@@ -1,46 +1,18 @@
 div(ng-repeat='profile in profiles')
 	.d-flex.flex-row
 		.mr-auto.p-2
-			p username: {{profile.username}} {{profile._id}}
+			p username: {{profile.username}}
 		.p-2
 			div(class='btn-group',role='group',aria-label='Basic Example')
-				a(href='profiles/view/{{profile._id}}').btn.btn-sm.btn-primary view 
-				a(class='btn btn-sm btn-primary',href='profile/update/{{profile._id}}') update 
-				button(class='btn btn-sm btn-primary',ng-click='deleteProfile(profile._id)',value='button') delete 
+				a(href='profiles/view/{{profile._id}}').btn.btn-sm.btn-primary 
+					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="View profile").fa.fa-eye
+				a(class='btn btn-sm btn-primary',href='profile/update/{{profile._id}}') 
+					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update profile").fa.fa-pencil
+				button(class='btn btn-sm btn-primary',ng-click='deleteProfile(profile._id)',value='button') 
+					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete profile").fa.fa-trash 
 	.d-flex.flex-row
 		.mr-auto.p-2
 			p {{profile.body}}
-form(method='post',validate=false)
-		p
-			label
-				| username 
-				input(type='text',name='username',id='username',placeholder='username',ng-model='formData.username',required=true)
-		p
-			label
-				| firstname
-				input(type='text',name='firstname',id='firstname',placeholder='firstname',ng-model='formData.firstname')
-		p
-			label
-				| lastname 
-				input(type='text',name='lastname',id='lastname',placeholder='lastname',ng-model='formData.lastname')
-		p
-			label
-				| skill1 
-				input(type='text',name='skill1',id='skill1',placeholder='skill1',ng-model='formData.skill1')
-		p
-			label
-				| skill2 
-				input(type='text',name='skill2',id='skill2',placeholder='skill2',ng-model='formData.skill2')
-		p
-			label
-				| skill3 
-				input(type='text',name='skill3',id='skill3',placeholder='skill3',ng-model='formData.skill3')
-		p
-			label
-				| skill4 
-				input(type='text',name='skill4',id='skill4',placeholder='skill4',ng-model='formData.skill4')
-		p
-			label
-				| skill5 
-				input(type='text',name='skill5',id='skill5',placeholder='skill5',ng-model='formData.skill5')
-		input(type='submit',ng-click='createProfile()',value='submit')
+hr
+.container
+	include ../forms/profileForm.jade

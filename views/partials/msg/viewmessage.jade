@@ -7,8 +7,10 @@ div(class='card')
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					//- a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary view 
-					a(href='message/update/{{message._id}}').btn.btn-sm.btn-primary update 
-					button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary delete 
+					a(href='message/update/{{message._id}}').btn.btn-sm.btn-primary
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-pencil
+					button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary 
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash 
 		p(class='card-text') {{message.body}}
 		a(href='#').btn.btn-primary Go somewhere
 	div(ng-repeat='child in message.childs').card-footer.text-muted.justify-content-end
@@ -17,8 +19,10 @@ div(class='card')
 					p(ng-show='child.title') title: {{child.title}} {{child._id}}
 				.p-2
 					div(class='btn-group',role='group',aria-label='Basic Example')
-						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}') update 
-						button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button') delete
+						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}')
+							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update comment").fa.fa-pencil
+						button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button') 
+							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete comment").fa.fa-trash 
 			p {{child.body}}
 	.card-footer.text-muted
 		include ../forms/commentForm.jade

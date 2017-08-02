@@ -4,9 +4,12 @@ div(ng-repeat='factory in vm.factories')
 			p title: {{factory.title}} {{factory._id}}
 		.p-2
 			div(class='btn-group',role='group',aria-label='Basic Example')
-				a(href='factories/view/{{factory._id}}').btn.btn-sm.btn-primary view 
-				a(class='btn btn-sm btn-primary',href='factories/update/{{factory._id}}') update 
-				button(class='btn btn-sm btn-primary',ng-click='vm.deleteFactory(factory._id)',value='button') delete 
+				a(href='factories/view/{{factory._id}}').btn.btn-sm.btn-primary
+					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="View factory").fa.fa-eye
+				a(class='btn btn-sm btn-primary',href='factories/update/{{factory._id}}')
+					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update factory").fa.fa-pencil
+				button(class='btn btn-sm btn-primary',ng-click='vm.deleteFactory(factory._id)',value='button')
+					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete factory").fa.fa-trash  
 	.d-flex.flex-row
 		.mr-auto.p-2
 			p {{factory.body}}

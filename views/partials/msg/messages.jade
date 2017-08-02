@@ -3,22 +3,27 @@ div(class='card',ng-repeat='message in messages')
 	.card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
-				h4.card-title {{message.title}} - {{message._id}}
+				h4.card-title {{message.title}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
-					a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary view 
-					a(href='message/update/{{message._id}}').btn.btn-sm.btn-primary update 
-					button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary delete 
+					a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary 
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="View message").fa.fa-eye
+					a(href='message/update/{{message._id}}').btn.btn-sm.btn-primary
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-pencil
+					button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary 
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
 		p(class='card-text') {{message.body}}
 		a(href='#').btn.btn-primary Go somewhere
 	div(ng-repeat='child in message.childs').card-footer.text-muted.justify-content-end
 			.d-flex.flex-row
 				.mr-auto.p-2
-					p(ng-show='child.title') title: {{child.title}} {{child._id}}
+					p(ng-show='child.title') title: {{child.title}}
 				.p-2
 					div(class='btn-group',role='group',aria-label='Basic Example')
-						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}') update 
-						button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button') delete
+						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}') 
+							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update comment").fa.fa-pencil
+						button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button')
+							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
 			p {{child.body}}
 	.card-footer.text-muted
 		include ../forms/commentForm.jade

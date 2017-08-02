@@ -3,19 +3,19 @@ div(class='card')
 	.card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
-				h4.card-title {{vm.factory.title}} - {{vm.factory._id}}
+				h4.card-title Name: {{vm.factory.title}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					//- a(href='factorys/view/factory/{{factory._id}}').btn.btn-sm.btn-primary view 
-					a(href='factories/update/{{vm.factory._id}}').btn.btn-sm.btn-primary update 
-					button(ng-click='deletefactory(vm.factory._id)',value='button').btn.btn-sm.btn-primary delete 
+					a(href='factories/update/{{vm.factory._id}}').btn.btn-sm.btn-primary
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update factory").fa.fa-pencil
+					button(ng-click='deletefactory(vm.factory._id)',value='button').btn.btn-sm.btn-primary
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete factory").fa.fa-trash  
 		p(class='card-text') {{vm.factory.body}}
 		a(href='#').btn.btn-primary Go somewhere
-	div(ng-repeat='member in vm.factory.members').card-footer.text-muted.justify-content-end
-			.d-flex.flex-row
-				.mr-auto.p-2
-					p(ng-show='member.username') username: {{member.username}} {{member._id}}
-				.p-2
-			p {{member.username}}
+	.card-footer.text-muted.justify-content-end Members:
+		ul
+			li(ng-repeat='member in vm.factory.members')
+				a(href='/profiles/view/{{member._id}}') {{member.username}}
 	//- .card-footer.text-muted
 	//- 	include ../forms/factoryForm.jade
