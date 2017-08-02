@@ -10,10 +10,25 @@ div(class='card',ng-repeat='message in messages')
 						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="View message").fa.fa-eye
 					a(href='message/update/{{message._id}}').btn.btn-sm.btn-primary
 						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-pencil
-					button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary 
+					//- button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary 
+					//- 	i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
+					button(type="button",data-toggle="modal",data-target="#Modal{{message._id}}").btn.btn-sm.btn-primary 
 						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
 		p(class='card-text') {{message.body}}
 		a(href='#').btn.btn-primary Go somewhere
+		//- Modal goes here
+		div(id="Modal{{message._id}}",tabindex="-1",role="dialog",aria-labelledby="Modal{{message._id}}Label",aria-hidden="true").modal.fade
+			div(role="document").modal-dialog
+				.modal-content
+					.modal-header
+						h5.modal-title Delete item?
+						button(type="button",data-dismiss="modal",aria-label="Close").close
+							span(aria-hidden="true") &times;
+					.modal-body Are you sure you want to delete item with name: {{message.title}}?
+					.modal-footer
+						button(type="button",data-dismiss="modal").btn.btn-secondary Cancel
+						button(ng-click='deleteMessage(message._id)',value='button',data-dismiss="modal").btn.btn-primary Delete item
+		//- end of modal
 	div(ng-repeat='child in message.childs').card-footer.text-muted.justify-content-end
 			.d-flex.flex-row
 				.mr-auto.p-2
@@ -22,11 +37,37 @@ div(class='card',ng-repeat='message in messages')
 					div(class='btn-group',role='group',aria-label='Basic Example')
 						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}') 
 							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update comment").fa.fa-pencil
-						button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button')
+						//- button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button')
+						//- 	i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
+						button(type="button",data-toggle="modal",data-target="#Modal{{child._id}}").btn.btn-sm.btn-primary 
 							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
 			p {{child.body}}
+			//- Modal goes here
+			div(id="Modal{{child._id}}",tabindex="-1",role="dialog",aria-labelledby="Modal{{child._id}}Label",aria-hidden="true").modal.fade
+				div(role="document").modal-dialog
+					.modal-content
+						.modal-header
+							h5.modal-title Delete item?
+							button(type="button",data-dismiss="modal",aria-label="Close").close
+								span(aria-hidden="true") &times;
+						.modal-body Are you sure you want to delete item with name: {{child.title}}?
+						.modal-footer
+							button(type="button",data-dismiss="modal").btn.btn-secondary Cancel
+							button(ng-click='deleteComment(child._id)',value='button',data-dismiss="modal").btn.btn-primary Delete item
+			//- end of modal
 	.card-footer.text-muted
 		include ../forms/commentForm.jade
 hr
 .container
 	include ../forms/messageForm.jade
+div(id="exampleModal",tabindex="-1",role="dialog",aria-labelledby="exampleModalLabel",aria-hidden="true").modal.fade
+	div(role="document").modal-dialog
+		.modal-content
+			.modal-header
+				h5(id="exampleModalLabel").modal-title Delete item?
+				button(type="button",data-dismiss="modal",aria-label="Close").close
+					span(aria-hidden="true") &times;
+			.modal-body
+			.modal-footer
+				button(type="button",data-dismiss="modal").btn.btn-secondary Cancel
+				button(type="button").btn.btn-primary Delete item

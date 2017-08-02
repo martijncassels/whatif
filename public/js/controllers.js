@@ -27,7 +27,7 @@ angular.module('whatif.controllers',[])
 
     // when submitting the add form, send the text to the node API
     $scope.createMessage = function() {
-        if($scope.form.$valid){
+        if($scope.formData.$valid){
             $http.post('/api/messages', $scope.formData)
                 .success(function(data) {
                     $scope.formData = {}; // clear the form so our user is ready to enter another
@@ -37,7 +37,6 @@ angular.module('whatif.controllers',[])
                 .error(function(data) {
                     console.log('Error: ' + data);
                 });
-            //$scope.$digest();
         }
     };
 

@@ -57,9 +57,9 @@ exports.postmessage = function(req, res) {
 
     //create a messages, information comes from AJAX request from Angular
     Messages.create({
-    	title: 		req.body.title,
-    	body: 		req.body.body,
-    	author: 	req.body.author,
+    	title: 		req.body.title.$modelValue,
+    	body: 		req.body.body.$modelValue,
+    	author: 	req.body.author.$modelValue,
     	isparent: 	true,
     	isfactory: 	false,
     	iscomment: 	false
