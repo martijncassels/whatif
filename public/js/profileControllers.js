@@ -57,7 +57,7 @@ angular.module('whatif.controllers')
                     yAxes: [{
                         ticks : {
                             min: 0,
-                            max: 5,
+                            max: 6,
                             stepSize: 1
                         } 
                     }]
@@ -67,7 +67,7 @@ angular.module('whatif.controllers')
                 scale: {
                     ticks : {
                         min: 0,
-                        max: 5,
+                        max: 6,
                         stepSize: 1
                     } 
                 }

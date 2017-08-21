@@ -10,8 +10,8 @@ angular.module('whatif.controllers',[])
 
 .controller('AppCtrl', ['$scope','$rootScope','$http',function($scope,$rootScope,$http) {
   	$scope.formData = {};
-    $scope.formData2 = {};
-    $scope.formData3 = {};
+    //$scope.formData2 = {};
+    //$scope.formData3 = {};
     $scope.searchForm = {};
 
     // when landing on the page, get all messages and show them
@@ -19,7 +19,7 @@ angular.module('whatif.controllers',[])
         .success(function(data) {
             $scope.name = 'Whatif...!';
             $rootScope.messages = data;
-            console.log(data);
+            //console.log(data);
         })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -40,18 +40,18 @@ angular.module('whatif.controllers',[])
         }
     };
 
-    $scope.getMessage = function(id) {
-        $http.get('/api/view/' + id)
-            .success(function(data) {
-                $scope.single = true;
-                $scope.formData3 = data; // populate form
-                //$scope.message = data;
-                //console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
+    // $scope.getMessage = function(id) {
+    //     $http.get('/api/view/' + id)
+    //         .success(function(data) {
+    //             $scope.single = true;
+    //             $scope.formData3 = data; // populate form
+    //             //$scope.message = data;
+    //             //console.log(data);
+    //         })
+    //         .error(function(data) {
+    //             console.log('Error: ' + data);
+    //         });
+    // };
 
     // delete a message
     $scope.deleteMessage = function(id) {
@@ -66,9 +66,9 @@ angular.module('whatif.controllers',[])
     };
 
     $scope.createComment = function(child,id) {
-        $http.post('/api/comments/' + id, child.formData2)
+        $http.post('/api/comments/' + id, child.form)
             .success(function(data) {
-                child.formData2 = {};
+                child.form = {};
                 $rootScope.messages = data;
                 //console.log(data);
             })
@@ -92,21 +92,21 @@ angular.module('whatif.controllers',[])
 .controller('SearchCtrl', ['$scope', '$rootScope', '$http' , '$routeParams',function($scope, $rootScope, $http ,$routeParams) {
 
     $scope.search = function() {
-            console.log($scope.searchForm);
+            //console.log($scope.searchForm);
             $http({
             method      : 'POST',
             url         : '/api/messages/search',
             data        : $scope.searchForm,
             header      : { 'Content-Type': 'application/json' }
             })
-                .success(function(data) {
-                    $scope.searchForm = {}; // clear the form so our user is ready to enter another
-                    $rootScope.messages = data;
-                    //$location.path('/messages/search');
-                })
-                .error(function(data) {
-                    console.log('Error: ' + data);
-                }); 
+            .success(function(data) {
+                $scope.searchForm = {}; // clear the form so our user is ready to enter another
+                $rootScope.messages = data;
+                //$location.path('/messages/search');
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            }); 
     };
 //}
 }])

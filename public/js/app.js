@@ -12,6 +12,7 @@ var whatif = angular.module('whatif', [
 
 whatif.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
+        .when('/home', {templateUrl: 'partials/home/home', controller: 'AppCtrl'})
         .when('/messages', {templateUrl: 'partials/msg/messages', controller: 'AppCtrl'})
         .when('/messages/new', {templateUrl: 'partials/msg/newmessage', controller: 'MsgNewCtrl', access: {restricted: false}})
         .when('/messages/search', {templateUrl: 'partials/msg/messages', controller: 'SearchCtrl', access: {restricted: false}})
@@ -26,7 +27,7 @@ whatif.config(['$routeProvider', '$locationProvider', function($routeProvider, $
         .when('/login', {templateUrl: 'partials/login/login', controller: 'loginController', access: {restricted: false}})
         .when('/logout', {controller: 'logoutController', access: {restricted: false}})
         .when('/register', {templateUrl: 'partials/login/register', controller: 'registerController', access: {restricted: false}})
-        .otherwise({redirectTo: '/messages', access: {restricted: false}});
+        .otherwise({redirectTo: '/home', access: {restricted: false}});
     $locationProvider.html5Mode(true);
   }])
 // .run(function ($rootScope, $location, $route, AuthService) {

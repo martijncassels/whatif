@@ -1,12 +1,12 @@
-form(name='form2',method='post',novalidate)
-	div(ng-class="{ 'has-danger' : form2.title.$invalid && !form2.title.$pristine , 'has-success' : form2.title.$valid && !form2.title.$pristine }").form-group.row
+form(name='form',method='post',novalidate)
+	div(ng-class="{ 'has-danger' : form.title.$invalid && !form.title.$pristine , 'has-success' : form.title.$valid && !form.title.$pristine }").form-group.row
 		//- label.col-sm-2.col-form-label.col-form-label-sm title
-		input(ng-class="{ 'form-control-danger' : form2.title.$invalid && !form2.title.$pristine , 'form-control-success' : form2.title.$valid && !form2.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='child.formData2.title',required).form-control.form-control-sm
-	div(ng-class="{ 'has-danger' : form2.body.$invalid && !form2.body.$pristine , 'has-success' : form2.body.$valid && !form2.body.$pristine }").form-group.row
+		input(ng-class="{ 'form-control-danger' : form.title.$invalid && !form.title.$pristine , 'form-control-success' : form.title.$valid && !form.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='child.form.title',required).form-control.form-control-sm
+	div(ng-class="{ 'has-danger' : form.body.$invalid && !form.body.$pristine , 'has-success' : form.body.$valid && !form.body.$pristine }").form-group.row
 		//- label.col-form-label body
-		input(ng-class="{ 'form-control-danger' : form2.body.$invalid && !form2.body.$pristine , 'form-control-success' : form2.body.$valid && !form2.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='child.formData2.body',required).form-control.form-control-sm
-	div(ng-class="{ 'has-danger' : form2.author.$invalid && !form2.author.$pristine , 'has-success' : form2.author.$valid && !form2.author.$pristine }").form-group.row
+		input(ng-class="{ 'form-control-danger' : form.body.$invalid && !form.body.$pristine , 'form-control-success' : form.body.$valid && !form.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='child.form.body',required).form-control.form-control-sm
+	div(ng-class="{ 'has-danger' : form.author.$invalid && !form.author.$pristine , 'has-success' : form.author.$valid && !form.author.$pristine }").form-group.row
 		//- label.col-form-label author
-		input(ng-class="{ 'form-control-danger' : form2.author.$invalid && !form2.author.$pristine , 'form-control-success' : form2.author.$valid && !form2.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='child.formData2.author',required).form-control.form-control-sm
+		input(ng-class="{ 'form-control-danger' : form.author.$invalid && !form.author.$pristine , 'form-control-success' : form.author.$valid && !form.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='child.form.author',required).form-control.form-control-sm
 	.form-group.row
-		input(type='submit',ng-disabled='form2.$invalid',ng-click='createComment(child,message._id)',value='submit').btn.btn-sm.btn-primary
+		input(type='submit',ng-disabled='form.$invalid',ng-click='createComment(child,message._id)',value='submit').btn.btn-sm.btn-primary

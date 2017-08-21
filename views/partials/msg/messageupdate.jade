@@ -1,19 +1,19 @@
-form(name='formData5',method='put',novalidate) {{message._id}}
+form(name='form',method='put',novalidate) {{message._id}}
 	div(ng-show='success',class="alert alert-success",role="alert")
 		strong Well done! {{success}}
 	div(ng-show='error',class="alert alert-danger",role="alert")
 		strong Oh no! {{error}}
-	div(ng-class="{ 'has-danger' : formData5.title.$invalid && !formData5.title.$pristine , 'has-success' : formData5.title.$valid && !formData5.title.$pristine }").form-group
+	div(ng-class="{ 'has-danger' : form.title.$invalid && !form.title.$pristine , 'has-success' : form.title.$valid && !form.title.$pristine }").form-group
 		label.col-form-label title 
-		input(ng-class="{ 'form-control-danger' : formData5.title.$invalid && !formData5.title.$pristine , 'form-control-success' : formData5.title.$valid && !formData5.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='data.title',required).form-control
-		div(class='form-control-feedback',ng-show='formData5.title.$error.required') Required!
-	div(ng-class="{ 'has-danger' : formData5.body.$invalid && !formData5.body.$pristine , 'has-success' : formData5.body.$valid && !formData5.body.$pristine }").form-group
+		input(ng-class="{ 'form-control-danger' : form.title.$invalid && !form.title.$pristine , 'form-control-success' : form.title.$valid && !form.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='data.title',required).form-control
+		div(class='form-control-feedback',ng-show='form.title.$error.required') Required!
+	div(ng-class="{ 'has-danger' : form.body.$invalid && !form.body.$pristine , 'has-success' : form.body.$valid && !form.body.$pristine }").form-group
 		label(class='form-control-label',for='body') body 
-		textarea(ng-class="{ 'form-control-danger' : formData5.body.$invalid && !formData5.body.$pristine , 'formData5-control-success' : !formData5.body.$invalid && !formData5.body.$pristine }",rows='6',class='form-control',type='text',name='body',id='body',placeholder='body',ng-model='data.body',required)
-		div(class='form-control-feedback',ng-show='formData5.author.$error.required') Required!
-	div(ng-class="{ 'has-danger' : formData5.author.$invalid && !formData5.author.$pristine , 'has-success' : formData5.author.$valid && !formData5.author.$pristine }").form-group
+		textarea(ng-class="{ 'form-control-danger' : form.body.$invalid && !form.body.$pristine , 'form-control-success' : !form.body.$invalid && !form.body.$pristine }",rows='6',class='form-control',type='text',name='body',id='body',placeholder='body',ng-model='data.body',required)
+		div(class='form-control-feedback',ng-show='form.author.$error.required') Required!
+	div(ng-class="{ 'has-danger' : form.author.$invalid && !form.author.$pristine , 'has-success' : form.author.$valid && !form.author.$pristine }").form-group
 		label(class='form-control-label',for='author') author 
-		input(ng-class="{ 'form-control-danger' : formData5.author.$invalid && !formData5.author.$pristine , 'formData5-control-success' : !formData5.author.$invalid && !formData5.author.$pristine }",class='form-control',type='text',name='author',id='author',placeholder='author',ng-model='data.author',required)
-		div(class='form-control-feedback',ng-show='formData5.author.$error.required') Required!
-	input(ng-show='data.isparent',type='submit',ng-click='updateMessage(child,formData5._id)',value='submit',ng-disabled='formData5.$invalid').btn.btn-sm.btn-primary
-	input(ng-show='data.iscomment',type='submit',ng-click='updateComment(formData5._id)',value='submit',ng-disabled='formData5.$invalid').btn.btn-sm.btn-primary
+		input(ng-class="{ 'form-control-danger' : form.author.$invalid && !form.author.$pristine , 'form-control-success' : !form.author.$invalid && !form.author.$pristine }",class='form-control',type='text',name='author',id='author',placeholder='author',ng-model='data.author',required)
+		div(class='form-control-feedback',ng-show='form.author.$error.required') Required!
+	input(ng-show='data.isparent',type='submit',ng-click='updateMessage(data._id)',value='submit',ng-disabled='form.$invalid').btn.btn-sm.btn-primary
+	input(ng-show='data.iscomment',type='submit',ng-click='updateComment(data._id)',value='submit',ng-disabled='form.$invalid').btn.btn-sm.btn-primary

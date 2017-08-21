@@ -22,7 +22,7 @@ exports.getall = function(req, res) {
 // get a single factory
 exports.single = function(req, res) {
     
-        var promise = Messages.findById(req.params.id).exec() //only parent messages, no comments
+        var promise = Messages.findById(req.params.id).populate('members').exec() //only parent messages, no comments
     
         promise.then(function(factory) {
 			res.json(factory);

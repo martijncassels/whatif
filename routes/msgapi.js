@@ -80,14 +80,14 @@ exports.postmessage = function(req, res) {
 exports.updatemessage = function(req, res) {
 
     var promise = Messages.findById(req.params.id).exec()
-	//console.log(req.body);
+	console.log(req.body);
 	promise.then(function(message){
 
-    	message.title			= 		req.body.title;
-		message.body			= 		req.body.body;
-		message.author			= 		req.body.author;
-		// message.creationdate	= 		req.body.creationdate;
-		message.lastupdate		= 		req.body.lastupdate;
+    	message.title			= 		req.body.title.$modelValue;
+		message.body			= 		req.body.body.$modelValue;
+		message.author			= 		req.body.author.$modelValue;
+		message.creationdate	= 		message.creationdate;
+		message.lastupdate		= 		new Date();
 		// message.isparent		= 		req.body.isparent;
 		// message.parent			= 		req.body.parent;
 		// message.childs			= 		req.body.childs;
@@ -227,14 +227,13 @@ exports.deletecommentsingle = function(req, res) {
 exports.updatecomment = function(req, res) {
 
     var promise = Messages.findOne({'childs._id':req.params.id}).exec()
-    //console.log(req.body);
     promise.then(function(comment){
 
-        comment.childs.id(req.params.id).title           =       req.body.title;
-        comment.childs.id(req.params.id).body            =       req.body.body;
-        comment.childs.id(req.params.id).author          =       req.body.author;
-        // comment.childs.id(req.params.id).creationdate    =       req.body.creationdate;
-        // comment.childs.id(req.params.id).lastupdate      =       req.body.lastupdate;
+        comment.childs.id(req.params.id).title           =       req.body.title.$modelValue;
+        comment.childs.id(req.params.id).body            =       req.body.body.$modelValue;
+        comment.childs.id(req.params.id).author          =       req.body.author.$modelValue;
+        comment.childs.id(req.params.id).creationdate    =       comment.childs.id(req.params.id).creationdate;
+        comment.childs.id(req.params.id).lastupdate      =       new Date();
         // comment.childs.id(req.params.id).isparent        =       req.body.isparent;
         // comment.childs.id(req.params.id).parent          =       req.body.parent;
         // comment.childs.id(req.params.id).childs          =       req.body.childs;

@@ -21,12 +21,6 @@ var Profile = new Schema({
 		    },
 		    skills: [{
 		    	name: {type:String}, value: {type:Number, default: 0}
-
-		    	// 1: {type:Number, default: 0},
-		    	// 2: {type:Number, default: 0},
-		    	// 3: {type:Number, default: 0},
-		    	// 4: {type:Number, default: 0},
-		    	// 5: {type:Number, default: 0}
 		    }],
 		    memberof: [{type: Schema.Types.ObjectId, ref: 'profiles'}],
 		});

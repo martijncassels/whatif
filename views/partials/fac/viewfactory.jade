@@ -17,5 +17,15 @@ div(class='card')
 		ul
 			li(ng-repeat='member in vm.factory.members')
 				a(href='/profiles/view/{{member._id}}') {{member.username}}
+	.card-footer.text-muted
+		p {{vm.totals}}
+		.container
+			.row.align-items-center
+				.col-sm
+					canvas(id='polar-area',chart-data='vm.data',chart-labels='vm.labels',chart-series='vm.series',chart-options='vm.options2').chart.chart-polar-area
+				.col-sm
+					canvas(id='radar',chart-data='vm.data',chart-labels='vm.labels',chart-series='vm.series',chart-options='vm.options2').chart.chart-radar
+				.col-sm
+					canvas(id='bar',chart-data='vm.data',chart-labels='vm.labels',chart-series='vm.series',chart-options='vm.options').chart.chart-bar
 	//- .card-footer.text-muted
 	//- 	include ../forms/factoryForm.jade

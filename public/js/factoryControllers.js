@@ -14,7 +14,9 @@
 // }]);
 
 // Here we get the module we created in file one
-angular.module('whatif.controllers')
+angular
+
+.module('whatif.controllers')
 
 // We are adding a function called Ctrl1
 // to the module we got in the line above
@@ -34,7 +36,7 @@ function FactoryCtrl($scope, $http, $routeParams) {
   	$http.get('/api/factories')
         .success(function(data) {
             vm.factories = data;
-            console.log(data);
+            //console.log(data);
         })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -68,26 +70,66 @@ function FactoryCtrl($scope, $http, $routeParams) {
 
 function FacViewCtrl($scope, $http, $routeParams) {
 	var vm = this;
-    
+    vm.totals = {};
+    vm.totals.skills = [];
+    vm.options = {};
+    vm.options2 = {};
+    vm.series = [];
+    vm.data = [];
+    vm.labels = [];
+
     $http.get('/api/factories/' + $routeParams.id)
         .success(function(data) {
             vm.factory = data;
+            for(var i_skill = 0; i_skill <= 4; i_skill++){
+                for(var i_members = 0; i_members < vm.factory.members.length; i_members++){
+                    //console.log(vm.factory.members[i_members].skills[i_skill].value);
+                    if(!vm.totals.skills[i_skill] && vm.factory.members[i_members].skills[i_skill]){
+                        vm.totals.skills[i_skill] = {name:null,value:null};
+                        vm.totals.skills[i_skill].name = vm.factory.members[i_members].skills[i_skill].name;
+                        vm.totals.skills[i_skill].value = vm.factory.members[i_members].skills[i_skill].value;
+                    }
+                    else if(vm.factory.members[i_members].skills[i_skill]) {
+                        vm.totals.skills[i_skill].value += vm.factory.members[i_members].skills[i_skill].value;
+                    }
+                    else vm.totals.skills[i_skill].value += 0;
+                }
+            }
+            vm.totals.members = vm.factory.members.length;
+
+            angular.forEach(vm.totals.skills,function(value,key){
+                vm.labels.push(value.name);
+                vm.data.push(value.value);
+            });
+            vm.series = ['values'];
+
+            //$scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+            vm.options = {
+                scales: {
+                    yAxes: [{
+                        ticks : {
+                            min: 0,
+                            max: (vm.totals.members*10)*0.6,    // max points per 1 skill when minimum / skill is 1 would be 6
+                            stepSize: 1                         // (6+1+1+1+1=10) so 60% of total, which is (total members) * 10
+                        } 
+                    }]
+                }
+            };
+            vm.options2 = {
+                scale: {
+                    ticks : {
+                        min: 0,
+                        max: (vm.totals.members*10)*0.6,
+                        stepSize: 1
+                    } 
+                }
+            };
+
         })
         .error(function(data) {
             console.log('Error: ' + data);
         });
 
-    // when submitting the add form, send the text to the node API
-    vm.viewFactory = function(id) {
-        $http.post('/api/factories/' + id)
-            .success(function(data) {
-                vm.formData = {}; 
-                vm.factory = data;
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
 
     // when submitting the add form, send the text to the node API
     // vm.createFactory = function() {
@@ -112,7 +154,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
                 console.log('Error: ' + data);
             });
     };
-    
+ 
 }
 
 function FacUpdateCtrl($scope, $http, $routeParams) {

@@ -1,6 +1,7 @@
 angular.module('whatif.controllers')
 
 .controller('MsgUpdateCtrl', ['$scope', '$http', '$routeParams',function($scope, $http, $routeParams) {
+
     $http.get('/api/messages/' + $routeParams.entity + '/' + $routeParams.id)
         .success(function(data) {
             $scope.data = data;
@@ -9,10 +10,10 @@ angular.module('whatif.controllers')
             console.log('Error: ' + data);
         });
 
-    $scope.updateMessage = function(child,id) {
-        $http.put('/api/messages/' + id , $scope.formData5)
+    $scope.updateMessage = function(id) {
+        $http.put('/api/messages/' + id , $scope.form)
             .success(function(data) {
-                $scope.formData5 = data;
+                $scope.form = data;
                 $scope.success = 'done updating message!';
             })
             .error(function(data) {
@@ -21,31 +22,28 @@ angular.module('whatif.controllers')
             });
     };
 
-    $scope.createComment = function(child,id) {
-        $http.post('/api/comments/' + id, child.formData2)
-            .success(function(data) {
-                child.formData2 = {};
-                $rootScope.messages = data;
-                //console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
+    // $scope.createComment = function(child,id) {
+    //     $http.post('/api/comments/' + id, child.form)
+    //         .success(function(data) {
+    //             child.form = {};
+    //             $rootScope.messages = data;
+    //             //console.log(data);
+    //         })
+    //         .error(function(data) {
+    //             console.log('Error: ' + data);
+    //         });
+    // };
 
     $scope.updateComment = function(id) {
-        $http.put('/api/comments/' + id , $scope.formData5)
+        $http.put('/api/comments/' + id , $scope.form)
             .success(function(data) {
-                //$scope.messages = data;
-                $scope.formData5 = data;
+                $scope.form = data;
                 $scope.success = 'done updating message!';
-                //console.log(data);
             })
             .error(function(data) {
                 $scope.error = 'error updating message!';
                 console.log('Error: ' + data);
             });
-        $scope.single = false;
     };
 
 }])
@@ -61,10 +59,11 @@ angular.module('whatif.controllers')
         });
     
     $scope.createComment = function(child,id) {
-        $http.post('/api/comments/single/' + id, child.formData2)
+        $http.post('/api/comments/single/' + id, child.form)
             .success(function(data) {
-                console.log($scope);
-                $scope.form2 = {};
+                //console.log($scope);
+                child.form = {};
+                $scope.form = {};
                 $scope.message = data;
             })
             .error(function(data) {

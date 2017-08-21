@@ -1,7 +1,11 @@
 /* app css stylesheet */
 
-body {
+/*body {
   padding-top:70px;
+}*/
+
+body {
+  padding-top: 2rem;
 }
 /* setting up same colors as chart.js */
 .progress-bar.bg-1 {

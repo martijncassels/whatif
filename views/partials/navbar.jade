@@ -1,7 +1,7 @@
 div(ng-controller='SearchCtrl').navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
   button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
     span.navbar-toggler-icon
-  a(class='navbar-brand',href='messages') Whatif! {{status}}
+  a(class='navbar-brand',href='home') Whatif! {{status}}
 
   div.collapse.navbar-collapse#navbarsExampleDefault
     ul.navbar-nav.mr-auto
@@ -11,10 +11,16 @@ div(ng-controller='SearchCtrl').navbar.navbar-toggleable-md.navbar-inverse.fixed
       //- li.nav-item
       //-   a(href='messages').nav-link Messages
       li.nav-item.dropdown
-        a(href='messages',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Messages
+        a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Messages
         div(class='dropdown-menu',aria-labelledby='dropdown01')
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages/new').dropdown-item New
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages').dropdown-item All
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages/new').dropdown-item 
+            i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-plus 
+            | 
+            | New
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages').dropdown-item 
+            i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-files-o 
+            | 
+            | All
           //- a(href='#').dropdown-item Something else
       li.nav-item
         a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='profiles').nav-link Profiles
