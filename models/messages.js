@@ -1,3 +1,36 @@
+/* Fake test data script for MongoBooster
+faker.locale = "nl"
+
+const STEPCOUNT = 1; //total 100 * 100 = 10000
+
+function isRandomBlank(blankWeight) {
+    return Math.random() * 100 <= blankWeight;
+};
+
+for (let i = 0; i < 10; i++) {
+    db.getCollection("messages").insertMany(
+        _.times(STEPCOUNT, () => {
+            return {
+                "author": faker.name.findName(),
+                "body": faker.lorem.paragraph(),
+                "childs": null,
+                "creationdate": faker.date.recent(),
+                "iscomment": false,
+                "isfactory": isRandomBlank(75) ? false : faker.random.boolean(),
+                "isparent": true,
+                "lastupdate": faker.date.recent(),
+                "members": null,
+                //"parent": isRandomBlank(100) ? null : faker.random.word(),
+                "tags": isRandomBlank(0) ? null : faker.random.arrayElement(),
+                "title": faker.random.words(),
+                "__v": faker.random.number()
+            }
+        })
+    )
+    console.log(`${(i + 1) * STEPCOUNT} docs inserted`);
+}
+*/
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 mongoose.Promise = require('bluebird');

@@ -9,4 +9,4 @@ form(name='form',method='post',novalidate)
 		//- label.col-form-label author
 		input(ng-class="{ 'form-control-danger' : form.author.$invalid && !form.author.$pristine , 'form-control-success' : form.author.$valid && !form.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='child.form.author',required).form-control.form-control-sm
 	.form-group.row
-		input(type='submit',ng-disabled='form.$invalid',ng-click='createComment(child,message._id)',value='submit').btn.btn-sm.btn-primary
+		input(type='submit',ng-disabled='form.$invalid',ng-click='vm.createComment(child,message._id)',value='submit').btn.btn-sm.btn-primary

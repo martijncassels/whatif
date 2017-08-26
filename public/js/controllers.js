@@ -8,30 +8,42 @@ angular.module('whatif.controllers',[])
     vm.title = 'Whatif...!';
 }])
 
-.controller('AppCtrl', ['$scope','$rootScope','$http',function($scope,$rootScope,$http) {
-  	$scope.formData = {};
-    //$scope.formData2 = {};
-    //$scope.formData3 = {};
-    $scope.searchForm = {};
+.controller('AppCtrl', ['$scope','$rootScope','$http','getMessages',function($scope,$rootScope,$http,getMessages) {
+  	var vm = this;
+    //vm.formData = {};
+    vm.formmodel = {};
+    //$scope.formData = {};
+    vm.searchForm = {};
+    //$scope.searchForm = {};
+    //getMessages();
 
-    // when landing on the page, get all messages and show them
-    $http.get('/api/messages')
-        .success(function(data) {
-            $scope.name = 'Whatif...!';
-            $rootScope.messages = data;
-            //console.log(data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
+    getMessages.async().then(function(data){
+        //$rootScope.messages = data.data;
+        vm.messages = data.data;
+        //console.log('service in ctrl: ',data.data);
+    });
+
+    //when landing on the page, get all messages and show them
+    // $http.get('/api/messages')
+    //     .success(function(data) {
+    //         $scope.name = 'Whatif...!';
+    //         $rootScope.messages = data;
+    //         //console.log(data);
+    //     })
+    //     .error(function(data) {
+    //         console.log('Error: ' + data);
+    //     });
 
     // when submitting the add form, send the text to the node API
-    $scope.createMessage = function() {
-        if($scope.formData.$valid){
-            $http.post('/api/messages', $scope.formData)
+    vm.createMessage = function() {
+        if(vm.formData.$valid){
+            $http.post('/api/messages', vm.formData)
                 .success(function(data) {
-                    $scope.formData = {}; // clear the form so our user is ready to enter another
-                    $rootScope.messages = data;
+                    //vm.formData = {};
+                    vm.formmodel = {};
+                    vm.formData.$setPristine();
+                    vm.formData.$setUntouched();  // clear the form so our user is ready to enter another
+                    vm.messages = data;
                     //console.log(data);
                 })
                 .error(function(data) {
@@ -54,10 +66,10 @@ angular.module('whatif.controllers',[])
     // };
 
     // delete a message
-    $scope.deleteMessage = function(id) {
+    vm.deleteMessage = function(id) {
         $http.delete('/api/messages/' + id)
             .success(function(data) {
-                $rootScope.messages = data;
+                vm.messages = data;
                 //console.log(data);
             })
             .error(function(data) {
@@ -65,11 +77,11 @@ angular.module('whatif.controllers',[])
             });
     };
 
-    $scope.createComment = function(child,id) {
+    vm.createComment = function(child,id) {
         $http.post('/api/comments/' + id, child.form)
             .success(function(data) {
                 child.form = {};
-                $rootScope.messages = data;
+                vm.messages = data;
                 //console.log(data);
             })
             .error(function(data) {
@@ -77,10 +89,10 @@ angular.module('whatif.controllers',[])
             });
     };
 
-    $scope.deleteComment = function(id) {
+    vm.deleteComment = function(id) {
         $http.delete('/api/comments/' + id)
             .success(function(data) {
-                $rootScope.messages = data;
+                vm.messages = data;
                 //console.log(data);
             })
             .error(function(data) {

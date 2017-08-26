@@ -8,6 +8,7 @@ var express 	      = require('express'),
   	msgapi 		      = require('./routes/msgapi'),
     proapi 		      = require('./routes/proapi'),
     facapi          = require('./routes/facapi'),
+    adminapi        = require('./routes/adminapi'),
   	http 		        = require('http'),
     hash            = require('bcrypt-nodejs'),
   	path 		        = require('path'),
@@ -73,6 +74,9 @@ app.get('/', routes.index);
 app.get('/partials/:sub/:name', routes.partial);
 
 // JSON API
+app.get('/api/admin/msgstats', adminapi.msgstats);
+app.get('/api/admin/prostats', adminapi.prostats);
+
 app.get('/api/factories', facapi.getall);
 app.get('/api/factories/:id', facapi.single);
 app.get('/api/members/:val', proapi.members);

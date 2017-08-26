@@ -1,0 +1,17 @@
+p Admin
+u Messages created per period
+//- div(ng-repeat='created in vm.stats.msgcreated')
+	//- pre {{created.count}} : {{created._id}}
+canvas(id='line',chart-data='vm.data',chart-labels='vm.labels',chart-series='vm.series',chart-options='vm.options').chart.chart-line
+u db-stats Messages
+//- p(style='white-space:pre;') 
+//- pre count: {{vm.stats.messages.count}} docs
+//- pre size: {{vm.stats.messages.storageSize/1024}} kb
+div(ng-repeat='(key,value) in vm.stats.messages')
+	pre(ng-show='value | isObj') {{key}} : {{value}}
+u db-stats Profiles
+//- p(style='white-space:pre;') 
+//- pre count: {{vm.stats.messages.count}} docs
+//- pre size: {{vm.stats.messages.storageSize/1024}} kb
+div(ng-repeat='(key,value) in vm.stats.profiles')
+	pre(ng-show='value | isObj') {{key}} : {{value}}

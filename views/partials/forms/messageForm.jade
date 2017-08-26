@@ -1,15 +1,15 @@
-form(name='formData',method='post',novalidate)
-	div(ng-class="{ 'has-danger' : formData.title.$invalid && !formData.title.$pristine , 'has-success' : formData.title.$valid && !formData.title.$pristine }").form-group
+form(name='vm.formData',method='post',novalidate)
+	div(ng-class="{ 'has-danger' : vm.formData.title.$invalid && !vm.formData.title.$pristine , 'has-success' : vm.formData.title.$valid && !vm.formData.title.$pristine }").form-group
 		label.col-sm-2.col-form-label title
-		input(ng-class="{ 'form-control-danger' : formData.title.$invalid && !formData.title.$pristine , 'form-control-success' : formData.title.$valid && !formData.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='title',required,ng-minlength='3').form-control
-		div(ng-show='formData.title.$invalid && !formData.title.$pristine').form-control-feedback Title is required and a minimum of 3 characters.
-	div(ng-class="{ 'has-danger' : formData.body.$invalid && !formData.body.$pristine , 'has-success' : !formData.body.$invalid && !formData.body.$pristine }").form-group
+		input(ng-class="{ 'form-control-danger' : vm.formData.title.$invalid && !vm.formData.title.$pristine , 'form-control-success' : vm.formData.title.$valid && !vm.formData.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='vm.formmodel.title',required,ng-minlength='3').form-control
+		div(ng-show='vm.formData.title.$invalid && !vm.formData.title.$pristine').form-control-feedback Title is required and a minimum of 3 characters.
+	div(ng-class="{ 'has-danger' : vm.formData.body.$invalid && !vm.formData.body.$pristine , 'has-success' : !vm.formData.body.$invalid && !vm.formData.body.$pristine }").form-group
 		label.col-sm-2.col-form-label body
-		input(ng-class="{ 'form-control-danger' : formData.body.$invalid && !formData.body.$pristine , 'form-control-success' : !formData.body.$invalid && !formData.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='body',required,ng-minlength='3').form-control
-		div(ng-show='formData.body.$invalid && !formData.body.$pristine').form-control-feedback Body is required and a minimum of 3 characters.
-	div(ng-class="{ 'has-danger' : formData.author.$invalid && !formData.author.$pristine , 'has-success' : !formData.author.$invalid && !formData.author.$pristine }").form-group
+		input(ng-class="{ 'form-control-danger' : vm.formData.body.$invalid && !vm.formData.body.$pristine , 'form-control-success' : !vm.formData.body.$invalid && !vm.formData.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='vm.formmodel.body',required,ng-minlength='3').form-control
+		div(ng-show='vm.formData.body.$invalid && !vm.formData.body.$pristine').form-control-feedback Body is required and a minimum of 3 characters.
+	div(ng-class="{ 'has-danger' : vm.formData.author.$invalid && !vm.formData.author.$pristine , 'has-success' : !vm.formData.author.$invalid && !vm.formData.author.$pristine }").form-group
 		label.col-sm-2.col-form-label author 
-		input(ng-class="{ 'form-control-danger' : formData.author.$invalid && !formData.author.$pristine , 'form-control-success' : !formData.author.$invalid && !formData.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='author',required,ng-minlength='3').form-control
-		div(ng-show='formData.author.$invalid && !formData.author.$pristine').form-control-feedback Author is required and a minimum of 3 characters.
+		input(ng-class="{ 'form-control-danger' : vm.formData.author.$invalid && !vm.formData.author.$pristine , 'form-control-success' : !vm.formData.author.$invalid && !vm.formData.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='vm.formmodel.author',required,ng-minlength='3').form-control
+		div(ng-show='vm.formData.author.$invalid && !vm.formData.author.$pristine').form-control-feedback Author is required and a minimum of 3 characters.
 	.form-group
-		input(type='submit',value='submit',ng-disabled='formData.$invalid',ng-click='createMessage()').btn.btn-sm.btn-primary
+		input(type='submit',value='submit',ng-disabled='vm.formData.$invalid',ng-click='vm.createMessage()').btn.btn-sm.btn-primary
