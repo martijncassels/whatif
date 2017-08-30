@@ -11,9 +11,9 @@ script(type="text/ng-template",id="customPopupTemplate.html")
 	
 form(name='formData8',method='put',novalidate)
 	div(ng-show='vm.success',class="alert alert-success",role="alert")
-		strong Well done! {{success}}
+		strong Well done! {{vm.success}}
 	div(ng-show='vm.error',class="alert alert-danger",role="alert")
-		strong Oh no! {{error}}
+		strong Oh no! {{vm.error}}
 	div(ng-class="{ 'has-danger' : formData8.title.$invalid && !formData8.title.$pristine , 'has-success' : formData8.title.$valid && !formData8.title.$pristine }").form-group
 		label.col-form-label title 
 		input(ng-class="{ 'form-control-danger' : formData8.title.$invalid && !formData8.title.$pristine , 'form-control-success' : formData8.title.$valid && !formData8.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='vm.data.title',required).form-control

@@ -1,3 +1,4 @@
+/*
 angular.module('whatif.controllers')
 
 .controller('MsgUpdateCtrl', ['$scope', '$http', '$routeParams',function($scope, $http, $routeParams) {
@@ -104,3 +105,138 @@ angular.module('whatif.controllers')
 
 
 }])
+*/
+angular
+
+.module('whatif.controllers')
+
+.controller('MsgUpdateCtrl', MsgUpdateCtrl)
+.controller('MsgViewCtrl', MsgViewCtrl)
+.controller('MsgNewCtrl', MsgNewCtrl);
+
+MsgUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
+MsgViewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
+MsgNewCtrl.$inject = ['$scope', '$http', '$routeParams'];
+
+function MsgUpdateCtrl($scope, $http, $routeParams) {
+    var vm = this;
+    //vm.form = {};
+
+    $http.get('/api/messages/' + $routeParams.entity + '/' + $routeParams.id)
+        .success(function(data) {
+            vm.message = data;
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+
+    vm.updateMessage = function(id) {
+        $http.put('/api/messages/' + id , $scope.form)
+            .success(function(data) {
+                vm.form = data;
+                vm.success = 'done updating message!';
+            })
+            .error(function(data) {
+                vm.error = 'error updating message!';
+                console.log('Error: ' + data);
+            });
+    };
+
+    // vm.createComment = function(child,id) {
+    //     $http.post('/api/comments/' + id, child.form)
+    //         .success(function(data) {
+    //             child.form = {};
+    //             $rootScope.messages = data;
+    //             //console.log(data);
+    //         })
+    //         .error(function(data) {
+    //             console.log('Error: ' + data);
+    //         });
+    // };
+
+    vm.updateComment = function(id) {
+        $http.put('/api/comments/' + id , $scope.form)
+            .success(function(data) {
+                $scope.form = data; //need to get rid of this
+                vm.success = 'done updating message!';
+            })
+            .error(function(data) {
+                vm.error = 'error updating message!';
+                console.log('Error: ' + data);
+            });
+    };
+
+}
+
+function MsgViewCtrl($scope, $http, $routeParams, $location) {
+    var vm = this;
+    //vm.formmodel = {};
+
+    $http.get('/api/messages/' + $routeParams.entity + '/' + $routeParams.id)
+        .success(function(data) {
+            vm.message = data;
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
+    
+    // vm.createComment = function(id) {
+    //     $http.post('/api/comments/single/' + id, form)
+    //         .success(function(data) {
+    //             //console.log(vm);
+    //             form = {};
+    //             vm.form = {};
+    //             vm.message = data;
+    //         })
+    //         .error(function(data) {
+    //             console.log('Error: ' + data);
+    //         });
+
+    // };
+
+    vm.createComment = function(child,id) {
+        $http.post('/api/comments/single/' + id, child.form)
+            .success(function(data) {
+                $scope.form = {}; //need to get rid of this
+                //vm.message.form = {};
+                child.form = {};
+                vm.message = data;
+                //console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    vm.deleteComment = function(id) {
+        $http.delete('/api/comments/single/' + id)
+            .success(function(data) {
+                vm.message = data;
+                //location.path('/messages');
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+}
+
+function MsgNewCtrl($scope, $http, $routeParams) {
+    var vm = this;
+    vm.formData = {};
+    
+    vm.createMessage = function() {
+        if(vm.form.$valid){
+            $http.post('/api/messages', vm.formData)
+                .success(function(data) {
+                    vm.formData = {}; // clear the form so our user is ready to enter another
+                    vm.messages = data;
+                    //console.log(data);
+                })
+                .error(function(data) {
+                    console.log('Error: ' + data);
+                });
+        }
+    };
+
+
+}
