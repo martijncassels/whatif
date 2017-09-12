@@ -1,7 +1,7 @@
-div(ng-controller='SearchCtrl').navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
+div(ng-controller='SearchCtrl as vm').navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
   button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
     span.navbar-toggler-icon
-  a(class='navbar-brand',href='home') Whatif! {{status}}
+  a(class='navbar-brand',href='home') Whatif!
 
   div.collapse.navbar-collapse#navbarsExampleDefault
     ul.navbar-nav.mr-auto
@@ -34,6 +34,7 @@ div(ng-controller='SearchCtrl').navbar.navbar-toggleable-md.navbar-inverse.fixed
           a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#',).dropdown-item Action
           a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Another action
           a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Something else
-    form(name='searchForm',method='post',novalidate).form-inline.my-2.my-lg-0
-      input(type='text',placeholder='Search',ng-model='searchForm.searchvalue').form-control.mr-sm-2
-      input(data-toggle='collapse',data-target='#navbarsExampleDefault',type='submit',value='Search',ng-click='search()').btn.btn-outline-success.my-2.my-sm-0 Search
+    form(name='vm.searchForm',method='post',novalidate).form-inline.my-2.my-lg-0
+      p{{vm.title}}
+      input(type='text',name='value',id='value',placeholder='Search',ng-model='vm.searchvalue').form-control.mr-sm-2
+      input(data-toggle='collapse',data-target='#navbarsExampleDefault',type='submit',value='Search',ng-click='vm.onSearchClick(vm.searchForm)').btn.btn-outline-success.my-2.my-sm-0 Search

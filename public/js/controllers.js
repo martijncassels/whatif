@@ -1,14 +1,24 @@
 'use strict';
 
 /* Controllers */
-angular.module('whatif.controllers',[])
+angular
 
-.controller('MainCtrl', ['$scope',function($scope) {
+.module('whatif.controllers',[])
+
+.controller('MainCtrl', MainCtrl)
+.controller('AppCtrl', AppCtrl)
+.controller('SearchCtrl', SearchCtrl);
+
+MainCtrl.$inject = ['$scope'];
+AppCtrl.$inject = ['$scope','$rootScope','$http','getMessages', 'Search'];
+SearchCtrl.$inject = ['$scope', '$rootScope', '$http' , '$routeParams', '$location', 'Search', 'searchService'];
+
+function MainCtrl($scope) {
     var vm = this;
     vm.title = 'Whatif...!';
-}])
+}
 
-.controller('AppCtrl', ['$scope','$rootScope','$http','getMessages',function($scope,$rootScope,$http,getMessages) {
+function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
   	var vm = this;
     //vm.formData = {};
     vm.formmodel = {};
@@ -17,11 +27,30 @@ angular.module('whatif.controllers',[])
     //$scope.searchForm = {};
     //getMessages();
 
-    getMessages.async().then(function(data){
-        //$rootScope.messages = data.data;
-        vm.messages = data.data;
-        //console.log('service in ctrl: ',data.data);
+    // getMessages.async().then(function(data){
+    //     //$rootScope.messages = data.data;
+    //     vm.messages = data.data;
+    //     //console.log('service in ctrl: ',data.data);
+    // });
+
+
+
+    Search.getResults()
+    .success(function(data){
+        //console.log(data);
+        vm.messages = data;
+    })
+    .error(function(err){
+        console.log(err);
     });
+
+    $scope.$on('search', function(event, args){
+        //console.log(args);
+        vm.messages = args;
+        // args is the search results
+    });
+    
+    //console.log(getSearchResults.getResults());
 
     //when landing on the page, get all messages and show them
     // $http.get('/api/messages')
@@ -99,26 +128,43 @@ angular.module('whatif.controllers',[])
                 console.log('Error: ' + data);
             });
     };
-}])
+}
 
-.controller('SearchCtrl', ['$scope', '$rootScope', '$http' , '$routeParams',function($scope, $rootScope, $http ,$routeParams) {
+function SearchCtrl($scope, $rootScope, $http ,$routeParams,$location,Search,searchService) {
+    var vm = this;
+    //vm.searchForm = {};
 
-    $scope.search = function() {
-            //console.log($scope.searchForm);
-            $http({
-            method      : 'POST',
-            url         : '/api/messages/search',
-            data        : $scope.searchForm,
-            header      : { 'Content-Type': 'application/json' }
-            })
-            .success(function(data) {
-                $scope.searchForm = {}; // clear the form so our user is ready to enter another
-                $rootScope.messages = data;
-                //$location.path('/messages/search');
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            }); 
+    vm.onSearchClick = function(searchCriteria){
+        searchService.search(searchCriteria);
+        // No broadcasting directly from controllers!
     };
-//}
-}])
+
+    vm.Search = function(searchvalue) {
+            //console.log('modelvalue: ',vm.searchForm.value.$modelValue);
+            //console.log('searchvalue: ',searchvalue);
+    //         $http({
+    //         method      : 'POST',
+    //         url         : '/api/messages/search',
+    //         data        : vm.searchForm,
+    //         header      : { 'Content-Type': 'application/json' }
+    //         })
+    //         .success(function(data) {
+    //             vm.searchForm = {}; // clear the form so our user is ready to enter another
+    //             //vm.messages = data;
+    //             $rootScope.messages = data;
+    //             //$location.path('/messages/search');
+    //         })
+    //         .error(function(data) {
+    //             console.log('Error: ' + data);
+    //         }); 
+    // };
+
+        // getSearchResults.async(vm.searchForm).then(function(data){
+        //     //$rootScope.messages = data.data;
+        //     //vm.messages = data.data;
+        //     console.log('service in ctrl: ',data.data);
+        // });
+        Search.setResults(vm.searchForm);
+
+    };
+}

@@ -37,14 +37,15 @@ exports.single = function(req, res) {
 }
 
 exports.search = function(req, res) {
-    //console.log(req.body.searchvalue);
+    //console.log(req.body.value.$modelValue);
     var promise = Messages.find({$or:[
-        {body:new RegExp(req.body.searchvalue, "i")},
-        {title:new RegExp(req.body.searchvalue, "i")}
+        {body:new RegExp(req.body.value.$modelValue, "i")},
+        {title:new RegExp(req.body.value.$modelValue, "i")}
         ]}).limit(10).sort({hits:-1}).exec();
     
     promise.then(function(messages) {
-        //console.log(messages.length);
+        //console.log(messages);
+        console.log(messages.length);
         res.json(messages);
     })
     .catch(function(err){
@@ -252,3 +253,15 @@ exports.updatecomment = function(req, res) {
     });
 
 }
+
+exports.frontpage = function(req, res) {
+
+        var promise = Messages.find({isfrontpage:true}).limit(3).sort({datecreated:-1}).exec() //only parent messages, no comments
+
+        promise.then(function(messages) {
+            res.json(messages);
+        })
+        .catch(function(err){
+            res.send(err);
+        })
+    }

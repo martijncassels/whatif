@@ -16,6 +16,7 @@ for (let i = 0; i < 10; i++) {
                 "childs": [],
                 "creationdate": faker.date.recent(),
                 "iscomment": false,
+                "isfrontpage": false,
                 "isfactory": isRandomBlank(75) ? false : faker.random.boolean(),
                 "isparent": true,
                 "lastupdate": faker.date.recent(),
@@ -68,6 +69,7 @@ var messageSchema = mongoose.Schema({
 		    tags: [String],
 		    isfactory: {type : Boolean, default: false},
 		    iscomment: {type : Boolean, default: false},
+		    isfrontpage: {type : Boolean, default: false},
 		    hits: Number
 		});
 

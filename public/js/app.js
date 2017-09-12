@@ -13,11 +13,12 @@ var whatif = angular.module('whatif', [
 
 whatif.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
-        .when('/home', {templateUrl: 'partials/home/home', controller: 'AppCtrl', controllerAs: 'vm'})
+        .when('/home', {templateUrl: 'partials/home/home', controller: 'MsgFrontPageCtrl', controllerAs: 'vm'})
+        // .when('/home', {templateUrl: 'partials/home/home', controller: 'MsgNewCtrl', controllerAs: 'vm'})
         .when('/admin', {templateUrl: 'partials/admin/admin', controller: 'AdminCtrl', controllerAs: 'vm'})
         .when('/messages', {templateUrl: 'partials/msg/messages', controller: 'AppCtrl', controllerAs: 'vm'})
         .when('/messages/new', {templateUrl: 'partials/msg/newmessage', controller: 'MsgNewCtrl', controllerAs: 'vm', access: {restricted: false}})
-        .when('/messages/search', {templateUrl: 'partials/msg/messages', controller: 'SearchCtrl', access: {restricted: false}})
+        .when('/messages/search', {templateUrl: 'partials/msg/messages', controller: 'SearchCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/messages/view/:entity/:id', {templateUrl: 'partials/msg/viewmessage', controller: 'MsgViewCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/factories',{templateUrl: 'partials/fac/factories', controller: 'FactoryCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/factories/view/:id',{templateUrl: 'partials/fac/viewfactory', controller: 'FacViewCtrl', controllerAs: 'vm', access: {restricted: false}})

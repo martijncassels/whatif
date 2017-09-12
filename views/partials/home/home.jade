@@ -1,16 +1,6 @@
 .row
-	.col-md-4
-		.h2 Whatif..?
-		p Whatif...! is built to connect people that otherwise wouldn't have found each other. Whatif...! is about collaborating and working together as a team to solve world-changing problems and designing the future
+	div(ng-repeat='message in vm.messages').col-md-4
+		.h2 {{message.title}}
+		p {{message.body}}
 		p
 			a(class="btn btn-secondary",href="#",role="button") View details1 &raquo;
-	.col-md-4
-		.h2 Teams just work
-		p We at Whatif...! believe in the power of teams! Working in a great team gives you the power to heal the world!
-		p
-			a(class="btn btn-secondary",href="#",role="button") View details2 &raquo;
-	.col-md-4
-		.h2 Think and work in steps
-		p Solving problems actually is more efficient if you break it up in pieces. And you know what: the most creative answer always comes from someone you least expect it from
-		p
-			a(class="btn btn-secondary",href="#",role="button") View details3 &raquo;

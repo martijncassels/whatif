@@ -112,11 +112,13 @@ angular
 
 .controller('MsgUpdateCtrl', MsgUpdateCtrl)
 .controller('MsgViewCtrl', MsgViewCtrl)
-.controller('MsgNewCtrl', MsgNewCtrl);
+.controller('MsgNewCtrl', MsgNewCtrl)
+.controller('MsgFrontPageCtrl', MsgFrontPageCtrl);
 
 MsgUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
 MsgViewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
-MsgNewCtrl.$inject = ['$scope', '$http', '$routeParams'];
+MsgNewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
+MsgFrontPageCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
 
 function MsgUpdateCtrl($scope, $http, $routeParams) {
     var vm = this;
@@ -195,6 +197,7 @@ function MsgViewCtrl($scope, $http, $routeParams, $location) {
     // };
 
     vm.createComment = function(child,id) {
+        if(child.form.$valid){
         $http.post('/api/comments/single/' + id, child.form)
             .success(function(data) {
                 $scope.form = {}; //need to get rid of this
@@ -206,13 +209,14 @@ function MsgViewCtrl($scope, $http, $routeParams, $location) {
             .error(function(data) {
                 console.log('Error: ' + data);
             });
+        }
     };
 
     vm.deleteComment = function(id) {
         $http.delete('/api/comments/single/' + id)
             .success(function(data) {
                 vm.message = data;
-                //location.path('/messages');
+                //$location.path('/messages');
             })
             .error(function(data) {
                 console.log('Error: ' + data);
@@ -220,23 +224,35 @@ function MsgViewCtrl($scope, $http, $routeParams, $location) {
     };
 }
 
-function MsgNewCtrl($scope, $http, $routeParams) {
+function MsgNewCtrl($scope, $http, $routeParams,$location) {
     var vm = this;
     vm.formData = {};
     
     vm.createMessage = function() {
-        if(vm.form.$valid){
+        if(vm.formData.$valid){
             $http.post('/api/messages', vm.formData)
                 .success(function(data) {
                     vm.formData = {}; // clear the form so our user is ready to enter another
                     vm.messages = data;
                     //console.log(data);
+                    $location.path('/messages');
                 })
                 .error(function(data) {
                     console.log('Error: ' + data);
                 });
+        //console.log('message created!');
         }
     };
+}
 
+function MsgFrontPageCtrl($scope, $http, $routeParams,$location) {
+    var vm = this;
 
+    $http.get('/api/frontpage')
+        .success(function(data){
+            vm.messages = data;
+        })
+        .error(function(data){
+            console.log('Error: ' + data);
+        });
 }
