@@ -14,6 +14,9 @@ form(name='formData8',method='put',novalidate)
 		strong Well done! {{vm.success}}
 	div(ng-show='vm.error',class="alert alert-danger",role="alert")
 		strong Oh no! {{vm.error}}
+	div(class='btn-group',role='group',aria-label='Basic Example')
+		a(href='factories/view/{{vm.data._id}}').btn.btn-sm.btn-primary
+			i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to factory view").fa.fa-arrow-left
 	div(ng-class="{ 'has-danger' : formData8.title.$invalid && !formData8.title.$pristine , 'has-success' : formData8.title.$valid && !formData8.title.$pristine }").form-group
 		label.col-form-label title 
 		input(ng-class="{ 'form-control-danger' : formData8.title.$invalid && !formData8.title.$pristine , 'form-control-success' : formData8.title.$valid && !formData8.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='vm.data.title',required).form-control

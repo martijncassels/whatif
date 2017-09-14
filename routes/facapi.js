@@ -75,7 +75,7 @@ exports.postfactory = function(req, res) {
 exports.updatefactory = function(req, res) {
 
     var promise = Messages.findById(req.params.id).exec()
-	console.log(req.body);
+	//console.log(req.body);
 	promise.then(function(message){
 
     	message.title			= 		req.body.title.$modelValue;
@@ -95,7 +95,7 @@ exports.updatefactory = function(req, res) {
     	return message.save();
     })
     .then(function(message){
-    	console.log('updated!');
+    	//console.log('updated!');
 		res.json(message);
 
     })

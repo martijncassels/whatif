@@ -3,6 +3,11 @@ form(name='form',method='put',novalidate)
 		strong Well done! {{vm.success}}
 	div(ng-show='vm.error',class="alert alert-danger",role="alert")
 		strong Oh no! {{vm.error}}
+	div(class='btn-group',role='group',aria-label='Basic Example')
+		a(ng-if='vm.message.isparent',href='messages/view/message/{{vm.message._id}}').btn.btn-sm.btn-primary
+			i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to message view").fa.fa-arrow-left
+		a(ng-if='vm.message.iscomment',href='messages/view/comment/{{vm.message._id}}').btn.btn-sm.btn-primary
+			i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to comment view").fa.fa-arrow-left
 	div(ng-class="{ 'has-danger' : form.title.$invalid && !form.title.$pristine , 'has-success' : form.title.$valid && !form.title.$pristine }").form-group
 		label.col-form-label title 
 		input(ng-class="{ 'form-control-danger' : form.title.$invalid && !form.title.$pristine , 'form-control-success' : form.title.$valid && !form.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='vm.message.title',required).form-control

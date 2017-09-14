@@ -45,7 +45,7 @@ var childSchema = mongoose.Schema({
 		    creationdate: {type: Date, default: Date.now},
 		    lastupdate: {type: Date, default: Date.now},
 		    isparent: {type : Boolean, default: true},
-		    //parent: [{type: Schema.Types.ObjectId}],//[{type: Schema.Types.ObjectId, ref: 'Message'}],
+		    parent: {type: Schema.Types.ObjectId, default: null},//[{type: Schema.Types.ObjectId, ref: 'Message'}],
 		    tags: [String],
 		    isfactory: {type : Boolean, default: false},
 		    iscomment: {type : Boolean, default: false},

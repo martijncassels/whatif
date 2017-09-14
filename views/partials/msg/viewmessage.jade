@@ -1,3 +1,10 @@
+div(class='btn-group',role='group',aria-label='Basic Example')
+	a(ng-if='vm.message.isparent',href='messages/').btn.btn-sm.btn-primary
+		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to messages").fa.fa-arrow-left
+	a(ng-if='vm.message.iscomment',href='messages/view/message/{{vm.message.parent}}').btn.btn-sm.btn-primary
+		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to message view").fa.fa-arrow-left
+br
+br
 div(class='card')
 	h3.card-header.text-center Featured
 	.card-block.justify-content-end
@@ -7,8 +14,10 @@ div(class='card')
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					//- a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary view 
-					a(href='message/update/{{vm.message._id}}').btn.btn-sm.btn-primary
+					a(ng-if='vm.message.isparent',href='message/update/{{vm.message._id}}').btn.btn-sm.btn-primary
 						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-pencil
+					a(ng-if='vm.message.iscomment',href='comment/update/{{vm.message._id}}').btn.btn-sm.btn-primary
+						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update comment").fa.fa-pencil
 					button(type="button",data-toggle="modal",data-target="#Modal{{vm.message._id}}").btn.btn-sm.btn-primary 
 						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
 		p(class='card-text') {{vm.message.body}}

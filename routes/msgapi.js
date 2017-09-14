@@ -135,7 +135,7 @@ exports.postcomment = function(req, res) {
         		body: 		req.body.body,
         		author: 	req.body.author,
         		isparent: 	false,
-        		//parent: 	toObject(req.params.id),
+        		parent:     req.params.id,
         		iscomment: 	true,
       			isfactory: 	false,
         	}}},
