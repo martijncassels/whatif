@@ -1,7 +1,8 @@
 div(ng-repeat='profile in profiles')
 	.d-flex.flex-row
 		.mr-auto.p-2
-			p username: {{profile.username}}
+			img(src='{{profile.avatar.URL}}',alt='Card image cap').card-img-top.rounded-circle.img-fluid
+			p {{profile.username}}
 		.p-2
 			div(class='btn-group',role='group',aria-label='Basic Example')
 				a(href='profiles/view/{{profile._id}}').btn.btn-sm.btn-primary 

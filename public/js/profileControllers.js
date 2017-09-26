@@ -125,6 +125,18 @@ angular.module('whatif.controllers')
     //$scope.formData4 = {};
     $http.get('/api/profiles/' + $routeParams.id)
         .success(function(data) {
+            if(!data.avatar) {
+                $scope.genderoption = 'male';
+                $scope.avatarIDoption = 1;
+            } else {
+                $scope.genderoption = data.avatar.gender;
+                $scope.avatarIDoption = data.avatar.avatarID;
+            }
+            $scope.gender = ['male','female'];
+            $scope.avatarID = [];
+            for (var i = 1; i < 114; i++) {
+                $scope.avatarID.push(i);
+            }
             $scope.profile = data;
 
             $http.get('/api/factories')

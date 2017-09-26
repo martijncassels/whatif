@@ -47,9 +47,11 @@ var Profile = new Schema({
 		    creationdate: {type: Date, default: Date.now},
 		    lastlogin: {type: Date, default: Date.now},
 		    avatar: {
-		    	head: String,
-		    	body: String
+		    	URL: String,
+		    	gender: String,
+		    	avatarID: Number
 		    },
+		    //avatar: {type: String},
 		    skills: [{
 		    	name: {type:String}, value: {type:Number, default: 0}
 		    }],

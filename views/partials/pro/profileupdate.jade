@@ -22,6 +22,11 @@
 //- 		div(class='form-control-feedback',ng-show='$parent.formData4.skills[$index].value.$error.required') Required! 
 //- 	input(class='form-control',type='number',name='{{skill.name}}',id='{{skill.name}}',ng-model='formData4.skills[4].value',min="0",max="10",integer,required)
 //- 	input(type='submit',ng-click='updateProfile(formData4._id)',value='submit')
+div(class='btn-group',role='group',aria-label='Basic Example')
+	a(href='profiles/view/{{profile._id}}').btn.btn-sm.btn-primary
+		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to profiles").fa.fa-arrow-left
+br
+br
 form(name='formData4',method='post',novalidate)
 	div(ng-show='success',class="alert alert-success",role="alert")
 		strong Well done! {{success}}
@@ -36,13 +41,23 @@ form(name='formData4',method='post',novalidate)
 	div(ng-class="{ 'has-danger' : formData4.lastname.$invalid && !formData4.lastname.$pristine , 'has-success' : formData4.lastname.$valid && !formData4.lastname.$pristine }").form-group.row
 		label.col-form-label Lastname
 		input(ng-class="{ 'form-control-danger' : formData4.lastname.$invalid && !formData4.lastname.$pristine , 'form-control-success' : formData4.lastname.$valid && !formData4.lastname.$pristine }",type='text',name='lastname',id='lastname',placeholder='lastname',ng-model='profile.lastname',required).form-control.form-control-sm
+	.form-group.row
+		label.col-form-label Avatar Gender
+		select(ng-options='option for option in gender',name='gender',id='gender',ng-model='genderoption').form-control
+	.form-group.row
+		label.col-form-label Avatar ID
+		select(ng-options='option for option in avatarID',name='avatarID',id='avatarID',ng-model='avatarIDoption').form-control
+	div(ng-class="{ 'has-danger' : formData4.avatar.$invalid && !formData4.avatar.$pristine , 'has-success' : formData4.avatar.$valid && !formData4.avatar.$pristine }").form-group.row
+		img(src='https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/{{genderoption}}/{{avatarIDoption}}.png')
 	div(ng-class="{ 'has-danger' : formData4.memberof.$invalid && !formData4.memberof.$pristine , 'has-success' : formData4.memberof.$valid && !formData4.memberof.$pristine }").form-group.row
+		label.col-form-label Member of...
 		select(ng-options='factory._id as factory.title for factory in factories track by factory._id',ng-model='memberof',multiple).form-control
 	//- outer scope
 	//- div(ng-class="{ 'has-danger' : formData4.1.$invalid && !formData4.1.$pristine , 'has-success' : formData4.1.$valid && !formData4.1.$pristine }").form-group.row
 	//- 	label.col-form-label {{profile.skills[0].name}}
 	//- 	input(ng-class="{ 'form-control-danger' : formData4.1.value.$invalid && !formData4.1.$pristine , 'form-control-success' : formData4.1.$valid && !formData4.1.$pristine }",type='number',name='1',id='1',placeholder='points',ng-model='profile.skills[0].value',required).form-control.form-control-sm
 	//- inner scope
+	p Skills
 	div(ng-repeat='skill in profile.skills',ng-class="{ 'has-danger' : $parent.formData4.skill{{skill.name}}.$invalid && !$parent.formData4.skill{{skill.name}}.$pristine , 'has-success' : $parent.formData4.skill{{skill.name}}.$valid && !$parent.formData4.skill{{skill.name}}.$pristine }").form-group.row
 		label.col-form-label {{skill.name}}
 		input(ng-class="{ 'form-control-danger' : $parent.formData4.skill{{skill.name}}.$invalid && !$parent.formData4.skill{{skill.name}}.$pristine , 'form-control-success' : $parent.formData4.skill{{skill.name}}.$valid && !$parent.formData4.skill{{skill.name}}.$pristine }",type='number',name='skill{{skill.name}}',placeholder='points',ng-model='$parent.profile.skills[$index].value',required).form-control.form-control-sm

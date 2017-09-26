@@ -70,22 +70,26 @@ exports.updateprofile = function(req, res) {
     //console.log(req.body);
     promise.then(function(profile){
 
-        profile.username           =       req.body.username.$modelValue;
-        profile.firstname            =       req.body.firstname.$modelValue;
-        profile.lastname          =       req.body.lastname.$modelValue;
-        profile.creationdate    =       profile.creationdate;
-        profile.lastupdate      =       new Date();
-        profile.skills[0].value        =       req.body.skill1.$modelValue;
-        profile.skills[1].value        =       req.body.skill2.$modelValue;
-        profile.skills[2].value        =       req.body.skill3.$modelValue;
-        profile.skills[3].value        =       req.body.skill4.$modelValue;
-        profile.skills[4].value        =       req.body.skill5.$modelValue;
+        profile.username            =       req.body.username.$modelValue;
+        profile.firstname           =       req.body.firstname.$modelValue;
+        profile.lastname            =       req.body.lastname.$modelValue;
+        profile.creationdate        =       profile.creationdate;
+        profile.lastupdate          =       new Date();
+        profile.skills[0].value     =       req.body.skill1.$modelValue;
+        profile.skills[1].value     =       req.body.skill2.$modelValue;
+        profile.skills[2].value     =       req.body.skill3.$modelValue;
+        profile.skills[3].value     =       req.body.skill4.$modelValue;
+        profile.skills[4].value     =       req.body.skill5.$modelValue;
         // profile.parent          =       req.body.parent.$modelValue;
         // profile.childs          =       req.body.childs.$modelValue;
         // profile.tags            =       req.body.tags.$modelValue;
         // profile.isfactory       =       req.body.isfactory.$modelValue;
         // profile.iscomment       =       req.body.iscomment.$modelValue;
         // profile.hits            =       req.body.hits.$modelValue;
+        profile.avatar.URL          =       'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/'+req.body.gender.$modelValue+'/'+req.body.avatarID.$modelValue+'.png';
+        profile.avatar.gender       =       req.body.gender.$modelValue;
+        profile.avatar.avatarID     =       req.body.avatarID.$modelValue;
+        
 
         return profile.save();
     })

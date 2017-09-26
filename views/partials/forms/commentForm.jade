@@ -1,4 +1,4 @@
-form(name='form',method='post',novalidate)
+form(ng-hide='vm.message.isfrontpage',name='form',method='post',novalidate)
 	div(ng-class="{ 'has-danger' : form.title.$invalid && !form.title.$pristine , 'has-success' : form.title.$valid && !form.title.$pristine }").form-group.row
 		//- label.col-sm-2.col-form-label.col-form-label-sm title
 		input(ng-class="{ 'form-control-danger' : form.title.$invalid && !form.title.$pristine , 'form-control-success' : form.title.$valid && !form.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='child.form.title',required).form-control.form-control-sm
@@ -9,5 +9,6 @@ form(name='form',method='post',novalidate)
 		//- label.col-form-label author
 		input(ng-class="{ 'form-control-danger' : form.author.$invalid && !form.author.$pristine , 'form-control-success' : form.author.$valid && !form.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='child.form.author',required).form-control.form-control-sm
 	.form-group.row
+		//- 2 inputs below to support both controller as controllerAS functionality for the time being
 		input(ng-show='message._id',type='submit',ng-disabled='form.$invalid',ng-click='vm.createComment(child,message._id)',value='submit').btn.btn-sm.btn-primary
 		input(ng-show='vm.message._id',type='submit',ng-disabled='form.$invalid',ng-click='vm.createComment(child,vm.message._id)',value='submit').btn.btn-sm.btn-primary

@@ -1,9 +1,17 @@
+div(class='btn-group',role='group',aria-label='Basic Example')
+	a(href='profiles/').btn.btn-sm.btn-primary
+		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to profiles").fa.fa-arrow-left
+br
+br
 div(class='card')
-	h3.card-header.text-center {{profiles.username}}
+	//- h3.card-header.text-center {{profiles.username}}
 	.card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
-				h4.card-title {{profiles.username}} - {{profiles._id}}
+				//- img(src="https://api.adorable.io/avatars/300/{{profiles.username}}.png",alt='Card image cap').card-img-top.rounded-circle.img-fluid
+				//- img(src="https://robohash.org/{{profiles.username}}.png",alt='Card image cap').card-img-top.rounded-circle.img-fluid
+				img(src='{{profiles.avatar.URL}}',alt='Card image cap').card-img-top.rounded-circle.img-fluid
+				h4.card-title {{profiles.username}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					a(href='profile/update/{{profiles._id}}').btn.btn-sm.btn-primary 
