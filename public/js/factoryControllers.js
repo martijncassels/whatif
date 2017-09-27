@@ -13,7 +13,6 @@
 //         });
 // }]);
 
-// Here we get the module we created in file one
 angular
 
 .module('whatif.controllers')
@@ -26,7 +25,7 @@ angular
 
 // Inject my dependencies
 FactoryCtrl.$inject = ['$scope', '$http', '$routeParams'];
-FacViewCtrl.$inject = ['$scope', '$http', '$routeParams'];
+FacViewCtrl.$inject = ['$scope', '$http', '$routeParams', '_'];
 FacUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
 
 // Now create our controller function with all necessary logic
@@ -80,6 +79,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
 
     $http.get('/api/factories/' + $routeParams.id)
         .success(function(data) {
+            // totals per skill
             vm.factory = data;
             for(var i_skill = 0; i_skill <= 4; i_skill++){
                 for(var i_members = 0; i_members < vm.factory.members.length; i_members++){
@@ -95,8 +95,11 @@ function FacViewCtrl($scope, $http, $routeParams) {
                     else vm.totals.skills[i_skill].value += 0;
                 }
             }
+
+            // total members in factory
             vm.totals.members = vm.factory.members.length;
 
+            // set labels and data for the graphs
             angular.forEach(vm.totals.skills,function(value,key){
                 vm.labels.push(value.name);
                 vm.data.push(value.value);
@@ -109,7 +112,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
                     yAxes: [{
                         ticks : {
                             min: 0,
-                            max: (vm.totals.members*10)*0.6,    // max points per 1 skill when minimum / skill is 1 would be 6
+                            max: (vm.totals.members*10)*0.6,    // max points per 1 skill when minimum per skill is 1 would be 6
                             stepSize: 1                         // (6+1+1+1+1=10) so 60% of total, which is (total members) * 10
                         } 
                     }]
@@ -124,6 +127,19 @@ function FacViewCtrl($scope, $http, $routeParams) {
                     } 
                 }
             };
+
+            // get some data about skills you have or haven't
+            vm.best_skill = _.max(vm.totals.skills,function(skill){ return skill.value});
+            vm.worst_skill = _.min(vm.totals.skills,function(skill){ return skill.value});
+
+            vm.prodigies = {};
+            $http.get('/api/profiles/search_skill/'+vm.worst_skill)
+            .success(function(data){
+                vm.prodigies = data;
+            })
+            .error(function(err){
+                console.log(err);
+            });
 
         })
         .error(function(data) {

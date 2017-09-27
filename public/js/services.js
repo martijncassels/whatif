@@ -2,7 +2,6 @@
 
 /* Services */
 
-
 // Demonstrate how to register services
 // In this case it is a simple value service.
 angular
@@ -94,4 +93,8 @@ angular
         }
     }
 })
+
+.factory('_', ['$window', function($window) {
+  return $window._; // assumes underscore has already been loaded on the page
+}])
 ;

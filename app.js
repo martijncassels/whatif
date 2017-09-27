@@ -104,6 +104,7 @@ app.get('/api/profiles/:id', proapi.single);
 app.post('/api/profiles', proapi.postprofile);
 app.put('/api/profiles/:id', proapi.updateprofile);
 app.delete('/api/profiles/:id', proapi.deleteprofile);
+app.get('/api/profiles/search_skill/:skill',proapi.search_skill);
 
 app.post('/register', routes.register);
 app.post('/login', routes.login);

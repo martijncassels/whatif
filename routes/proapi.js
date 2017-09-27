@@ -132,5 +132,41 @@ exports.members = function(req, res) {
         })
         .catch(function(err){
             res.send(err);
-        })
+        });
     }
+
+exports.search_skill = function(req, res) {
+        //var promise = Profiles.find({'skills.name': {'$in': ['2']} }).sort('-skills.value').limit(5).exec()
+        var promise = Profiles.aggregate([
+                {
+                    $unwind: '$skills' // do i need to unwind first?
+                },
+                {
+                    $match: {'skills.name': '3'}
+                },{
+                    $sort: {'skills.value':-1}
+                }
+                // ,{
+                //     $group: {
+                //         _id: '$_id',
+                //         max: { $max: "$skills.value"}
+                //         }
+                // }
+                // ,{
+                //     $lookup: {
+                //         from: "Profiles",
+                //         localField: "_id",
+                //         foreignField: "_id",
+                //         as: "profile"
+                //         }
+                // }
+                ]).limit(5)
+                .execAsync()
+
+        .then(function(profiles){
+            res.json(profiles);
+        })
+        .catch(function(err){
+            res.send(err);
+        });
+}

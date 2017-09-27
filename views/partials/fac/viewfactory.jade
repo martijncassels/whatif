@@ -19,6 +19,14 @@ div(class='card')
 				a(href='/profiles/view/{{member._id}}') {{member.username}}
 	.card-footer.text-muted
 		p {{vm.totals}}
+		.alert.alert-info
+			p You'll need someone with {{vm.worst_skill.name}} skills!
+			P Hey, look at these winners in {{vm.worst_skill.name}}. They're not in a factory yet! *wink*wink*
+			ul
+				li(ng-repeat='profile in vm.prodigies')
+					a(href='/profiles/view/{{profile._id}}') {{profile.username}} (scores {{profile.skills.value}}!)
+		.alert.alert-info
+			p Wow, you've a lot of people with {{vm.best_skill.name}} skills!
 		.container
 			.row.align-items-center
 				.col-sm
