@@ -1,8 +1,7 @@
 div(ng-controller='SearchCtrl as vm').navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
   button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
     span.navbar-toggler-icon
-  a(class='navbar-brand',href='home') Whatif!
-
+  a(class='navbar-brand',href='home') Whatif! - {{vm.isLoggedIn}}
   div.collapse.navbar-collapse#navbarsExampleDefault
     ul.navbar-nav.mr-auto
       li.nav-item active
@@ -29,11 +28,17 @@ div(ng-controller='SearchCtrl as vm').navbar.navbar-toggleable-md.navbar-inverse
       //- li.nav-item
       //-   a(href='#').nav-link.disabled
       li.nav-item.dropdown
-        a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Empty
-        div(class='dropdown-menu',aria-labelledby='dropdown01')
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#',).dropdown-item Action
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Another action
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Something else
+        a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown02 Your profile
+        div(class='dropdown-menu',aria-labelledby='dropdown02')
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-hide='vm.isLoggedIn',href='/login').dropdown-item Log in
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-show='vm.isLoggedIn',ng-click='vm.logout()').dropdown-item Log out
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-hide='vm.isLoggedIn',href='/register').dropdown-item Register
+      //- li.nav-item.dropdown
+      //-   a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Empty
+      //-   div(class='dropdown-menu',aria-labelledby='dropdown03')
+      //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#',).dropdown-item Action
+      //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Another action
+      //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Something else
     form(name='vm.searchForm',method='post',novalidate).form-inline.my-2.my-lg-0
       p{{vm.title}}
       input(type='text',name='value',id='value',placeholder='Search',ng-model='vm.searchvalue').form-control.mr-sm-2

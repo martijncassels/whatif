@@ -4,6 +4,7 @@ div(class='card',ng-repeat='message in vm.messages')
 		.d-flex.flex-row
 			.mr-auto.p-2
 				h4.card-title {{message.title}}
+				span.badge.badge-pill.badge-primary hits : {{message.hits}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary 

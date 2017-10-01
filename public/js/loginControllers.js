@@ -55,12 +55,23 @@ angular.module('whatif.controllers')
       $scope.disabled = true;
 
       // call register from service
-      AuthService.register($scope.registerForm.username, $scope.registerForm.password)
+      AuthService.register(
+          $scope.registerForm.username, 
+          $scope.registerForm.password,
+          $scope.registerForm.firstname,
+          $scope.registerForm.lastname,
+          $scope.registerForm.skill1,
+          $scope.registerForm.skill2,
+          $scope.registerForm.skill3,
+          $scope.registerForm.skill4,
+          $scope.registerForm.skill5,
+          )
         // handle success
         .then(function () {
           $location.path('/login');
           $scope.disabled = false;
           $scope.registerForm = {};
+          $scope.formData = {};
         })
         // handle error
         .catch(function () {

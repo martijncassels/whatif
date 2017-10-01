@@ -90,14 +90,27 @@ angular.module('whatif').factory('AuthService',
 
     }
 
-    function register(username, password) {
+    function register(username, password, firstname, lastname, skill1, skill2, skill3, skill4, skill5) {
 
       // create a new instance of deferred
       var deferred = $q.defer();
 
       // send a post request to the server
       $http.post('/register',
-        {username: username, password: password})
+        {
+          //username: username, password: password
+          username:           username,
+          password:           password,
+          firstname:          firstname,
+          lastname:           lastname,
+          skills:    [
+              {name: '1',value: skill1},
+              {name: '2',value: skill2},
+              {name: '3',value: skill3},
+              {name: '4',value: skill4},
+              {name: '5',value: skill5},
+              ]
+        })
         // handle success
         .success(function (data, status) {
           if(status === 200 && data.status){

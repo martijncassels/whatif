@@ -4,7 +4,7 @@ block body
   include ./partials/navbar.jade   
   div(ng-controller='MainCtrl as main',ng-show='main.title').jumbotron
     .container  
-      h1(ng-bind='main.title')
+      h1(ng-bind='main.title') 
   div(ng-view).container
   hr  
   .container
@@ -18,7 +18,7 @@ block body
   //- script(src='https://ajax.googleapis.com/ajax/libs/angular-ui-router/1.0.0-rc.1/angular-ui-router.min.js')
   script(src='js/app.js')
   script(src='js/services.js')
-  script(src='js/AuthService.js')
+  //- script(src='js/AuthService.js')
   script(src='js/controllers.js')
   script(src='js/loginControllers.js')
   script(src='js/messageControllers.js')

@@ -1,4 +1,5 @@
 var Messages = require('../models/messages.js');
+var Profiles = require('../models/profiles.js');
 var mongoose = require('mongoose');
 
 /*
@@ -95,9 +96,14 @@ exports.updatefactory = function(req, res) {
     	return message.save();
     })
     .then(function(message){
-    	//console.log('updated!');
-		res.json(message);
-
+        // Profiles.update(
+        //     {'_id': {$in: message.members},'memberof': {$ne: message.id}},
+        //     {$push: {'memberof':message.id}},
+        //     {'multi': true}
+        //     ,function(err,message){
+        //     if (err) res.send(err)
+                res.json(message);
+        //});
     })
     .catch(function(err){
         res.send(err)

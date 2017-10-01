@@ -49,7 +49,7 @@ var childSchema = mongoose.Schema({
 		    tags: [String],
 		    isfactory: {type : Boolean, default: false},
 		    iscomment: {type : Boolean, default: false},
-		    hits: Number
+		    hits: {type: Number, default: 0}
 		});
 
 var messageSchema = mongoose.Schema({
@@ -70,7 +70,7 @@ var messageSchema = mongoose.Schema({
 		    isfactory: {type : Boolean, default: false},
 		    iscomment: {type : Boolean, default: false},
 		    isfrontpage: {type : Boolean, default: false},
-		    hits: Number
+		    hits: {type: Number, default: 0}
 		});
 
 module.exports = mongoose.model('messages', messageSchema);

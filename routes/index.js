@@ -20,7 +20,12 @@ exports.partial = function (req, res) {
 }
 
 exports.register = function(req, res) {
-  Profile.register(new Profile({ username: req.body.username }),
+  Profile.register(new Profile({ 
+        username:           req.body.username,
+        firstname:          req.body.firstname,
+        lastname:           req.body.lastname,
+        skills:             req.body.skills
+  }),
     req.body.password, function(err, account) {
     if (err) {
       return res.status(500).json({
@@ -59,7 +64,8 @@ exports.login = function(req, res, next) {
 }
 
 exports.logout = function(req, res) {
-  req.logout();
+  req.logOut();
+  //req.session.destroy();
   res.status(200).json({
     status: 'Bye!'
   });

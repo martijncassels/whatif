@@ -45,7 +45,7 @@ exports.postprofile = function(req, res) {
             {name: '3',value: req.body.skill3},
             {name: '4',value: req.body.skill4},
             {name: '5',value: req.body.skill5},
-            ],
+            ]
         
         // isparent:   true,
         // isfactory:  false,
@@ -142,7 +142,7 @@ exports.search_skill = function(req, res) {
                     $unwind: '$skills' // do i need to unwind first?
                 },
                 {
-                    $match: {'skills.name': '3'}
+                    $match: {$and: [{'skills.name': req.params.skill},{'memberof':{$not:{$size:0}}}]}
                 },{
                     $sort: {'skills.value':-1}
                 }
@@ -164,6 +164,7 @@ exports.search_skill = function(req, res) {
                 .execAsync()
 
         .then(function(profiles){
+            console.log(profiles);
             res.json(profiles);
         })
         .catch(function(err){

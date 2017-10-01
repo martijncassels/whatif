@@ -6,11 +6,12 @@ div(class='btn-group',role='group',aria-label='Basic Example')
 br
 br
 div(class='card')
-	h3.card-header.text-center Featured
+	h3.card-header.text-center Featured 
 	.card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
 				h4.card-title {{vm.message.title}}
+				span.badge.badge-pill.badge-primary hits : {{vm.message.hits}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					//- a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary view 

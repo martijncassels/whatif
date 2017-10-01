@@ -131,9 +131,10 @@ function FacViewCtrl($scope, $http, $routeParams) {
             // get some data about skills you have or haven't
             vm.best_skill = _.max(vm.totals.skills,function(skill){ return skill.value});
             vm.worst_skill = _.min(vm.totals.skills,function(skill){ return skill.value});
+            console.log(vm.worst_skill);
 
             vm.prodigies = {};
-            $http.get('/api/profiles/search_skill/'+vm.worst_skill)
+            $http.get('/api/profiles/search_skill/'+vm.worst_skill.name)
             .success(function(data){
                 vm.prodigies = data;
             })

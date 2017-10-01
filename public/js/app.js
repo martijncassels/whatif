@@ -13,10 +13,10 @@ var whatif = angular.module('whatif', [
 
 whatif.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
-        .when('/home', {templateUrl: 'partials/home/home', controller: 'MsgFrontPageCtrl', controllerAs: 'vm'})
+        .when('/home', {templateUrl: 'partials/home/home', controller: 'MsgFrontPageCtrl', controllerAs: 'vm', access: {restricted: false}})
         // .when('/home', {templateUrl: 'partials/home/home', controller: 'MsgNewCtrl', controllerAs: 'vm'})
-        .when('/admin', {templateUrl: 'partials/admin/admin', controller: 'AdminCtrl', controllerAs: 'vm'})
-        .when('/messages', {templateUrl: 'partials/msg/messages', controller: 'AppCtrl', controllerAs: 'vm'})
+        .when('/admin', {templateUrl: 'partials/admin/admin', controller: 'AdminCtrl', controllerAs: 'vm', access: {restricted: true}})
+        .when('/messages', {templateUrl: 'partials/msg/messages', controller: 'AppCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/messages/new', {templateUrl: 'partials/msg/newmessage', controller: 'MsgNewCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/messages/search', {templateUrl: 'partials/msg/messages', controller: 'SearchCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/messages/view/:entity/:id', {templateUrl: 'partials/msg/viewmessage', controller: 'MsgViewCtrl', controllerAs: 'vm', access: {restricted: false}})
@@ -33,18 +33,18 @@ whatif.config(['$routeProvider', '$locationProvider', function($routeProvider, $
         .otherwise({redirectTo: '/home', access: {restricted: false}});
     $locationProvider.html5Mode(true);
   }])
-// .run(function ($rootScope, $location, $route, AuthService) {
-//   $rootScope.$on('$routeChangeStart',
-//     function (event, next, current) {
-//       AuthService.getUserStatus()
-//       .then(function(data){
-//         $rootScope.status = data.data.status;
-//         if (next.access.restricted && !AuthService.isLoggedIn()){
-//         //if (!AuthService.isLoggedIn()){
-//           $location.path('/login');
-//           $route.reload();
-//         }
-//       });
-//   });
-// })
+.run(function ($rootScope, $location, $route, AuthService) {
+  $rootScope.$on('$routeChangeStart',
+    function (event, next, current) {
+      AuthService.getUserStatus()
+      .then(function(data){
+        //$rootScope.status = data.data.status;
+        if (next.access.restricted && !AuthService.isLoggedIn()){
+        //if (!AuthService.isLoggedIn()){
+          $location.path('/login');
+          $route.reload();
+        }
+      });
+  });
+})
 ;

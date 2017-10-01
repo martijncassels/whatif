@@ -9,11 +9,11 @@ angular
 .controller('AppCtrl', AppCtrl)
 .controller('SearchCtrl', SearchCtrl);
 
-MainCtrl.$inject = ['$scope'];
+MainCtrl.$inject = ['$scope','AuthService'];
 AppCtrl.$inject = ['$scope','$rootScope','$http','getMessages', 'Search'];
-SearchCtrl.$inject = ['$scope', '$rootScope', '$http' , '$routeParams', '$location', 'Search', 'searchService'];
+SearchCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'Search', 'searchService', 'AuthService'];
 
-function MainCtrl($scope) {
+function MainCtrl($scope,AuthService) {
     var vm = this;
     vm.title = 'Whatif...!';
 }
@@ -130,9 +130,11 @@ function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
     };
 }
 
-function SearchCtrl($scope, $rootScope, $http ,$routeParams,$location,Search,searchService) {
+function SearchCtrl($scope, $rootScope, $http ,$routeParams,$location,Search,searchService,AuthService) {
     var vm = this;
-    //vm.searchForm = {};
+    $scope.$watch( AuthService.isLoggedIn, function ( isLoggedIn ) {
+    vm.isLoggedIn = isLoggedIn;
+    });
 
     vm.onSearchClick = function(searchCriteria){
         searchService.search(searchCriteria);
@@ -165,6 +167,16 @@ function SearchCtrl($scope, $rootScope, $http ,$routeParams,$location,Search,sea
         //     console.log('service in ctrl: ',data.data);
         // });
         Search.setResults(vm.searchForm);
+
+    };
+
+    vm.logout = function () {
+
+      // call logout from service
+      AuthService.logout()
+        .then(function () {
+          $location.path('/login');
+        });
 
     };
 }

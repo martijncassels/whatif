@@ -7,7 +7,6 @@ var mongoose = require('mongoose');
 
 // get all messages
 exports.getall = function(req, res) {
-
         var promise = Messages.find({isparent:true}).exec() //only parent messages, no comments
 
         promise.then(function(messages) {
@@ -20,11 +19,12 @@ exports.getall = function(req, res) {
 
 // get a single message
 exports.single = function(req, res) {
-    //console.log(req.params.entity);
     if(req.params.entity=='message') {
-        var promise = Messages.findById(req.params.id).exec() //only parent messages, no comments
+        // now increments hits everytime, need to figure this out!
+        var promise = Messages.findByIdAndUpdate({'_id': req.params.id},{$inc: {'hits':1}}).exec() //only parent messages, no comments
     }
     if(req.params.entity=='comment') {
+        //Messages.findByIdAndUpdate({'_id': req.params.id},{$inc: {'hits':1}});
         var promise = Messages.findOne({'childs._id':req.params.id}).exec() //only parent messages, no comments
     }
         promise.then(function(message) {
@@ -37,14 +37,12 @@ exports.single = function(req, res) {
 }
 
 exports.search = function(req, res) {
-    //console.log(req.body.value.$modelValue);
     var promise = Messages.find({$or:[
         {body:new RegExp(req.body.value.$modelValue, "i")},
         {title:new RegExp(req.body.value.$modelValue, "i")}
         ]}).limit(10).sort({hits:-1}).exec();
     
     promise.then(function(messages) {
-        //console.log(messages);
         console.log(messages.length);
         res.json(messages);
     })

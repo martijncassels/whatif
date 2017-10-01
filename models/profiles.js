@@ -39,6 +39,8 @@ var Profile = new Schema({
 			//_id: String,
 		    //username: { type:String,minlength:5},
 		    username: String,
+		    salt: String,
+		    hash: String,
 		    firstname: String,
 		    lastname: String,
 		    password: String,
@@ -53,7 +55,12 @@ var Profile = new Schema({
 		    },
 		    //avatar: {type: String},
 		    skills: [{
-		    	name: {type:String}, value: {type:Number, default: 0}
+		    	name: {type:String}, value: {type:Number, default: 0}, _id: false
+		  //   	name: {type:String, default: '1'}, value: {type: Number, default: 1}, _id: false},
+		  //   	{name: {type:String, default: '2'}, value: {type: Number, default: 1}, _id: false},
+		  //   	{name: {type:String, default: '3'}, value: {type: Number, default: 1}, _id: false},
+		  //   	{name: {type:String, default: '4'}, value: {type: Number, default: 1}, _id: false},
+				// {name: {type:String, default: '5'}, value: {type: Number, default: 1}, _id: false
 		    }],
 		    memberof: [{type: Schema.Types.ObjectId, ref: 'profiles'}],
 		});
