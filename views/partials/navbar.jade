@@ -1,7 +1,8 @@
 div(ng-controller='SearchCtrl as vm').navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
   button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
     span.navbar-toggler-icon
-  a(class='navbar-brand',href='home') Whatif! - {{vm.isLoggedIn}}
+  a(class='navbar-brand',href='home') Whatif! 
+    span(ng-bind='vm.isLoggedIn')
   div.collapse.navbar-collapse#navbarsExampleDefault
     ul.navbar-nav.mr-auto
       li.nav-item active

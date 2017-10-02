@@ -42,7 +42,6 @@ angular.module('whatif').factory('AuthService',
 
       // create a new instance of deferred
       var deferred = $q.defer();
-
       // send a post request to the server
       $http.post('/login',
         {username: username, password: password})
