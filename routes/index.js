@@ -55,10 +55,12 @@ exports.login = function(req, res, next) {
         return res.status(500).json({
           err: 'Could not log in user'
         });
+        console.log('Could not log in user ',user);
       }
       res.status(200).json({
         status: 'Login successful!'
       });
+      console.log('Login successful! ',user);
     });
   })(req, res, next);
 }
