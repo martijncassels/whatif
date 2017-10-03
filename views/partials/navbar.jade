@@ -2,7 +2,7 @@ div(ng-controller='SearchCtrl as vm').navbar.navbar-toggleable-md.navbar-inverse
   button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
     span.navbar-toggler-icon
   a(class='navbar-brand',href='home') Whatif! 
-    span(ng-bind='vm.isLoggedIn')
+    //- i(ng-class="{ 'fa fa-thumbs-o-up' : vm.isLoggedIn, 'fa fa-thumbs-o-down' : !vm.isLoggedIn }",aria-hidden="true")
   div.collapse.navbar-collapse#navbarsExampleDefault
     ul.navbar-nav.mr-auto
       li.nav-item active

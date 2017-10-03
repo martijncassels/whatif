@@ -16,6 +16,9 @@ SearchCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$locatio
 function MainCtrl($scope,AuthService) {
     var vm = this;
     vm.title = 'Whatif...!';
+    $scope.$watch( AuthService.isLoggedIn, function ( isLoggedIn ) {
+    vm.isLoggedIn = isLoggedIn;
+    });
 }
 
 function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
