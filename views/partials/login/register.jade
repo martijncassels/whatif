@@ -46,5 +46,6 @@
 			label.col-form-label skill 5
 			input(ng-class="{ 'form-control-danger' : formData.skill5.$invalid && !formData.skill5.$pristine , 'form-control-success' : formData.skill5.$valid && !formData.skill5.$pristine }",type='number',name='skill5',placeholder='points',ng-model='registerForm.skill5',required,min=1,max=10).form-control.form-control-sm
 			div(ng-show='formData.skill5.$invalid && !formData.skill5.$pristine').form-control-feedback Skill is required, a minimum of 1 and maximum of 10 points.
+		div(vc-recaptcha,key="'6LfOCjMUAAAAAHMViY5YidDnok6bo260mHfzumud'",ng-model='registerForm.captcha').form-group.row
 		.form-group
-			button(type='submit',class='btn btn-default',ng-disabled='disabled') Register 
+			button(type='submit',class='btn btn-default',ng-disabled='registerForm.$invalid') Register 

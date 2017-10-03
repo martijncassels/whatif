@@ -8,10 +8,12 @@ var whatif = angular.module('whatif', [
     'whatif.directives',
     'chart.js',
     'ui.bootstrap',
-    'underscore']
+    'underscore',
+    'vcRecaptcha']
 );
 
-whatif.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+whatif
+.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/home', {templateUrl: 'partials/home/home', controller: 'MsgFrontPageCtrl', controllerAs: 'vm', access: {restricted: false}})
         // .when('/home', {templateUrl: 'partials/home/home', controller: 'MsgNewCtrl', controllerAs: 'vm'})
@@ -32,7 +34,16 @@ whatif.config(['$routeProvider', '$locationProvider', function($routeProvider, $
         .when('/register', {templateUrl: 'partials/login/register', controller: 'registerController', access: {restricted: false}})
         .otherwise({redirectTo: '/home', access: {restricted: false}});
     $locationProvider.html5Mode(true);
-  }])
+}])
+// .config(function (reCAPTCHAProvider) {
+//     // required: please use your own key :) 
+//     reCAPTCHAProvider.setPublicKey('6LfOCjMUAAAAAHMViY5YidDnok6bo260mHfzumud');
+
+//     // optional: gets passed into the Recaptcha.create call 
+//     reCAPTCHAProvider.setOptions({
+//         theme: 'clean'
+//     });
+// })
 .run(function ($rootScope, $location, $route, AuthService) {
   $rootScope.$on('$routeChangeStart',
     function (event, next, current) {
