@@ -15,10 +15,12 @@ var express 	      = require('express'),
     config 		      = require('./config/config.js'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
-    expressSession  = require('express-session'),
+    //expressSession  = require('express-session'),
     passport        = require('passport'),
     localStrategy   = require('passport-local' ).Strategy;
     mongoose        = require('mongoose');
+const session       = require('express-session'),
+    MongoStore      = require('connect-mongo')(session);
 
 //mongoose.connect('mongodb://127.0.0.1/whatif:27017');
 mongoose.connect(config.mongostring, { useMongoClient : true });
@@ -31,12 +33,21 @@ var app = module.exports = express();
 * Configuration
 */
 
-// configure middleware
-app.use(require('express-session')({
-    secret: 'keyboard cat',
+// configure express-session
+// app.use(require('express-session')({
+//     secret: 'keyboard cat',
+//     resave: false,
+//     saveUninitialized: false
+// }));
+
+// configure connect-mongo
+app.use(session({
+    secret: 'vleesmes',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
