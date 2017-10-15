@@ -14,9 +14,9 @@ div(class='card')
 				h4.card-title {{profiles.username}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
-					a(href='profile/update/{{profiles._id}}').btn.btn-sm.btn-primary 
+					a(href='profile/update/{{profiles._id}}',ng-show='isLoggedIn').btn.btn-sm.btn-primary 
 						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update profile").fa.fa-pencil
-					button(ng-click='deleteProfile(profiles._id)',value='button').btn.btn-sm.btn-primary
+					button(ng-click='deleteProfile(profiles._id)',value='button',ng-show='isLoggedIn').btn.btn-sm.btn-primary
 						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete profile").fa.fa-trash
 		p(class='card-text') {{profiles.body}}
 		div(ng-repeat='skill in profiles.skills') name: {{skill.name}}

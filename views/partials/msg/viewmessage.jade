@@ -1,8 +1,8 @@
 div(class='btn-group',role='group',aria-label='Basic Example')
 	a(ng-if='vm.message.isparent',href='messages/').btn.btn-sm.btn-primary
-		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to messages").fa.fa-arrow-left
+		i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Back to messages').fa.fa-arrow-left
 	a(ng-if='vm.message.iscomment',href='messages/view/message/{{vm.message.parent}}').btn.btn-sm.btn-primary
-		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to message view").fa.fa-arrow-left
+		i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Back to message view').fa.fa-arrow-left
 br
 br
 div(class='card')
@@ -15,26 +15,26 @@ div(class='card')
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					//- a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary view 
-					a(ng-if='vm.message.isparent',href='message/update/{{vm.message._id}}').btn.btn-sm.btn-primary
-						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-pencil
-					a(ng-if='vm.message.iscomment',href='comment/update/{{vm.message._id}}').btn.btn-sm.btn-primary
-						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update comment").fa.fa-pencil
-					button(type="button",data-toggle="modal",data-target="#Modal{{vm.message._id}}").btn.btn-sm.btn-primary 
-						i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
+					a(ng-if='vm.message.isparent && vm.isLoggedIn',href='message/update/{{vm.message._id}}').btn.btn-sm.btn-primary
+						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update message').fa.fa-pencil
+					a(ng-if='vm.message.iscomment && vm.isLoggedIn',href='comment/update/{{vm.message._id}}').btn.btn-sm.btn-primary
+						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update comment').fa.fa-pencil
+					button(type='button',data-toggle='modal',data-target='#Modal{{vm.message._id}}',ng-if='vm.isLoggedIn').btn.btn-sm.btn-primary 
+						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
 		p(class='card-text') {{vm.message.body}}
 		a(href='#').btn.btn-primary Go somewhere
 		//- Modal goes here
-		div(id="Modal{{vm.message._id}}",tabindex="-1",role="dialog",aria-labelledby="Modal{{vm.message._id}}Label",aria-hidden="true").modal.fade
-			div(role="document").modal-dialog
+		div(id='Modal{{vm.message._id}}',tabindex='-1',role='dialog',aria-labelledby='Modal{{vm.message._id}}Label',aria-hidden='true').modal.fade
+			div(role='document').modal-dialog
 				.modal-content
 					.modal-header
 						h5.modal-title Delete item?
-						button(type="button",data-dismiss="modal",aria-label="Close").close
-							span(aria-hidden="true") &times;
+						button(type='button',data-dismiss='modal',aria-label='Close').close
+							span(aria-hidden='true') &times;
 					.modal-body Are you sure you want to delete item with name: {{vm.message.title}}?
 					.modal-footer
-						button(type="button",data-dismiss="modal").btn.btn-secondary Cancel
-						button(ng-click='vm.deleteMessage(vm.message._id)',value='button',data-dismiss="modal").btn.btn-primary Delete item
+						button(type='button',data-dismiss='modal').btn.btn-secondary Cancel
+						button(ng-click='vm.deleteMessage(vm.message._id)',value='button',data-dismiss='modal').btn.btn-primary Delete item
 		//- end of modal
 	div(ng-repeat='child in vm.message.childs').card-footer.text-muted.justify-content-end
 			.d-flex.flex-row
@@ -42,23 +42,23 @@ div(class='card')
 					p(ng-show='child.title') title: {{child.title}} {{child._id}}
 				.p-2
 					div(class='btn-group',role='group',aria-label='Basic Example')
-						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}')
-							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update comment").fa.fa-pencil
-						button(type="button",data-toggle="modal",data-target="#Modal{{child._id}}").btn.btn-sm.btn-primary 
-							i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
+						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}',ng-if='vm.isLoggedIn')
+							i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update comment').fa.fa-pencil
+						button(type='button',data-toggle='modal',data-target='#Modal{{child._id}}',ng-if='vm.isLoggedIn').btn.btn-sm.btn-primary 
+							i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
 			p {{child.body}}
 			//- Modal goes here
-			div(id="Modal{{child._id}}",tabindex="-1",role="dialog",aria-labelledby="Modal{{child._id}}Label",aria-hidden="true").modal.fade
-				div(role="document").modal-dialog
+			div(id='Modal{{child._id}}',tabindex='-1',role='dialog',aria-labelledby='Modal{{child._id}}Label',aria-hidden='true').modal.fade
+				div(role='document').modal-dialog
 					.modal-content
 						.modal-header
 							h5.modal-title Delete item?
-							button(type="button",data-dismiss="modal",aria-label="Close").close
-								span(aria-hidden="true") &times;
+							button(type='button',data-dismiss='modal',aria-label='Close').close
+								span(aria-hidden='true') &times;
 						.modal-body Are you sure you want to delete item with name: {{child.title}}?
 						.modal-footer
-							button(type="button",data-dismiss="modal").btn.btn-secondary Cancel
-							button(ng-click='vm.deleteComment(child._id)',value='button',data-dismiss="modal").btn.btn-primary Delete item
+							button(type='button',data-dismiss='modal').btn.btn-secondary Cancel
+							button(ng-click='vm.deleteComment(child._id)',value='button',data-dismiss='modal').btn.btn-primary Delete item
 			//- end of modal
 	.card-footer.text-muted
 		include ../forms/commentForm.jade

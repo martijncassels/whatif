@@ -46,7 +46,7 @@ angular
    //  			//console.log('Error: ' + data);
    //  		})
     		;
-			
+
 		},
 		getResults: function() {
 			// if(vm.searchdata){
@@ -88,7 +88,7 @@ angular
     			//console.log('Error: ' + data);
     		});
             //var results = {1:'boe!'};
-            
+
         }
     }
 })
@@ -118,6 +118,14 @@ angular
         return false;
       }
     }
+
+		// function isAdmin() {
+    //   if(user.admin) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
 
     function getUserStatus() {
       return $http.get('/status')

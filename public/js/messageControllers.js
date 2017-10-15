@@ -58,7 +58,7 @@ angular.module('whatif.controllers')
         .error(function(data) {
             console.log('Error: ' + data);
         });
-    
+
     $scope.createComment = function(child,id) {
         $http.post('/api/comments/single/' + id, child.form)
             .success(function(data) {
@@ -88,7 +88,7 @@ angular.module('whatif.controllers')
 .controller('MsgNewCtrl', ['$scope', '$http', '$routeParams',function($scope, $http, $routeParams) {
 
     $scope.formData = {};
-    
+
     $scope.createMessage = function() {
         if($scope.form.$valid){
             $http.post('/api/messages', $scope.formData)
@@ -116,9 +116,9 @@ angular
 .controller('MsgFrontPageCtrl', MsgFrontPageCtrl);
 
 MsgUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
-MsgViewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
+MsgViewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location','AuthService'];
 MsgNewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
-MsgFrontPageCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
+MsgFrontPageCtrl.$inject = ['$scope', '$http', '$routeParams', '$location','AuthService'];
 
 function MsgUpdateCtrl($scope, $http, $routeParams) {
     var vm = this;
@@ -170,8 +170,9 @@ function MsgUpdateCtrl($scope, $http, $routeParams) {
 
 }
 
-function MsgViewCtrl($scope, $http, $routeParams, $location) {
+function MsgViewCtrl($scope, $http, $routeParams, $location, AuthService) {
     var vm = this;
+    vm.isLoggedIn = AuthService.isLoggedIn();
     //vm.formmodel = {};
 
     $http.get('/api/messages/' + $routeParams.entity + '/' + $routeParams.id)
@@ -181,7 +182,7 @@ function MsgViewCtrl($scope, $http, $routeParams, $location) {
         .error(function(data) {
             console.log('Error: ' + data);
         });
-    
+
     // vm.createComment = function(id) {
     //     $http.post('/api/comments/single/' + id, form)
     //         .success(function(data) {
@@ -227,7 +228,7 @@ function MsgViewCtrl($scope, $http, $routeParams, $location) {
 function MsgNewCtrl($scope, $http, $routeParams,$location) {
     var vm = this;
     vm.formData = {};
-    
+
     vm.createMessage = function() {
         if(vm.formData.$valid){
             $http.post('/api/messages', vm.formData)
@@ -245,8 +246,9 @@ function MsgNewCtrl($scope, $http, $routeParams,$location) {
     };
 }
 
-function MsgFrontPageCtrl($scope, $http, $routeParams,$location) {
+function MsgFrontPageCtrl($scope, $http, $routeParams,$location, AuthService) {
     var vm = this;
+    vm.isLoggedIn = AuthService.isLoggedIn();
 
     $http.get('/api/frontpage')
         .success(function(data){

@@ -1,6 +1,17 @@
-angular.module('whatif.controllers')
-//function ProfileCtrl($scope, $http) {
-.controller('ProfileCtrl', ['$scope', '$http',function($scope, $http) {
+angular
+
+.module('whatif.controllers')
+
+.controller('ProfileCtrl', ProfileCtrl)
+.controller('PrfViewCtrl', PrfViewCtrl)
+.controller('PrfUpdateCtrl', PrfUpdateCtrl);
+
+ProfileCtrl.$inject = ['$scope', '$http', 'AuthService'];
+PrfViewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location', 'AuthService'];
+PrfUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
+
+function ProfileCtrl($scope, $http, AuthService) {
+    $scope.isLoggedIn = AuthService.isLoggedIn();
     $http.get('/api/profiles')
         .success(function(data) {
             $scope.profiles = data;
@@ -35,11 +46,11 @@ angular.module('whatif.controllers')
             });
     };
 //}
-}])
-//MyCtrl1.$inject = [];
+}
 
 //function PrfViewCtrl($scope, $http, $routeParams) {
-.controller('PrfViewCtrl', ['$scope', '$http', '$routeParams', '$location',function($scope, $http, $routeParams, $location) {
+function PrfViewCtrl($scope, $http, $routeParams, $location, AuthService) {
+    $scope.isLoggedIn = AuthService.isLoggedIn();
     $scope.labels = [];
     $scope.data = [];
     $http.get('/api/profiles/' + $routeParams.id)
@@ -59,7 +70,7 @@ angular.module('whatif.controllers')
                             min: 0,
                             max: 6,
                             stepSize: 1
-                        } 
+                        }
                     }]
                 }
             };
@@ -69,7 +80,7 @@ angular.module('whatif.controllers')
                         min: 0,
                         max: 6,
                         stepSize: 1
-                    } 
+                    }
                 }
             };
             //console.log(data);
@@ -117,11 +128,11 @@ angular.module('whatif.controllers')
             });
     };
 //}
-}])
-//MyCtrl1.$inject = [];
+}
 
 //function PrfUpdateCtrl($scope, $http, $routeParams) {
-.controller('PrfUpdateCtrl', ['$scope', '$http', '$routeParams',function($scope, $http, $routeParams) {
+function PrfUpdateCtrl($scope, $http, $routeParams) {
+    $scope.isLoggedIn = AuthService.isLoggedIn();
     //$scope.formData4 = {};
     $http.get('/api/profiles/' + $routeParams.id)
         .success(function(data) {
@@ -151,7 +162,7 @@ angular.module('whatif.controllers')
             console.log('Error: ' + data);
         });
 
-    
+
 
     $scope.updateProfile = function(id) {
         console.log($scope.formData4);
@@ -172,5 +183,4 @@ angular.module('whatif.controllers')
             });
     };
 //}
-}])
-//MyCtrl2.$inject = [];
+}
