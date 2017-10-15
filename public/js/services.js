@@ -48,12 +48,20 @@ angular
     		;
 
 		},
-		getResults: function() {
+		getResults: function(page) {
 			// if(vm.searchdata){
 			// 	return vm.searchdata;
 			// }
 			// else {
-				return $http.get('/api/messages')
+				return $http.get('/api/messages/'+page)
+			// }
+		},
+		getFrontPage: function() {
+			// if(vm.searchdata){
+			// 	return vm.searchdata;
+			// }
+			// else {
+				return $http.get('/api/frontpage')
 			// }
 		}
 	}

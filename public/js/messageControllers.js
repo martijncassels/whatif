@@ -118,7 +118,7 @@ angular
 MsgUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
 MsgViewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location','AuthService'];
 MsgNewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
-MsgFrontPageCtrl.$inject = ['$scope', '$http', '$routeParams', '$location','AuthService'];
+MsgFrontPageCtrl.$inject = ['$scope', '$http', '$routeParams', '$location','AuthService', 'Search'];
 
 function MsgUpdateCtrl($scope, $http, $routeParams) {
     var vm = this;
@@ -246,15 +246,30 @@ function MsgNewCtrl($scope, $http, $routeParams,$location) {
     };
 }
 
-function MsgFrontPageCtrl($scope, $http, $routeParams,$location, AuthService) {
+function MsgFrontPageCtrl($scope, $http, $routeParams,$location, AuthService, Search) {
     var vm = this;
     vm.isLoggedIn = AuthService.isLoggedIn();
 
-    $http.get('/api/frontpage')
-        .success(function(data){
-            vm.messages = data;
-        })
-        .error(function(data){
-            console.log('Error: ' + data);
-        });
+    Search.getFrontPage()
+    .success(function(data){
+        //console.log(data);
+        vm.messages = data;
+    })
+    .error(function(err){
+        console.log(err);
+    });
+
+    $scope.$on('search', function(event, args){
+        //console.log(args);
+        vm.messages = args;
+        // args is the search results
+    });
+
+    // $http.get('/api/frontpage')
+    //     .success(function(data){
+    //         vm.messages = data;
+    //     })
+    //     .error(function(data){
+    //         console.log('Error: ' + data);
+    //     });
 }

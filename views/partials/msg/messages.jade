@@ -1,3 +1,16 @@
+script(id='pagination.html',type='text/ng-template')
+	ul.pagination
+		li(role="menuitem",ng-if="::boundaryLinks",ng-class="{disabled: noPrevious()||ngDisabled}").page-item
+			button(ng-click="selectPage(1,$event)",ng-disabled="noPrevious()||ngDisabled",uib-tabindex-toggle).page-link {{::getText('first')}}
+		li(role="menuitem",ng-if="::directionLinks",ng-class="{disabled: noPrevious()||ngDisabled}").page-item
+			button(ng-click="selectPage(page-1,$event)",ng-disabled="noPrevious()||ngDisabled",uib-tabindex-toggle).page-link {{::getText('previous')}}
+		li(role="menuitem",ng-repeat="page in pages track by $index",ng-class="{active: page.active,disabled: ngDisabled&&!page.active}").page-item
+			button(ng-click="selectPage(page.number,$event)",ng-disabled="ngDisabled&&!page.active",uib-tabindex-toggle).page-link {{page.text}}
+		li(role="menuitem",ng-if="::directionLinks",ng-class="{disabled: noNext()||ngDisabled}").page-item
+			button(ng-click="selectPage(page+1,$event)",ng-disabled="noNext()||ngDisabled",uib-tabindex-toggle).page-link {{::getText('next')}}
+		li(role="menuitem",ng-if="::boundaryLinks",ng-class="{disabled: noNext()||ngDisabled}").page-item
+			button(ng-click="selectPage(totalPages,$event)",ng-disabled="noNext()||ngDisabled",uib-tabindex-toggle).page-link {{::getText('last')}}
+ul(uib-pagination,ng-change="pageChanged()",total-items='vm.totalmsgs',ng-model='vm.currentpage',rotate='true',force-ellipses='true',max-size='maxSize',class='pagination-sm',boundary-links='true',template-url='pagination.html')
 div(class='card',ng-repeat='message in vm.messages')
 	h3.card-header.text-center Featured
 	.card-block.justify-content-end

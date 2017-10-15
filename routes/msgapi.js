@@ -1,5 +1,6 @@
 var Messages = require('../models/messages.js');
 var mongoose = require('mongoose');
+//var mongoosePaginate = require('mongoose-paginate');
 
 /*
  * Serve JSON to our AngularJS client
@@ -7,13 +8,16 @@ var mongoose = require('mongoose');
 
 // get all messages
 exports.getall = function(req, res) {
-        var promise = Messages.find({isparent:true}).exec() //only parent messages, no comments
+        //console.log(req.params.page);
+        //console.log(req.params.count);
+        var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:10}) //only parent messages, no comments
 
         promise.then(function(messages) {
-			res.json(messages);
+          console.log(messages);
+			    res.json(messages);
         })
         .catch(function(err){
-            res.send(err);
+          res.send(err);
         })
     }
 
@@ -41,7 +45,7 @@ exports.search = function(req, res) {
         {body:new RegExp(req.body.value.$modelValue, "i")},
         {title:new RegExp(req.body.value.$modelValue, "i")}
         ]}).limit(10).sort({hits:-1}).exec();
-    
+
     promise.then(function(messages) {
         console.log(messages.length);
         res.json(messages);
@@ -156,7 +160,7 @@ exports.postcomment = function(req, res) {
 exports.deletecomment = function(req, res) {
 
     var promise = Messages.findOne({'childs._id':req.params.id}).exec()
-	
+
 	promise.then(function(comment){
     	comment.childs.id(req.params.id).remove();
     	return comment.save();
@@ -204,7 +208,7 @@ exports.postcommentsingle = function(req, res) {
 exports.deletecommentsingle = function(req, res) {
 
     var promise = Messages.findOne({'childs._id':req.params.id}).exec()
-    
+
     promise.then(function(comment){
         comment.childs.id(req.params.id).remove();
         return comment.save();

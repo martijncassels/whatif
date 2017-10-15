@@ -23,6 +23,10 @@ function MainCtrl($scope,AuthService) {
 
 function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
   	var vm = this;
+    vm.currentpage = 1;
+    vm.limit = 10;
+    vm.totalmsgs = 0;
+    vm.totalpages = 0;
     //vm.formData = {};
     vm.formmodel = {};
     //$scope.formData = {};
@@ -36,12 +40,16 @@ function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
     //     //console.log('service in ctrl: ',data.data);
     // });
 
+    //get another portions of data on page changed
 
 
-    Search.getResults()
+    Search.getResults(vm.currentpage-1)
     .success(function(data){
         //console.log(data);
-        vm.messages = data;
+        vm.messages = data.docs;
+        vm.currentpage = data.page;
+        vm.totalmsgs = data.total;
+        vm.totalpages = data.pages;
     })
     .error(function(err){
         console.log(err);
@@ -52,7 +60,21 @@ function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
         vm.messages = args;
         // args is the search results
     });
-    
+
+    $scope.pageChanged = function() {
+      Search.getResults(vm.currentpage-1)
+      .success(function(data){
+          //console.log(data);
+          vm.messages = data.docs;
+          vm.currentpage = data.page;
+          vm.totalmsgs = data.total;
+          vm.totalpages = data.pages;
+      })
+      .error(function(err){
+          console.log(err);
+      });
+      };
+
     //console.log(getSearchResults.getResults());
 
     //when landing on the page, get all messages and show them
@@ -65,6 +87,7 @@ function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
     //     .error(function(data) {
     //         console.log('Error: ' + data);
     //     });
+    //
 
     // when submitting the add form, send the text to the node API
     vm.createMessage = function() {
@@ -161,7 +184,7 @@ function SearchCtrl($scope, $rootScope, $http ,$routeParams,$location,Search,sea
     //         })
     //         .error(function(data) {
     //             console.log('Error: ' + data);
-    //         }); 
+    //         });
     // };
 
         // getSearchResults.async(vm.searchForm).then(function(data){

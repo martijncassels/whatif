@@ -33,6 +33,7 @@ for (let i = 0; i < 10; i++) {
 */
 
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 var Schema = mongoose.Schema;
 mongoose.Promise = require('bluebird');
 
@@ -72,5 +73,6 @@ var messageSchema = mongoose.Schema({
 		    isfrontpage: {type : Boolean, default: false},
 		    hits: {type: Number, default: 0}
 		});
+messageSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('messages', messageSchema);
