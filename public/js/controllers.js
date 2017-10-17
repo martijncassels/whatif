@@ -27,6 +27,7 @@ function AppCtrl($scope,$rootScope,$http,Search) {
     vm.limit = 10;
     vm.totalmsgs = 0;
     vm.totalpages = 0;
+    vm.searchresults = false;
     //vm.formData = {};
     vm.formmodel = {};
     //$scope.formData = {};
@@ -57,6 +58,7 @@ function AppCtrl($scope,$rootScope,$http,Search) {
 
     $scope.$on('search', function(event, args){
         console.log(args);
+        vm.searchresults=  true;
         vm.messages = args.docs;
         vm.currentpage = args.page;
         vm.totalmsgs = args.total;

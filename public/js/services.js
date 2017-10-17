@@ -34,7 +34,7 @@ angular
 			//use the promise to set attr, then use it for next function
 			$http({
 				method      : 'POST',
-				url         : '/api/messages/search/0.10',
+				url         : '/api/messages/search/0.100',
 				data        : searchForm,
 				header      : { 'Content-Type': 'application/json' }
 			})
@@ -81,22 +81,15 @@ angular
             // Do some kind of searching
             // then broadcast the results
             var results = {};
-						//var currentpage = 0;
-						//var totalmsgs = 0;
-						//var totalpages = 0;
             $http({
 				method      : 'POST',
-				url         : '/api/messages/search/0.10',
+				url         : '/api/messages/search/0.100',
 				data        : searchCriteria,
 				header      : { 'Content-Type': 'application/json' }
 			})
 			.success(function(data){
 				//console.log('from search: '+data.total);
 				results = data;
-				//results.currentpage = data.page;
-				//results.totalmsgs = data.total;
-				//results.totalpages = data.pages;
-				//console.log('results set',data);
 				broadcastService.send('search', results);
 			})
 			.error(function(data) {
