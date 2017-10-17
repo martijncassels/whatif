@@ -10,21 +10,21 @@ angular
 
 .value('version', '0.3')
 
-.service('getMessages',function($http){
-	return {
-		async: function() {
-			return $http.get('/api/messages')
-		        // .success(function(data) {
-		        //     this.name = 'Whatif...!';
-		        //     this.messages = data;
-		        //     console.log('service: ',data);
-		        // })
-		        // .error(function(data) {
-		        //     console.log('Error: ' + data);
-		        // });
-		    }
-    }
-})
+// .service('getMessages',function($http){
+// 	return {
+// 		async: function() {
+// 			return $http.get('/api/messages')
+// 		        // .success(function(data) {
+// 		        //     this.name = 'Whatif...!';
+// 		        //     this.messages = data;
+// 		        //     console.log('service: ',data);
+// 		        // })
+// 		        // .error(function(data) {
+// 		        //     console.log('Error: ' + data);
+// 		        // });
+// 		    }
+//     }
+// })
 
 .service('Search',function($http){
 	var vm = {};
@@ -34,26 +34,26 @@ angular
 			//use the promise to set attr, then use it for next function
 			$http({
 				method      : 'POST',
-				url         : '/api/messages/search',
+				url         : '/api/messages/search/0.10',
 				data        : searchForm,
 				header      : { 'Content-Type': 'application/json' }
 			})
-			// .success(function(data){
-			// 	vm.searchdata = data;
-			// 	console.log('results set',data);
-			// })
-			// .error(function(data) {
-   //  			//console.log('Error: ' + data);
-   //  		})
+			.success(function(data){
+				results = data;
+				//console.log('results set',data);
+			})
+			.error(function(data) {
+    			//console.log('Error: ' + data);
+    		})
     		;
 
 		},
-		getResults: function(page) {
+		getResults: function(page,limit) {
 			// if(vm.searchdata){
 			// 	return vm.searchdata;
 			// }
 			// else {
-				return $http.get('/api/messages/'+page)
+				return $http.get('/api/messages/'+page+'.'+limit)
 			// }
 		},
 		getFrontPage: function() {
@@ -81,14 +81,21 @@ angular
             // Do some kind of searching
             // then broadcast the results
             var results = {};
+						//var currentpage = 0;
+						//var totalmsgs = 0;
+						//var totalpages = 0;
             $http({
 				method      : 'POST',
-				url         : '/api/messages/search',
+				url         : '/api/messages/search/0.10',
 				data        : searchCriteria,
 				header      : { 'Content-Type': 'application/json' }
 			})
 			.success(function(data){
+				//console.log('from search: '+data.total);
 				results = data;
+				//results.currentpage = data.page;
+				//results.totalmsgs = data.total;
+				//results.totalpages = data.pages;
 				//console.log('results set',data);
 				broadcastService.send('search', results);
 			})

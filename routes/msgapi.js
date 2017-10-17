@@ -1,6 +1,5 @@
 var Messages = require('../models/messages.js');
 var mongoose = require('mongoose');
-//var mongoosePaginate = require('mongoose-paginate');
 
 /*
  * Serve JSON to our AngularJS client
@@ -9,11 +8,11 @@ var mongoose = require('mongoose');
 // get all messages
 exports.getall = function(req, res) {
         //console.log(req.params.page);
-        //console.log(req.params.count);
-        var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:10}) //only parent messages, no comments
+        //console.log(req.params.limit);
+        var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit)}) //only parent messages, no comments
 
         promise.then(function(messages) {
-          console.log(messages);
+          //console.log(messages);
 			    res.json(messages);
         })
         .catch(function(err){
@@ -41,13 +40,22 @@ exports.single = function(req, res) {
 }
 
 exports.search = function(req, res) {
-    var promise = Messages.find({$or:[
+    // var promise = Messages.find({$or:[
+    //     {body:new RegExp(req.body.value.$modelValue, "i")},
+    //     {title:new RegExp(req.body.value.$modelValue, "i")}
+    //     ]}).limit(10).sort({hits:-1}).exec();
+    var promise = Messages.paginate(
+      {$or:[
         {body:new RegExp(req.body.value.$modelValue, "i")},
         {title:new RegExp(req.body.value.$modelValue, "i")}
-        ]}).limit(10).sort({hits:-1}).exec();
+      ]
+      //,sort:{'hits':-1}
+      }
+      ,{page:Number(req.params.page)+1,limit:Number(req.params.limit)}
+    )
 
     promise.then(function(messages) {
-        console.log(messages.length);
+        console.log(messages.docs.length);
         res.json(messages);
     })
     .catch(function(err){

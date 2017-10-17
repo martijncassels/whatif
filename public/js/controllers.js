@@ -10,7 +10,7 @@ angular
 .controller('SearchCtrl', SearchCtrl);
 
 MainCtrl.$inject = ['$scope','AuthService'];
-AppCtrl.$inject = ['$scope','$rootScope','$http','getMessages', 'Search'];
+AppCtrl.$inject = ['$scope','$rootScope','$http', 'Search'];
 SearchCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'Search', 'searchService', 'AuthService'];
 
 function MainCtrl($scope,AuthService) {
@@ -21,7 +21,7 @@ function MainCtrl($scope,AuthService) {
     });
 }
 
-function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
+function AppCtrl($scope,$rootScope,$http,Search) {
   	var vm = this;
     vm.currentpage = 1;
     vm.limit = 10;
@@ -43,7 +43,7 @@ function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
     //get another portions of data on page changed
 
 
-    Search.getResults(vm.currentpage-1)
+    Search.getResults(vm.currentpage-1,vm.limit)
     .success(function(data){
         //console.log(data);
         vm.messages = data.docs;
@@ -56,13 +56,16 @@ function AppCtrl($scope,$rootScope,$http,getMessages,Search) {
     });
 
     $scope.$on('search', function(event, args){
-        //console.log(args);
-        vm.messages = args;
+        console.log(args);
+        vm.messages = args.docs;
+        vm.currentpage = args.page;
+        vm.totalmsgs = args.total;
+        vm.totalpages = args.pages;
         // args is the search results
     });
 
     $scope.pageChanged = function() {
-      Search.getResults(vm.currentpage-1)
+      Search.getResults(vm.currentpage-1,vm.limit)
       .success(function(data){
           //console.log(data);
           vm.messages = data.docs;
