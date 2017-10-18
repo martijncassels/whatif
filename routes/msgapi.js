@@ -46,8 +46,8 @@ exports.search = function(req, res) {
     //     ]}).limit(10).sort({hits:-1}).exec();
     var promise = Messages.paginate(
       {$or:[
-        {body:new RegExp(req.body.value.$modelValue, "i")},
-        {title:new RegExp(req.body.value.$modelValue, "i")}
+        {body:new RegExp(req.body.value, "i")},
+        {title:new RegExp(req.body.value, "i")}
       ]
       //,sort:{'hits':-1}
       }

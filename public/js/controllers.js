@@ -11,7 +11,7 @@ angular
 
 MainCtrl.$inject = ['$scope','AuthService'];
 AppCtrl.$inject = ['$scope','$rootScope','$http', 'Search'];
-SearchCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'Search', 'searchService', 'AuthService'];
+SearchCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'Search', 'AuthService'];
 
 function MainCtrl($scope,AuthService) {
     var vm = this;
@@ -28,20 +28,8 @@ function AppCtrl($scope,$rootScope,$http,Search) {
     vm.totalmsgs = 0;
     vm.totalpages = 0;
     vm.searchresults = false;
-    //vm.formData = {};
     vm.formmodel = {};
-    //$scope.formData = {};
     vm.searchForm = {};
-    //$scope.searchForm = {};
-    //getMessages();
-
-    // getMessages.async().then(function(data){
-    //     //$rootScope.messages = data.data;
-    //     vm.messages = data.data;
-    //     //console.log('service in ctrl: ',data.data);
-    // });
-
-    //get another portions of data on page changed
 
 
     Search.getResults(vm.currentpage-1,vm.limit)
@@ -56,20 +44,23 @@ function AppCtrl($scope,$rootScope,$http,Search) {
         console.log(err);
     });
 
-    $scope.$on('search', function(event, args){
-        console.log(args);
-        vm.searchresults=  true;
-        vm.messages = args.docs;
-        vm.currentpage = args.page;
-        vm.totalmsgs = args.total;
-        vm.totalpages = args.pages;
-        // args is the search results
+    $scope.$on('search', function(event){
+        Search.getResults(vm.currentpage-1,vm.limit)
+        .success(function(data){
+            //console.log(data);
+            vm.messages = data.docs;
+            vm.currentpage = data.page;
+            vm.totalmsgs = data.total;
+            vm.totalpages = data.pages;
+        })
+        .error(function(err){
+            console.log(err);
+        });
     });
 
     $scope.pageChanged = function() {
       Search.getResults(vm.currentpage-1,vm.limit)
       .success(function(data){
-          //console.log(data);
           vm.messages = data.docs;
           vm.currentpage = data.page;
           vm.totalmsgs = data.total;
@@ -78,21 +69,7 @@ function AppCtrl($scope,$rootScope,$http,Search) {
       .error(function(err){
           console.log(err);
       });
-      };
-
-    //console.log(getSearchResults.getResults());
-
-    //when landing on the page, get all messages and show them
-    // $http.get('/api/messages')
-    //     .success(function(data) {
-    //         $scope.name = 'Whatif...!';
-    //         $rootScope.messages = data;
-    //         //console.log(data);
-    //     })
-    //     .error(function(data) {
-    //         console.log('Error: ' + data);
-    //     });
-    //
+    };
 
     // when submitting the add form, send the text to the node API
     vm.createMessage = function() {
@@ -111,19 +88,6 @@ function AppCtrl($scope,$rootScope,$http,Search) {
                 });
         }
     };
-
-    // $scope.getMessage = function(id) {
-    //     $http.get('/api/view/' + id)
-    //         .success(function(data) {
-    //             $scope.single = true;
-    //             $scope.formData3 = data; // populate form
-    //             //$scope.message = data;
-    //             //console.log(data);
-    //         })
-    //         .error(function(data) {
-    //             console.log('Error: ' + data);
-    //         });
-    // };
 
     // delete a message
     vm.deleteMessage = function(id) {
@@ -161,45 +125,22 @@ function AppCtrl($scope,$rootScope,$http,Search) {
     };
 }
 
-function SearchCtrl($scope, $rootScope, $http ,$routeParams,$location,Search,searchService,AuthService) {
+function SearchCtrl($scope, $rootScope, $http ,$routeParams,$location,Search,AuthService) {
     var vm = this;
     $scope.$watch( AuthService.isLoggedIn, function ( isLoggedIn ) {
     vm.isLoggedIn = isLoggedIn;
     });
 
     vm.onSearchClick = function(searchCriteria){
-        searchService.search(searchCriteria);
+        //searchService.search(searchCriteria);
+        Search.setResults(searchCriteria);
+        vm.searchvalue = null;
         // No broadcasting directly from controllers!
     };
 
-    vm.Search = function(searchvalue) {
-            //console.log('modelvalue: ',vm.searchForm.value.$modelValue);
-            //console.log('searchvalue: ',searchvalue);
-    //         $http({
-    //         method      : 'POST',
-    //         url         : '/api/messages/search',
-    //         data        : vm.searchForm,
-    //         header      : { 'Content-Type': 'application/json' }
-    //         })
-    //         .success(function(data) {
-    //             vm.searchForm = {}; // clear the form so our user is ready to enter another
-    //             //vm.messages = data;
-    //             $rootScope.messages = data;
-    //             //$location.path('/messages/search');
-    //         })
-    //         .error(function(data) {
-    //             console.log('Error: ' + data);
-    //         });
+    // vm.Search = function(searchvalue) {
+    //     Search.setResults(vm.searchForm);
     // };
-
-        // getSearchResults.async(vm.searchForm).then(function(data){
-        //     //$rootScope.messages = data.data;
-        //     //vm.messages = data.data;
-        //     console.log('service in ctrl: ',data.data);
-        // });
-        Search.setResults(vm.searchForm);
-
-    };
 
     vm.logout = function () {
 
