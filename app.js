@@ -12,7 +12,6 @@ var express 	      = require('express'),
   	http 		        = require('http'),
     hash            = require('bcrypt-nodejs'),
   	path 		        = require('path'),
-    config 		      = require('./config/config.js'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
     //expressSession  = require('express-session'),
@@ -23,7 +22,14 @@ const session       = require('express-session'),
     MongoStore      = require('connect-mongo')(session);
 
 //mongoose.connect('mongodb://127.0.0.1/whatif:27017');
-mongoose.connect(config.mongostring, { useMongoClient : true });
+if(process.env.mongostring){
+  console.log(process.env.mongostring);
+  mongoose.connect(process.env.mongostring, { useMongoClient : true });
+}
+else {
+  var config = require('./config/config.js');
+  mongoose.connect(config.mongostring, { useMongoClient : true });
+}
 
 var Profile = require('./models/profiles');
 
