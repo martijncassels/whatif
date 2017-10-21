@@ -1,5 +1,6 @@
 var Messages = require('../models/messages.js');
 var mongoose = require('mongoose');
+//var JSONStream = require('JSONStream');
 
 /*
  * Serve JSON to our AngularJS client
@@ -9,7 +10,7 @@ var mongoose = require('mongoose');
 exports.getall = function(req, res) {
         //console.log(req.params.page);
         //console.log(req.params.limit);
-        var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit)}) //only parent messages, no comments
+        var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{creationdate:'desc'}}) //only parent messages, no comments
 
         promise.then(function(messages) {
           //console.log(messages);
@@ -19,6 +20,14 @@ exports.getall = function(req, res) {
           res.send(err);
         })
     }
+
+// exports.getall = function(req, res, next) {
+//       Messages.find({isparent:true})
+//         .cursor()
+//         //.pipe(res.type('json'))
+//         .pipe(JSONStream.stringify())
+//         .pipe(res)
+//     }
 
 // get a single message
 exports.single = function(req, res) {
@@ -51,10 +60,11 @@ exports.search = function(req, res) {
       ]
       //,sort:{'hits':-1}
       }
-      ,{page:Number(req.params.page)+1,limit:Number(req.params.limit)}
+      ,{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{hits:-1}}
     )
 
     promise.then(function(messages) {
+        messages.searchvalue = req.body.value;
         console.log(messages.docs.length);
         res.json(messages);
     })

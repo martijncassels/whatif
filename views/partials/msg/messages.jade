@@ -11,12 +11,12 @@ script(id='pagination.html',type='text/ng-template',ng-hide='vm.searchresults')
 		li(role="menuitem",ng-if="::boundaryLinks",ng-class="{disabled: noNext()||ngDisabled}").page-item
 			button(ng-click="selectPage(totalPages,$event)",ng-disabled="noNext()||ngDisabled",uib-tabindex-toggle).page-link {{::getText('last')}}
 ul(uib-pagination,ng-hide='vm.searchresults',ng-change="pageChanged()",total-items='vm.totalmsgs',ng-model='vm.currentpage',rotate='true',force-ellipses='true',max-size='maxSize',class='pagination-sm',boundary-links='true',template-url='pagination.html')
-div(class='card',ng-repeat='message in vm.messages')
+div(class='card',ng-repeat='message in vm.messages | filter:search.text')
 	h3.card-header.text-center Featured
 	.card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
-				h4.card-title {{message.title}}
+				h4(ng-bind-html="message.title | highlight:vm.searchvalue").card-title {{message.title}}
 				span.badge.badge-pill.badge-primary hits : {{message.hits}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
@@ -28,7 +28,7 @@ div(class='card',ng-repeat='message in vm.messages')
 					//- 	i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
 					button(type='button',data-toggle='modal',data-target='#Modal{{message._id}}',ng-if='vm.isLoggedIn').btn.btn-sm.btn-primary 
 						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
-		p(class='card-text') {{message.body}}
+		p(class='card-text',ng-bind-html="message.body | highlight:vm.searchvalue") {{message.body}}
 		a(href='#').btn.btn-primary Go somewhere
 		//- Modal goes here
 		div(id='Modal{{message._id}}',tabindex='-1',role='dialog',aria-labelledby='Modal{{message._id}}Label',aria-hidden='true').modal.fade

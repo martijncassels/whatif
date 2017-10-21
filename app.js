@@ -98,6 +98,7 @@ app.put('/api/factories/:id', facapi.updatefactory);
 //app.get('/api/name', api.name);
 app.get('/api/frontpage', msgapi.frontpage);
 app.get('/api/messages/:page.:limit', msgapi.getall);
+//app.get('/api/messages', msgapi.getall);
 //app.get('api/messages/search/:prop/:value', msgapi.getsearch);
 app.post('/api/messages/search/:page.:limit', msgapi.search);
 app.get('/api/messages/:entity/:id', msgapi.single);
