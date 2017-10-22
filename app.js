@@ -31,6 +31,13 @@ else {
   mongoose.connect(config.mongostring, { useMongoClient : true });
 }
 
+process.on('SIGINT', function() {
+  mongoose.connection.close(function () {
+    console.log('Mongoose default connection disconnected through app termination');
+    process.exit(0);
+  });
+}); 
+
 var Profile = require('./models/profiles');
 
 var app = module.exports = express();

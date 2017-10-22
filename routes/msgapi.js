@@ -8,18 +8,22 @@ var mongoose = require('mongoose');
 
 // get all messages
 exports.getall = function(req, res) {
-        //console.log(req.params.page);
-        //console.log(req.params.limit);
-        var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{creationdate:'desc'}}) //only parent messages, no comments
+    //console.log(req.params.page);
+    //console.log(req.params.limit);
+    var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{creationdate:'desc'}}) //only parent messages, no comments
 
-        promise.then(function(messages) {
-          //console.log(messages);
-			    res.json(messages);
-        })
-        .catch(function(err){
-          res.send(err);
-        })
-    }
+    .then(function(messages) {
+      //console.log(messages);
+	    res.json(messages);
+    })
+    // .then(function(messages) {
+    //   mongoose.connection.close();
+    // })
+    .catch(function(err){
+      res.send(err);
+    })
+
+}
 
 // exports.getall = function(req, res, next) {
 //       Messages.find({isparent:true})
@@ -40,12 +44,15 @@ exports.single = function(req, res) {
         var promise = Messages.findOne({'childs._id':req.params.id}).exec() //only parent messages, no comments
     }
         promise.then(function(message) {
-			(req.params.entity=='message') ? res.json(message) : res.json(message.childs.id(req.params.id));
+			      (req.params.entity=='message') ? res.json(message) : res.json(message.childs.id(req.params.id));
             //console.log(message);
         })
+        // .then(function(messages) {
+        //     mongoose.connection.close();
+        // })
         .catch(function(err){
             res.send(err);
-        })
+        });
 }
 
 exports.search = function(req, res) {
@@ -63,11 +70,14 @@ exports.search = function(req, res) {
       ,{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{hits:-1}}
     )
 
-    promise.then(function(messages) {
+    .then(function(messages) {
         messages.searchvalue = req.body.value;
         console.log(messages.docs.length);
         res.json(messages);
     })
+    // .then(function(messages) {
+    //   mongoose.connection.close();
+    // })
     .catch(function(err){
           res.send(err);
     });
@@ -85,16 +95,14 @@ exports.postmessage = function(req, res) {
     	isfactory: 	false,
     	iscomment: 	false
     }, function(err, messages) {
-        if (err)
-            res.send(err);
-
+        if (err) res.send(err);
         // get and return all the messages after you create another
         Messages.find({isparent:true},function(err, messages) {
-            if (err)
-                res.send(err)
+            if (err) res.send(err);
             res.json(messages);
         });
     });
+    //mongoose.connection.close();
 }
 
 // update a message
@@ -104,7 +112,7 @@ exports.updatemessage = function(req, res) {
 	console.log(req.body);
 	promise.then(function(message){
 
-    	message.title			= 		req.body.title.$modelValue;
+    message.title			= 		req.body.title.$modelValue;
 		message.body			= 		req.body.body.$modelValue;
 		message.author			= 		req.body.author.$modelValue;
 		message.creationdate	= 		message.creationdate;
@@ -120,14 +128,15 @@ exports.updatemessage = function(req, res) {
     	return message.save();
     })
     .then(function(message){
-    	console.log('updated!');
-		res.json(message);
-
+		  res.json(message);
+    })
+    .then(function(messages) {
+      mongoose.connection.close();
     })
     .catch(function(err){
         res.send(err)
     });
-
+    //mongoose.connection.close();
 }
 
 // delete a message
@@ -140,11 +149,11 @@ exports.deletemessage = function(req, res) {
 
         // get and return all the messages after you create another
         Messages.find({isparent:true},function(err, messages) {
-            if (err)
-                res.send(err)
-            res.json(messages);
+          if (err) res.send(err);
+          res.json(messages);
         });
     });
+    //mongoose.connection.close();
 }
 
 // add a comment
@@ -166,12 +175,15 @@ exports.postcomment = function(req, res) {
             // return all messages or just one?
         	Messages.find({isparent:true},function(err, messages) {
         		if (err) res.send(err)
-				res.json(messages);
-			});
+				    res.json(messages);
+			    });
         })
+        // .then(function(messages) {
+        //   mongoose.connection.close();
+        // })
         .catch(function(err){
             res.send(err);
-        })
+        });
     }
 
 // delete a comment
@@ -185,11 +197,13 @@ exports.deletecomment = function(req, res) {
     })
     .then(function(comment){
     	Messages.find({isparent:true},function(err, messages) {
-    		if (err)
-            	res.send(err)
-			res.json(messages);
-        });
+    		if (err) res.send(err);
+			  res.json(messages);
+      });
     })
+    // .then(function(messages) {
+    //   mongoose.connection.close();
+    // })
     .catch(function(err){
         res.send(err)
     });
@@ -197,30 +211,33 @@ exports.deletecomment = function(req, res) {
 
 // add a comment
 exports.postcommentsingle = function(req, res) {
-        var promise = Messages.findOneAndUpdate({'_id':req.params.id},
-            {$push: {"childs": {
-                title:      req.body.title,
-                body:       req.body.body,
-                author:     req.body.author,
-                isparent:   false,
-                //parent:   toObject(req.params.id),
-                iscomment:  true,
-                isfactory:  false,
-            }}},
-            {safe: true, upsert: true, new: true}
-        ).exec()
+    var promise = Messages.findOneAndUpdate({'_id':req.params.id},
+        {$push: {"childs": {
+            title:      req.body.title,
+            body:       req.body.body,
+            author:     req.body.author,
+            isparent:   false,
+            //parent:   toObject(req.params.id),
+            iscomment:  true,
+            isfactory:  false,
+        }}},
+        {safe: true, upsert: true, new: true}
+    ).exec()
 
-        promise.then(function(comments) {
-            // return all messages or just one?
-            Messages.findById({'_id':req.params.id},function(err, message) {
-                if (err) res.send(err)
-                res.json(message);
-            });
-        })
-        .catch(function(err){
-            res.send(err);
-        })
-    }
+    promise.then(function(comments) {
+        // return all messages or just one?
+        Messages.findById({'_id':req.params.id},function(err, message) {
+            if (err) res.send(err)
+            res.json(message);
+        });
+    })
+    // .then(function(messages) {
+    //   mongoose.connection.close();
+    // })
+    .catch(function(err){
+        res.send(err);
+    });
+}
 
 // delete a comment
 exports.deletecommentsingle = function(req, res) {
@@ -234,11 +251,13 @@ exports.deletecommentsingle = function(req, res) {
     .then(function(comment){
         console.log(comment);
         Messages.findById({'_id':comment._id},function(err, message) {
-            if (err)
-                res.send(err)
+            if (err) res.send(err);
             res.json(message);
         });
     })
+    // .then(function(messages) {
+    //     mongoose.connection.close();
+    // })
     .catch(function(err){
         res.send(err)
     });
@@ -268,20 +287,25 @@ exports.updatecomment = function(req, res) {
     .then(function(comment){
             res.json(comment.childs.id(req.params.id));
     })
+    // .then(function(messages) {
+    //   mongoose.connection.close();
+    // })
     .catch(function(err){
         res.send(err)
     });
-
 }
 
 exports.frontpage = function(req, res) {
 
-        var promise = Messages.find({isfrontpage:true}).limit(3).sort({datecreated:-1}).exec() //only parent messages, no comments
+    var promise = Messages.find({isfrontpage:true}).limit(3).sort({datecreated:-1}).exec() //only parent messages, no comments
 
-        promise.then(function(messages) {
-            res.json(messages);
-        })
-        .catch(function(err){
-            res.send(err);
-        })
-    }
+    promise.then(function(messages) {
+      res.json(messages);
+    })
+    // .then(function(messages) {
+    //   mongoose.connection.close();
+    // })
+    .catch(function(err){
+      res.send(err);
+    });
+}
