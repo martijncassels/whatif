@@ -1,6 +1,18 @@
-angular.module('whatif.controllers')
+'use strict';
+
+angular
+
+.module('whatif.Logincontrollers',[])
 //function loginController($scope, $location, AuthService) {
-.controller('loginController', ['$scope', '$location', 'AuthService',function($scope, $location, AuthService) {
+.controller('loginController', loginController)
+.controller('logoutController', logoutController)
+.controller('registerController', registerController);
+
+loginController.$inject = ['$scope', '$location', 'AuthService'];
+logoutController.$inject = ['$scope', '$location', 'AuthService'];
+registerController.$inject = ['$scope', '$location', 'AuthService'];
+
+function loginController($scope, $location, AuthService) {
 
     $scope.login = function () {
 
@@ -26,11 +38,10 @@ angular.module('whatif.controllers')
 
     };
 //}
-}])
+}
 //loginController.$inject = ['$scope', '$location', 'AuthService'];
-
 //function logoutController($scope, $location, AuthService) {
-.controller('logoutController', ['$scope', '$location', 'AuthService',function($scope, $location, AuthService) {
+function logoutController($scope, $location, AuthService) {
 
     $scope.logout = function () {
 
@@ -42,11 +53,11 @@ angular.module('whatif.controllers')
 
     };
 //}
-}])
+}
 //logoutController.$inject = ['$scope', '$location', 'AuthService'];
 
 //function registerController($scope, $location, AuthService) {
-.controller('registerController', ['$scope', '$location', 'AuthService',function($scope, $location, AuthService) {
+function registerController($scope, $location, AuthService) {
 
     $scope.register = function () {
 
@@ -56,7 +67,7 @@ angular.module('whatif.controllers')
 
       // call register from service
       AuthService.register(
-          $scope.registerForm.username, 
+          $scope.registerForm.username,
           $scope.registerForm.password,
           $scope.registerForm.firstname,
           $scope.registerForm.lastname,
@@ -64,7 +75,7 @@ angular.module('whatif.controllers')
           $scope.registerForm.skill2,
           $scope.registerForm.skill3,
           $scope.registerForm.skill4,
-          $scope.registerForm.skill5,
+          $scope.registerForm.skill5
           )
         // handle success
         .then(function () {
@@ -83,5 +94,5 @@ angular.module('whatif.controllers')
 
     };
 //}
-}]);
+}
 //registerController.$inject = ['$scope', '$location', 'AuthService'];

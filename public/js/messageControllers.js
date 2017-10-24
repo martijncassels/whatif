@@ -108,7 +108,7 @@ angular.module('whatif.controllers')
 */
 angular
 
-.module('whatif.controllers')
+.module('whatif.Messagecontrollers',[])
 
 .controller('MsgUpdateCtrl', MsgUpdateCtrl)
 .controller('MsgViewCtrl', MsgViewCtrl)

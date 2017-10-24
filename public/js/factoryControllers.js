@@ -15,7 +15,7 @@
 
 angular
 
-.module('whatif.controllers')
+.module('whatif.Factorycontrollers',[])
 
 // We are adding a function called Ctrl1
 // to the module we got in the line above
@@ -114,7 +114,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
                             min: 0,
                             max: (vm.totals.members*10)*0.6,    // max points per 1 skill when minimum per skill is 1 would be 6
                             stepSize: 1                         // (6+1+1+1+1=10) so 60% of total, which is (total members) * 10
-                        } 
+                        }
                     }]
                 }
             };
@@ -124,7 +124,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
                         min: 0,
                         max: (vm.totals.members*10)*0.6,
                         stepSize: 1
-                    } 
+                    }
                 }
             };
 
@@ -161,7 +161,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
     //         });
     // };
 
-    // delete a factory 
+    // delete a factory
     vm.deleteFactory = function(id) {
         $http.delete('/api/factories/' + id)
             .success(function(data) {
@@ -171,7 +171,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
                 console.log('Error: ' + data);
             });
     };
- 
+
 }
 
 function FacUpdateCtrl($scope, $http, $routeParams) {

@@ -2,20 +2,27 @@
 
 /* Filters */
 
-angular.module('whatif.filters', [])
-.filter('interpolate', ['version', function(version) {
+angular
+
+.module('whatif.filters', [])
+
+.filter('interpolate', interpolate)
+.filter('highlight', highlight);
+
+interpolate.$inject = ['version'];
+highlight.$inject = ['$sce'];
+
+function interpolate(version) {
     return function(text) {
       return String(text).replace(/\%VERSION\%/mg, version);
     }
-  }]
-)
-.filter('highlight', function($sce) {
+}
+
+function highlight($sce) {
     return function(text, searchvalue) {
       if (searchvalue) text = text.replace(new RegExp('('+searchvalue+')', 'gi'),
         '<strong>$1</strong>'
       )
       return $sce.trustAsHtml(text)
     }
-  }
-)
-;
+}

@@ -2,19 +2,29 @@
 
 /* Directives */
 
+angular
 
-angular.module('whatif.directives', [])
-  .directive('appVersion', ['version', function(version) {
+.module('whatif.directives',[])
+
+.directive('appVersion', appVersion)
+.directive('commentForm', commentForm)
+.directive('loading', loading);
+
+appVersion.$inject = ['version'];
+loading.$inject = ['$http'];
+
+function appVersion(version) {
     	return function(scope, elm, attrs) {
       		elm.text(version);
     	}
-  	}])
-	.directive('commentForm', function() {
+  	}
+
+function commentForm() {
   		return {
   			restrict: 'E',
     		templateUrl: 'commentForm'
   		};
-  	})
+}
   // .directive("dynamicName",[function(){
   //   return {
   //       restrict:"A",
@@ -25,8 +35,8 @@ angular.module('whatif.directives', [])
   //       }
   //     };
   //   }])
-  .directive('loading',   ['$http' ,function ($http)
-    {
+
+function loading($http) {
         return {
             restrict: 'A',
             link: function (scope, elm, attrs)
@@ -51,7 +61,7 @@ angular.module('whatif.directives', [])
             }
         };
 
-    }])
+    }
   // .directive('pagination', function() {
   //   return {
   //     restrict: 'E',
@@ -102,4 +112,3 @@ angular.module('whatif.directives', [])
   //     }
   //   };
   // })
-  ;

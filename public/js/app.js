@@ -1,16 +1,19 @@
 'use strict';
 
-var whatif = angular.module('whatif', [
+var whatif = angular.module('whatif',[
     'ngRoute',
     'whatif.controllers',
+    'whatif.Logincontrollers',
+    'whatif.Factorycontrollers',
+    'whatif.Messagecontrollers',
+    'whatif.Profilecontrollers',
     'whatif.filters',
     'whatif.services',
     'whatif.directives',
     'chart.js',
     'ui.bootstrap',
     'underscore',
-    'vcRecaptcha']
-);
+    'vcRecaptcha']);
 
 whatif
 .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {

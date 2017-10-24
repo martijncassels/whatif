@@ -1,6 +1,6 @@
 angular
 
-.module('whatif.controllers')
+.module('whatif.Profilecontrollers',[])
 
 .controller('ProfileCtrl', ProfileCtrl)
 .controller('PrfViewCtrl', PrfViewCtrl)

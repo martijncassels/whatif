@@ -1,6 +1,14 @@
-angular.module('whatif').factory('AuthService',
-  ['$q', '$timeout', '$http',
-  function ($q, $timeout, $http) {
+'use strict';
+
+angular
+
+.module('whatif.AuthService')
+
+.factory('AuthService',AuthService);
+
+AuthService.$inject = ['$q', '$timeout', '$http'];
+
+function AuthService($q, $timeout, $http) {
 
     // create user variable
     var user = null;
@@ -128,4 +136,4 @@ angular.module('whatif').factory('AuthService',
 
     }
 
-}]);
+}

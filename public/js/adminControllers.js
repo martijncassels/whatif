@@ -1,7 +1,16 @@
+'use strict';
+
 angular
 
 .module('whatif.controllers')
-.filter('isObj', function () {
+
+.filter('isObj', isObj)
+.controller('AdminCtrl', AdminCtrl);
+
+// Inject my dependencies
+AdminCtrl.$inject = ['$scope', '$http', '$routeParams'];
+
+function isObj() {
         var bar;
         return function (obj) {
             for (bar in obj) {
@@ -11,12 +20,7 @@ angular
             }
             return true;
         };
-    })
-.controller('AdminCtrl', AdminCtrl);
-
-// Inject my dependencies
-AdminCtrl.$inject = ['$scope', '$http', '$routeParams'];
-
+    }
 // Now create our controller function with all necessary logic
 function AdminCtrl($scope, $http, $routeParams) {
 	var vm = this;
@@ -42,7 +46,7 @@ function AdminCtrl($scope, $http, $routeParams) {
                             max: (Math.ceil(_.max(vm.data)*1.05)), //+5% and round up for sake of chart's range
                             //max: 6,
                             stepSize: Math.round(_.max(vm.data)/5) // max value / 5 for nice grid lines
-                        } 
+                        }
                     }]
                 }
             };

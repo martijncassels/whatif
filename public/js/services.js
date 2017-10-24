@@ -9,16 +9,25 @@ angular
 .module('whatif.services', [])
 
 .value('version', '0.3')
+.factory('broadcastService', broadcastService)
+.service('Search',Search)
+.factory('_', _)
+.factory('AuthService', AuthService);
 
-.factory('broadcastService', function($rootScope) {
+broadcastService.$inject = ['$rootScope'];
+Search.$inject = ['$http','broadcastService'];
+_.$inject = ['$window'];
+AuthService.$inject = ['$q', '$timeout', '$http'];
+
+function broadcastService($rootScope) {
     return {
       send: function(msg, data) {
           $rootScope.$broadcast(msg, data);
       }
     }
-})
+}
 
-.service('Search',function($http,broadcastService){
+function Search($http,broadcastService){
 	var vm = {};
 	return {
 		setResults: function(searchForm) {
@@ -50,13 +59,13 @@ angular
 			return $http.get('/api/frontpage')
 		}
 	}
-})
-.factory('_', ['$window', function($window) {
+}
+
+function _($window) {
   return $window._; // assumes underscore has already been loaded on the page
-}])
-.factory('AuthService',
-  ['$q', '$timeout', '$http',
-  function ($q, $timeout, $http) {
+}
+
+function AuthService($q, $timeout, $http) {
 
     // create user variable
     var user = null;
@@ -191,5 +200,4 @@ angular
       // return promise object
       return deferred.promise;
     }
-}])
-;
+}

@@ -14,10 +14,13 @@ var express 	      = require('express'),
   	path 		        = require('path'),
     cookieParser    = require('cookie-parser'),
     bodyParser      = require('body-parser'),
-    //expressSession  = require('express-session'),
     passport        = require('passport'),
-    localStrategy   = require('passport-local' ).Strategy;
-    mongoose        = require('mongoose');
+    localStrategy   = require('passport-local' ).Strategy,
+    mongoose        = require('mongoose'),
+    compression     = require('compression'),
+    UglifyJS        = require("uglify-js"),
+    fs              = require('fs'),
+    serveStatic     = require('serve-static');
 const session       = require('express-session'),
     MongoStore      = require('connect-mongo')(session);
 
@@ -36,7 +39,7 @@ process.on('SIGINT', function() {
     console.log('Mongoose default connection disconnected through app termination');
     process.exit(0);
   });
-}); 
+});
 
 var Profile = require('./models/profiles');
 
@@ -60,10 +63,40 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
+app.use(compression());
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(__dirname+'/public', { maxage: '1d' }));
+
+app.get('/css/*',express.static('public',{maxAge:7*86400000}));
+app.get('/js/lib/*',express.static('public',{maxAge:7*86400000}));
+app.get('/js/*',express.static('public',{maxAge:1*86400000}));
+app.get('/font-awesome-4.7.0/*',express.static('public',{maxAge:30*86400000}));
+app.get('/favicon.ico',express.static('public',{maxAge:30*86400000}));
+
+function setCustomCacheControl(res, path) {
+  if (serveStatic.mime.lookup(path) === 'text/html') {
+    // Custom Cache-Control for HTML files
+    res.setHeader('Cache-Control', 'public, max-age=0')
+  }
+}
+app.use(serveStatic(__dirname + '/public/css/', {
+  maxAge: '7d',
+  setHeaders: setCustomCacheControl
+}))
+
+app.use(serveStatic(__dirname + '/font-awesome-4.7.0/', {
+  maxAge: '7d',
+  setHeaders: setCustomCacheControl
+}))
+
+app.use(serveStatic(__dirname + '/public/js/', {
+  maxAge: '7d',
+  setHeaders: setCustomCacheControl
+}))
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -138,6 +171,44 @@ app.get('/status', routes.status);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
+
+// Minify all JS + CSS with UglifyJS
+/*
+var fileContents = ['./public/js/services.js',
+'./public/js/controllers.js',
+'./public/js/loginControllers.js',
+'./public/js/messageControllers.js',
+'./public/js/profileControllers.js',
+'./public/js/factoryControllers.js',
+'./public/js/adminControllers.js',
+'./public/js/filters.js',
+'./public/js/directives.js'].map(function (file) {
+    return fs.readFileSync(file, 'utf8');
+});
+var options = {
+    mangle: {
+        properties: true,
+    },
+    warnings: true
+};
+var result = UglifyJS.minify(fileContents,options);
+
+if (result.warnings) {
+    console.error("Warning when minifying: " + result.warnings);
+}
+
+if (result.error) {
+    console.error("Error minifying: " + result.error);
+}
+
+fs.writeFile("./public/js/app.min.js", result.code, function (err) {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("File was successfully saved.");
+    }
+});
+*/
 
 /**
 * Start Server
