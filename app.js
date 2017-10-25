@@ -67,8 +67,9 @@ app.use(compression());
 
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(express.static(path.join(__dirname, 'public')));
-//app.use(express.static(__dirname+'/public', { maxage: '1d' }));
+//app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public/css'), { maxAge: '1d' }));
+//app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1d' }));
 
 
 
@@ -82,7 +83,35 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
+var oneWeek = 60 * 1000 * 60 * 24 * 7;
+var oneDay = 60 * 1000 * 60 * 24;
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneWeek }));
+
+// app.use(serveStatic(__dirname + '/public/js/lib', {
+//   maxAge: oneWeek,
+//   setHeaders: setCustomCacheControl
+// }))
+// app.use(serveStatic(__dirname + '/public/js', {
+//   maxAge: oneDay,
+//   setHeaders: setCustomCacheControl
+// }))
+// app.use(serveStatic(__dirname + '/public/font-awesome-4.7.0', {
+//   maxAge: oneWeek,
+//   setHeaders: setCustomCacheControl
+// }))
+// app.use(serveStatic(__dirname + '/public/css', {
+//   maxAge: oneWeek,
+//   setHeaders: setCustomCacheControl
+// }))
+// app.use(serveStatic(__dirname + '/public/bootstrap', {
+//   maxAge: oneWeek,
+//   setHeaders: setCustomCacheControl
+// }))
+// app.use(serveStatic(__dirname + '/public', {
+//   maxAge: oneDay,
+//   setHeaders: setCustomCacheControl
+// }))
+
 app.use(app.router);
 
 // configure passport
@@ -146,72 +175,15 @@ app.get('/status', routes.status);
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 
-// Minify all JS + CSS with UglifyJS
-/*
-var fileContents = ['./public/js/services.js',
-'./public/js/controllers.js',
-'./public/js/loginControllers.js',
-'./public/js/messageControllers.js',
-'./public/js/profileControllers.js',
-'./public/js/factoryControllers.js',
-'./public/js/adminControllers.js',
-'./public/js/filters.js',
-'./public/js/directives.js'].map(function (file) {
-    return fs.readFileSync(file, 'utf8');
-});
-var options = {
-    mangle: {
-        properties: true,
-    },
-    warnings: true
-};
-var result = UglifyJS.minify(fileContents,options);
 
-if (result.warnings) {
-    console.error("Warning when minifying: " + result.warnings);
-}
-
-if (result.error) {
-    console.error("Error minifying: " + result.error);
-}
-
-fs.writeFile("./public/js/app.min.js", result.code, function (err) {
-    if (err) {
-        console.error(err);
-    } else {
-        console.log("File was successfully saved.");
-    }
-});
-*/
 // Need to review this code, breaks angular and API
 //
-app.get('/css/*',express.static('public',{maxAge:7*86400000}));
-app.get('/bootstrap/*',express.static('public',{maxAge:7*86400000}));
-app.get('/js/lib/*',express.static('public',{maxAge:7*86400000}));
-app.get('/js/*.js',express.static('public',{maxAge:1*86400000}));
-app.get('/font-awesome-4.7.0/*',express.static('public',{maxAge:30*86400000}));
-app.get('/favicon.ico',express.static('public',{maxAge:30*86400000}));
-
-function setCustomCacheControl(res, path) {
-  if (serveStatic.mime.lookup(path) === 'text/html') {
-    // Custom Cache-Control for HTML files
-    res.setHeader('Cache-Control', 'public, max-age=0')
-  }
-}
-app.use(serveStatic(__dirname + '/public/css/', {
-  maxAge: '7d',
-  setHeaders: setCustomCacheControl
-}))
-
-app.use(serveStatic(__dirname + '/public/font-awesome-4.7.0/', {
-  maxAge: '7d',
-  setHeaders: setCustomCacheControl
-}))
-
-app.use(serveStatic(__dirname + '/public/js/', {
-  maxAge: '7d',
-  setHeaders: setCustomCacheControl
-}))
+// app.get('/css/*',express.static('public',{maxAge:7*86400000}));
+// app.get('/bootstrap/*',express.static('public',{maxAge:7*86400000}));
+// app.get('/js/lib/*',express.static('public',{maxAge:7*86400000}));
+// app.get('/js/*.js',express.static('public',{maxAge:1*86400000}));
+// app.get('/font-awesome-4.7.0/*',express.static('public',{maxAge:30*86400000}));
+// app.get('/favicon.ico',express.static('public',{maxAge:30*86400000}));
 
 
 /**
@@ -221,3 +193,10 @@ app.use(serveStatic(__dirname + '/public/js/', {
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+function setCustomCacheControl (res, path) {
+  if (serveStatic.mime.lookup(path) === 'text/html') {
+    // Custom Cache-Control for HTML files
+    res.setHeader('Cache-Control', 'public, max-age=0')
+  }
+}
