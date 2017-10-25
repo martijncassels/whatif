@@ -85,7 +85,7 @@ exports.search = function(req, res) {
 
 // create messages and send back all messages after creation
 exports.postmessage = function(req, res) {
-
+    //console.log(req.body);
     //create a messages, information comes from AJAX request from Angular
     Messages.create({
     	title: 		req.body.title.$modelValue,
@@ -94,12 +94,17 @@ exports.postmessage = function(req, res) {
     	isparent: 	true,
     	isfactory: 	false,
     	iscomment: 	false
-    }, function(err, messages) {
-        if (err) res.send(err);
-        // get and return all the messages after you create another
-        Messages.find({isparent:true},function(err, messages) {
-            if (err) res.send(err);
+    }, function(err, message) {
+        if (err) res.send(err)
+        // // get and return all the messages after you create another
+        // //Messages.find({isparent:true},function(err, messages) {
+        Messages.paginate({isparent:true},{page:1,limit:10,sort:{creationdate:'desc'}})
+            //if (err) res.send(err);
+        .then(function(messages){
             res.json(messages);
+        })
+        .catch(function(err){
+          res.send(err);
         });
     });
     //mongoose.connection.close();
@@ -141,17 +146,12 @@ exports.updatemessage = function(req, res) {
 
 // delete a message
 exports.deletemessage = function(req, res) {
-    Messages.remove({
-        _id : req.params.id
-    }, function(err, messages) {
-        if (err)
-            res.send(err);
-
-        // get and return all the messages after you create another
-        Messages.find({isparent:true},function(err, messages) {
-          if (err) res.send(err);
-          res.json(messages);
-        });
+    var promise = Messages.remove({_id : req.params.id})
+    .then(function(data) {
+      res.json(data);
+    })
+    .catch(function(err){
+      res.send(err);
     });
     //mongoose.connection.close();
 }
@@ -239,7 +239,7 @@ exports.postcommentsingle = function(req, res) {
     });
 }
 
-// delete a comment
+// delete a comment and return single
 exports.deletecommentsingle = function(req, res) {
 
     var promise = Messages.findOne({'childs._id':req.params.id}).exec()

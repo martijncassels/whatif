@@ -183,26 +183,10 @@ function MsgViewCtrl($scope, $http, $routeParams, $location, AuthService) {
             console.log('Error: ' + data);
         });
 
-    // vm.createComment = function(id) {
-    //     $http.post('/api/comments/single/' + id, form)
-    //         .success(function(data) {
-    //             //console.log(vm);
-    //             form = {};
-    //             vm.form = {};
-    //             vm.message = data;
-    //         })
-    //         .error(function(data) {
-    //             console.log('Error: ' + data);
-    //         });
-
-    // };
-
     vm.createComment = function(child,id) {
-        if(child.form.$valid){
         $http.post('/api/comments/single/' + id, child.form)
             .success(function(data) {
-                $scope.form = {}; //need to get rid of this
-                //vm.message.form = {};
+                $scope.form = {};
                 child.form = {};
                 vm.message = data;
                 //console.log(data);
@@ -210,7 +194,19 @@ function MsgViewCtrl($scope, $http, $routeParams, $location, AuthService) {
             .error(function(data) {
                 console.log('Error: ' + data);
             });
-        }
+    };
+
+    // delete a message
+    vm.deleteMessage = function(id) {
+        $http.delete('/api/messages/' + id)
+            .success(function(data) {
+                //vm.message = data;
+                $location.path('/messages');
+                //console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
     };
 
     vm.deleteComment = function(id) {
@@ -230,11 +226,12 @@ function MsgNewCtrl($scope, $http, $routeParams,$location) {
     vm.formData = {};
 
     vm.createMessage = function() {
+      //console.log(vm.formData);
         if(vm.formData.$valid){
             $http.post('/api/messages', vm.formData)
                 .success(function(data) {
                     vm.formData = {}; // clear the form so our user is ready to enter another
-                    vm.messages = data;
+                    vm.messages = data.docs;
                     //console.log(data);
                     $location.path('/messages');
                 })

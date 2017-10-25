@@ -10,7 +10,7 @@ angular
 .controller('SearchCtrl', SearchCtrl);
 
 MainCtrl.$inject = ['$scope','AuthService'];
-AppCtrl.$inject = ['$scope','$rootScope','$http', 'Search'];
+AppCtrl.$inject = ['$scope','$rootScope','$http', 'Search', '$location'];
 SearchCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'Search', 'AuthService'];
 
 function MainCtrl($scope,AuthService) {
@@ -21,7 +21,7 @@ function MainCtrl($scope,AuthService) {
     });
 }
 
-function AppCtrl($scope,$rootScope,$http,Search) {
+function AppCtrl($scope,$rootScope,$http,Search,$location) {
   	var vm = this;
     vm.currentpage = 1;
     vm.limit = 10;
@@ -80,7 +80,11 @@ function AppCtrl($scope,$rootScope,$http,Search) {
                     vm.formmodel = {};
                     vm.formData.$setPristine();
                     vm.formData.$setUntouched();  // clear the form so our user is ready to enter another
-                    vm.messages = data;
+                    //vm.messages = data;
+                    vm.messages = data.docs;
+                    vm.currentpage = data.page;
+                    vm.totalmsgs = data.total;
+                    vm.totalpages = data.pages;
                     //console.log(data);
                 })
                 .error(function(data) {
@@ -92,8 +96,9 @@ function AppCtrl($scope,$rootScope,$http,Search) {
     // delete a message
     vm.deleteMessage = function(id) {
         $http.delete('/api/messages/' + id)
-            .success(function(data) {
-                vm.messages = data;
+            .success(function() {
+                //vm.messages = data;
+                $location.path('/messages');
                 //console.log(data);
             })
             .error(function(data) {

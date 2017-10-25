@@ -70,32 +70,6 @@ app.use(passport.session());
 // app.use(express.static(path.join(__dirname, 'public')));
 //app.use(express.static(__dirname+'/public', { maxage: '1d' }));
 
-app.get('/css/*',express.static('public',{maxAge:7*86400000}));
-app.get('/js/lib/*',express.static('public',{maxAge:7*86400000}));
-app.get('/js/*',express.static('public',{maxAge:1*86400000}));
-app.get('/font-awesome-4.7.0/*',express.static('public',{maxAge:30*86400000}));
-app.get('/favicon.ico',express.static('public',{maxAge:30*86400000}));
-
-function setCustomCacheControl(res, path) {
-  if (serveStatic.mime.lookup(path) === 'text/html') {
-    // Custom Cache-Control for HTML files
-    res.setHeader('Cache-Control', 'public, max-age=0')
-  }
-}
-app.use(serveStatic(__dirname + '/public/css/', {
-  maxAge: '7d',
-  setHeaders: setCustomCacheControl
-}))
-
-app.use(serveStatic(__dirname + '/font-awesome-4.7.0/', {
-  maxAge: '7d',
-  setHeaders: setCustomCacheControl
-}))
-
-app.use(serveStatic(__dirname + '/public/js/', {
-  maxAge: '7d',
-  setHeaders: setCustomCacheControl
-}))
 
 
 // all environments
@@ -209,6 +183,36 @@ fs.writeFile("./public/js/app.min.js", result.code, function (err) {
     }
 });
 */
+// Need to review this code, breaks angular and API
+//
+app.get('/css/*',express.static('public',{maxAge:7*86400000}));
+app.get('/bootstrap/*',express.static('public',{maxAge:7*86400000}));
+app.get('/js/lib/*',express.static('public',{maxAge:7*86400000}));
+app.get('/js/*.js',express.static('public',{maxAge:1*86400000}));
+app.get('/font-awesome-4.7.0/*',express.static('public',{maxAge:30*86400000}));
+app.get('/favicon.ico',express.static('public',{maxAge:30*86400000}));
+
+function setCustomCacheControl(res, path) {
+  if (serveStatic.mime.lookup(path) === 'text/html') {
+    // Custom Cache-Control for HTML files
+    res.setHeader('Cache-Control', 'public, max-age=0')
+  }
+}
+app.use(serveStatic(__dirname + '/public/css/', {
+  maxAge: '7d',
+  setHeaders: setCustomCacheControl
+}))
+
+app.use(serveStatic(__dirname + '/public/font-awesome-4.7.0/', {
+  maxAge: '7d',
+  setHeaders: setCustomCacheControl
+}))
+
+app.use(serveStatic(__dirname + '/public/js/', {
+  maxAge: '7d',
+  setHeaders: setCustomCacheControl
+}))
+
 
 /**
 * Start Server
