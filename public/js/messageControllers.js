@@ -159,8 +159,13 @@ function MsgUpdateCtrl($scope, $http, $routeParams) {
     vm.updateComment = function(id) {
         $http.put('/api/comments/' + id , $scope.form)
             .success(function(data) {
+              if (data.kind) {
+                vm.error = 'Message or comment could not be updated!';
+              }
+              else {
                 $scope.form = data; //need to get rid of this
                 vm.success = 'done updating message!';
+              }
             })
             .error(function(data) {
                 vm.error = 'error updating message!';
@@ -177,9 +182,11 @@ function MsgViewCtrl($scope, $http, $routeParams, $location, AuthService) {
 
     $http.get('/api/messages/' + $routeParams.entity + '/' + $routeParams.id)
         .success(function(data) {
-            vm.message = data;
+            console.log(data);
+            (data.kind) ? vm.error = 'Message or comment not found!' : vm.message = data;
         })
         .error(function(data) {
+            vm.error = data;
             console.log('Error: ' + data);
         });
 
@@ -188,7 +195,7 @@ function MsgViewCtrl($scope, $http, $routeParams, $location, AuthService) {
             .success(function(data) {
                 $scope.form = {};
                 child.form = {};
-                vm.message = data;
+                (data.kind) ? vm.error = 'Comment not be created!' : vm.message = data;
                 //console.log(data);
             })
             .error(function(data) {
@@ -212,7 +219,7 @@ function MsgViewCtrl($scope, $http, $routeParams, $location, AuthService) {
     vm.deleteComment = function(id) {
         $http.delete('/api/comments/single/' + id)
             .success(function(data) {
-                vm.message = data;
+                (data.kind) ? vm.error = 'Comment could not be deleted!' : vm.message = data;
                 //$location.path('/messages');
             })
             .error(function(data) {
@@ -231,7 +238,7 @@ function MsgNewCtrl($scope, $http, $routeParams,$location) {
             $http.post('/api/messages', vm.formData)
                 .success(function(data) {
                     vm.formData = {}; // clear the form so our user is ready to enter another
-                    vm.messages = data.docs;
+                    (data.kind) ? vm.error = 'Message could not be created!' : vm.message = data;
                     //console.log(data);
                     $location.path('/messages');
                 })

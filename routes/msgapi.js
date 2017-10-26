@@ -41,7 +41,7 @@ exports.single = function(req, res) {
     }
     if(req.params.entity=='comment') {
         //Messages.findByIdAndUpdate({'_id': req.params.id},{$inc: {'hits':1}});
-        var promise = Messages.findOne({'childs._id':req.params.id}).exec() //only parent messages, no comments
+        var promise = Messages.findById({'childs._id':req.params.id}).exec() //only parent messages, no comments
     }
         promise.then(function(message) {
 			      (req.params.entity=='message') ? res.json(message) : res.json(message.childs.id(req.params.id));

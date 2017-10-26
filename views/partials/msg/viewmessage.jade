@@ -5,7 +5,11 @@ div(class='btn-group',role='group',aria-label='Basic Example')
 		i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Back to message view').fa.fa-arrow-left
 br
 br
-div(class='card')
+div(ng-show='vm.success',class="alert alert-success",role="alert")
+	strong Well done! {{vm.success}}
+div(ng-show='vm.error',class="alert alert-danger",role="alert")
+	strong Oh no! {{vm.error}}
+div(class='card',ng-show='vm.message')
 	h3.card-header.text-center Featured 
 	.card-block.justify-content-end
 		.d-flex.flex-row
