@@ -57,7 +57,10 @@ function Search($http,broadcastService){
 		getFrontPage: function() {
 			// Frontpage function; just certain messages (with attr isfrontpage=true)
 			return $http.get('/api/frontpage')
-		}
+		},
+    getCount: function(){
+      return $http.get('/api/messages/count')
+    }
 	}
 }
 

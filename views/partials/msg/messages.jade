@@ -11,6 +11,14 @@ script(id='pagination.html',type='text/ng-template')
 		li(role="menuitem",ng-if="::boundaryLinks",ng-class="{disabled: noNext()||ngDisabled}").page-item
 			button(ng-click="selectPage(totalPages,$event)",ng-disabled="noNext()||ngDisabled",uib-tabindex-toggle).page-link {{::getText('last')}}
 ul(uib-pagination,ng-change="pageChanged()",total-items='vm.totalmsgs',ng-model='vm.currentpage',rotate='true',force-ellipses='true',max-size='maxSize',class='pagination-sm',boundary-links='true',template-url='pagination.html')
+//- nav(aria-label="Page navigation example")
+//- 	ul.pagination.pagination-sm
+//- 		li.page-item
+//- 			a(href="#").page-link Previous1
+//- 		li.page-item
+//- 			a(href="#").page-link Previous2
+//- 		li.page-item
+//- 			a(href="#").page-link Previous3
 div(class='card',ng-repeat='message in vm.messages | filter:search.text')
 	h3.card-header.text-center Featured
 	.card-block.justify-content-end

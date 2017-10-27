@@ -182,7 +182,6 @@ function MsgViewCtrl($scope, $http, $routeParams, $location, AuthService) {
 
     $http.get('/api/messages/' + $routeParams.entity + '/' + $routeParams.id)
         .success(function(data) {
-            console.log(data);
             (data.kind) ? vm.error = 'Message or comment not found!' : vm.message = data;
         })
         .error(function(data) {

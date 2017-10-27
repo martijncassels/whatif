@@ -30,6 +30,9 @@ function AppCtrl($scope,$rootScope,$http,Search,$location) {
     vm.formmodel = {};
     vm.searchForm = {};
 
+    // Search.getCount().success(function(data){
+    //   vm.totalmsgs = data;
+    // })
 
     Search.getResults(vm.currentpage-1,vm.limit)
     .success(function(data){

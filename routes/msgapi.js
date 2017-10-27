@@ -1,6 +1,6 @@
 var Messages = require('../models/messages.js');
 var mongoose = require('mongoose');
-//var JSONStream = require('JSONStream');
+var JSONStream = require('JSONStream');
 
 /*
  * Serve JSON to our AngularJS client
@@ -8,8 +8,7 @@ var mongoose = require('mongoose');
 
 // get all messages
 exports.getall = function(req, res) {
-    //console.log(req.params.page);
-    //console.log(req.params.limit);
+
     var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{creationdate:'desc'}}) //only parent messages, no comments
 
     .then(function(messages) {
@@ -24,14 +23,24 @@ exports.getall = function(req, res) {
     })
 
 }
+// experimental pipe stream
+exports.getall2 = function(req, res, next) {
 
-// exports.getall = function(req, res, next) {
-//       Messages.find({isparent:true})
-//         .cursor()
-//         //.pipe(res.type('json'))
-//         .pipe(JSONStream.stringify())
-//         .pipe(res)
-//     }
+      Messages.find({isparent:true})
+        // .skip(Number(req.params.page)*10)
+        // .limit(Number(req.params.limit))
+        .cursor()
+        //.pipe(res.type('json'))
+        .pipe(JSONStream.stringify())
+        .pipe(res)
+    }
+
+exports.count = function(req, res, next){
+    Messages.count({isparent:true}, function(err,count){
+      if(err) console.log(err);
+      res.json(count);
+    })
+}
 
 // get a single message
 exports.single = function(req, res) {
