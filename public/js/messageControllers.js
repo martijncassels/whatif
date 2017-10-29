@@ -279,7 +279,7 @@ function MsgFrontPageCtrl($scope, $http, $routeParams,$location, AuthService, Se
     vm.addSlide = function(data) {
     var newWidth = 600 + slides.length + 1;
     slides.push({
-      image: '//unsplash.it/g/' + newWidth + '/300',
+      image: '//picsum.photos/g/' + newWidth + '/300',
       text: ['Nice image','Awesome photograph','That is so cool'][slides.length % 4],
       // text: data.title,
       id: currIndex++
