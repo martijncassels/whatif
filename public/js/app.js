@@ -2,6 +2,7 @@
 
 var whatif = angular.module('whatif',[
     'ngRoute',
+    'ngTouch',
     'whatif.controllers',
     'whatif.Logincontrollers',
     'whatif.Factorycontrollers',

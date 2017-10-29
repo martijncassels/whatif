@@ -252,11 +252,19 @@ function MsgNewCtrl($scope, $http, $routeParams,$location) {
 function MsgFrontPageCtrl($scope, $http, $routeParams,$location, AuthService, Search) {
     var vm = this;
     vm.isLoggedIn = AuthService.isLoggedIn();
+    vm.myInterval = 5000;
+    vm.noWrapSlides = false;
+    vm.active = 0;
+    var slides = vm.slides = [];
+    var currIndex = 0;
 
     Search.getFrontPage()
     .success(function(data){
         //console.log(data);
         vm.messages = data;
+        // for (var i = 0; i < data.length; i++) {
+        //   vm.addSlide(data[i]);
+        // }
     })
     .error(function(err){
         console.log(err);
@@ -268,11 +276,55 @@ function MsgFrontPageCtrl($scope, $http, $routeParams,$location, AuthService, Se
         // args is the search results
     });
 
-    // $http.get('/api/frontpage')
-    //     .success(function(data){
-    //         vm.messages = data;
-    //     })
-    //     .error(function(data){
-    //         console.log('Error: ' + data);
-    //     });
+    vm.addSlide = function(data) {
+    var newWidth = 600 + slides.length + 1;
+    slides.push({
+      image: '//unsplash.it/g/' + newWidth + '/300',
+      text: ['Nice image','Awesome photograph','That is so cool'][slides.length % 4],
+      // text: data.title,
+      id: currIndex++
+    });
+  };
+
+  vm.randomize = function() {
+    var indexes = generateIndexesArray();
+    assignNewIndexesToSlides(indexes);
+  };
+
+  for (var i = 0; i < 3; i++) {
+    vm.addSlide();
+  }
+
+  // Randomize logic below
+
+  function assignNewIndexesToSlides(indexes) {
+    for (var i = 0, l = slides.length; i < l; i++) {
+      slides[i].id = indexes.pop();
+    }
+  }
+
+  function generateIndexesArray() {
+    var indexes = [];
+    for (var i = 0; i < currIndex; ++i) {
+      indexes[i] = i;
+    }
+    return shuffle(indexes);
+  }
+
+  // http://stackoverflow.com/questions/962802#962890
+  function shuffle(array) {
+    var tmp, current, top = array.length;
+
+    if (top) {
+      while (--top) {
+        current = Math.floor(Math.random() * (top + 1));
+        tmp = array[current];
+        array[current] = array[top];
+        array[top] = tmp;
+      }
+    }
+
+    return array;
+  }
+
 }

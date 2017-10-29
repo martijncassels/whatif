@@ -1,3 +1,24 @@
+script(type="text/ng-template",id="customTemplate.html")
+	ol(ng-show="slides.length > 1").carousel-indicators
+		li(data-slide-to="{{$index}}",data-target="#carouselExampleIndicators",ng-repeat="slide in slides | orderBy:indexOfSlide track by $index",ng-class="{ active: isActive(slide) }",ng-click="select(slide)")
+	div(ng-transclude).carousel-inner
+	a(role="button",href="#carouselExampleIndicators",data-slide='prev',ng-class="{ disabled: isPrevDisabled() }",ng-show="slides.length > 1").carousel-control-prev
+		span(aria-hidden="true").carousel-control-prev-icon
+		span.sr-only previous
+	a(role="button",href="#carouselExampleIndicators",data-slide='next',ng-class="{ disabled: isNextDisabled() }",ng-show="slides.length > 1").carousel-control-next
+		span(aria-hidden="true").carousel-control-next-icon
+		span.sr-only next
+script(type="text/ng-template",id="customSlideTemplate.html")
+	div(ng-transclude,ng-class="{ active: isActive(slide) }")
+.row
+	.container-fluid
+		div(uib-carousel,id="carouselExampleIndicators",data-ride="carousel",active='vm.active',interval='vm.myInterval',no-wrap='vm.noWrapSlides',template-url='customTemplate.html').carousel.slide
+			div(uib-slide,ng-repeat='slide in vm.slides track by slide.id',index='slide.id',template-url='customSlideTemplate.html').carousel-item
+				img(ng-src='{{slide.image}}').d-block.w-100.rounded
+				.carousel-caption.d-none.d-md-block
+					//- h4 Slide {{slide.id}}
+					//- p {{slide.text}}
+					h4 {{vm.messages[$index].title}}
 .row
 	div(ng-repeat='message in vm.messages').col-md-4
 		.h2 {{message.title}}

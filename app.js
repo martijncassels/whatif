@@ -86,6 +86,7 @@ app.use(express.methodOverride());
 var oneWeek = 60 * 1000 * 60 * 24 * 7;
 var oneDay = 60 * 1000 * 60 * 24;
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneWeek }));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use(serveStatic(__dirname + '/public/js/lib', {
 //   maxAge: oneWeek,
