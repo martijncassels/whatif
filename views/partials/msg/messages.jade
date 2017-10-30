@@ -19,9 +19,13 @@ ul(uib-pagination,ng-change="pageChanged()",total-items='vm.totalmsgs',ng-model=
 //- 			a(href="#").page-link Previous2
 //- 		li.page-item
 //- 			a(href="#").page-link Previous3
-div(class='card',ng-repeat='message in vm.messages | filter:search.text')
-	h3.card-header.text-center Featured
-	.card-block.justify-content-end
+div(class='card mb-3',ng-repeat='message in vm.messages | filter:search.text')
+	h3(ng-show='message.isadvert').card-header.text-center Advert
+	div(ng-show='message.isadvert').card-block.justify-content-end
+		.d-flex.flex-row
+		p(class='card-text') advert body
+	h3(ng-hide='message.isadvert').card-header.text-center Featured
+	div(ng-hide='message.isadvert').card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
 				h4(ng-bind-html="message.title | highlight:vm.searchvalue").card-title {{message.title}}
@@ -51,7 +55,7 @@ div(class='card',ng-repeat='message in vm.messages | filter:search.text')
 						button(type='button',data-dismiss='modal').btn.btn-secondary Cancel
 						button(ng-click='vm.deleteMessage(message._id)',value='button',data-dismiss='modal').btn.btn-primary Delete item
 		//- end of modal
-	div(ng-repeat='child in message.childs').card-footer.text-muted.justify-content-end
+	div(ng-hide='message.isadvert',ng-repeat='child in message.childs').card-footer.text-muted.justify-content-end
 			.d-flex.flex-row
 				.mr-auto.p-2
 					p(ng-show='child.title') title: {{child.title}}
@@ -77,9 +81,9 @@ div(class='card',ng-repeat='message in vm.messages | filter:search.text')
 							button(type='button',data-dismiss='modal').btn.btn-secondary Cancel
 							button(ng-click='vm.deleteComment(child._id)',value='button',data-dismiss='modal').btn.btn-primary Delete item
 			//- end of modal
-	.card-footer.text-muted
+	div(ng-hide='message.isadvert').card-footer.text-muted
 		include ../forms/commentForm.jade
-hr
+br
 .container
 	include ../forms/messageForm.jade
 div(id='exampleModal',tabindex='-1',role='dialog',aria-labelledby='exampleModalLabel',aria-hidden='true').modal.fade

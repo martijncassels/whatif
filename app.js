@@ -20,7 +20,8 @@ var express 	      = require('express'),
     compression     = require('compression'),
     UglifyJS        = require("uglify-js"),
     fs              = require('fs'),
-    serveStatic     = require('serve-static');
+    serveStatic     = require('serve-static'),
+    prerender       = require('prerender-node');
 const session       = require('express-session'),
     MongoStore      = require('connect-mongo')(session);
 
@@ -64,6 +65,7 @@ app.use(session({
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 app.use(compression());
+app.use(prerender).set('prerenderToken', 'BqPpr1l2l9hA7BZMZJGS');
 
 app.use(passport.initialize());
 app.use(passport.session());

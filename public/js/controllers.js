@@ -10,7 +10,7 @@ angular
 .controller('SearchCtrl', SearchCtrl);
 
 MainCtrl.$inject = ['$scope','AuthService'];
-AppCtrl.$inject = ['$scope','$rootScope','$http', 'Search', '$location'];
+AppCtrl.$inject = ['$scope','$rootScope','$http', 'Search', '$location', 'Advert'];
 SearchCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'Search', 'AuthService'];
 
 function MainCtrl($scope,AuthService) {
@@ -21,7 +21,7 @@ function MainCtrl($scope,AuthService) {
     });
 }
 
-function AppCtrl($scope,$rootScope,$http,Search,$location) {
+function AppCtrl($scope,$rootScope,$http,Search,$location,Advert) {
   	var vm = this;
     vm.currentpage = 1;
     vm.limit = 10;
@@ -34,10 +34,39 @@ function AppCtrl($scope,$rootScope,$http,Search,$location) {
     //   vm.totalmsgs = data;
     // })
 
+    // Advert.getAdvert().success(function(data){
+    //   vm.advert = data;
+    // })
+console.log($location.host());
     Search.getResults(vm.currentpage-1,vm.limit)
     .success(function(data){
+      if($location.host()=='whatif.martijncassels.nl') {
+        Advert.getAdvert().success(function(data){
+          vm.advert = data;
+        }).catch(function(err){
+          vm.error = err;
+        });
+      }
         //console.log(data);
         vm.messages = data.docs;
+        vm.messages.splice(4,0,{
+          '_id':null,
+          "__v":0,
+          "hits":0,
+          "isfrontpage":false,
+          "iscomment":false,
+          "isfactory":false,
+          "isadvert":true,
+          "tags":null,
+          "members":null,
+          "childs":null,
+          "isparent":true,
+          "lastupdate":new Date().toISOString(),
+          "creationdate":new Date().toISOString(),
+          "author":"",
+          "body":"",
+          "title":""
+        });
         vm.currentpage = data.page;
         vm.totalmsgs = data.total;
         vm.totalpages = data.pages;
@@ -46,7 +75,8 @@ function AppCtrl($scope,$rootScope,$http,Search,$location) {
         console.log(err);
     });
 
-    $scope.$on('search', function(event){
+    $scope.$on('search',
+     function(event){
         Search.getResults(vm.currentpage-1,vm.limit)
         .success(function(data){
             //console.log(data);

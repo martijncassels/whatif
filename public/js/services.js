@@ -12,12 +12,14 @@ angular
 .factory('broadcastService', broadcastService)
 .service('Search',Search)
 .factory('_', _)
-.factory('AuthService', AuthService);
+.factory('AuthService', AuthService)
+.factory('Advert', Advert);
 
 broadcastService.$inject = ['$rootScope'];
 Search.$inject = ['$http','broadcastService'];
 _.$inject = ['$window'];
 AuthService.$inject = ['$q', '$timeout', '$http'];
+Advert.$inject = ['$http'];
 
 function broadcastService($rootScope) {
     return {
@@ -203,4 +205,19 @@ function AuthService($q, $timeout, $http) {
       // return promise object
       return deferred.promise;
     }
-}
+  }
+
+    function Advert($http) {
+      return {
+    		getAdvert: function() {
+          var token = 'd25745a4e058f07a7cfc875f4aad2ff0',
+          domain = '999';
+          return $http({
+            method      : 'GET',
+            url         : 'https://api3.adsterratools.com/publisher/'+token+'/domain/'+domain+'/placements.json',
+            //data        : searchForm,
+            header      : { 'Content-Type': 'application/json','Access-Control-Allow-Origin': 'https://whatif.martijncassels.nl' }
+          })
+    		}
+      }
+    }

@@ -3,7 +3,7 @@ html(lang='en')
   head
     meta(charset='utf8')
     meta(name='viewport',content='width=device-width, initial-scale=1, maximum-scale=1')
-    meta(name="theme-color",content="#46bfbd")
+    meta(name="theme-color",content="#97bbcd")
     base(href='/')
     title Whatif..!
     //- link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
@@ -13,11 +13,15 @@ html(lang='en')
     //-<!-- Global site tag (gtag.js) - Google Analytics -->
     //- script(async,src='https://www.googletagmanager.com/gtag/js?id=UA-108274055-1')
     script(async,src='/js/lib/googleanalitics.js')
+    script(async,src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
     script.
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'UA-108274055-1');
+    script.
+      (adsbygoogle = window.adsbygoogle || [])
+      .push({google_ad_client:"ca-pub-9045959223020007",enable_page_level_ads: true});
 
     //- script(src='https://use.fontawesome.com/5d2314b8fb.js')
   body(ng-app='whatif')
