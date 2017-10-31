@@ -69,11 +69,6 @@ app.use(prerender).set('prerenderToken', 'BqPpr1l2l9hA7BZMZJGS');
 
 app.use(passport.initialize());
 app.use(passport.session());
-//app.use(express.static(path.join(__dirname, 'public')));
-//app.use(express.static(path.join(__dirname, 'public/css'), { maxAge: '1d' }));
-//app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1d' }));
-
-
 
 // all environments
 app.set('port', process.env.PORT || 3000);

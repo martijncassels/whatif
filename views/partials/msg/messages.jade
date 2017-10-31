@@ -23,7 +23,10 @@ div(class='card mb-3',ng-repeat='message in vm.messages | filter:search.text')
 	h3(ng-show='message.isadvert').card-header.text-center Advert
 	div(ng-show='message.isadvert').card-block.justify-content-end
 		.d-flex.flex-row
-		p(class='card-text') advert body
+			h4 {{message.title}}
+		p(class='card-text').text-center 
+			//- a(href='{{message.body}}',role="button").btn.btn-light Link to advert
+			//- button(type="button").btn.btn-light Light
 	h3(ng-hide='message.isadvert').card-header.text-center Featured
 	div(ng-hide='message.isadvert').card-block.justify-content-end
 		.d-flex.flex-row

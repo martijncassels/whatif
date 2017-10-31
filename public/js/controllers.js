@@ -40,13 +40,14 @@ function AppCtrl($scope,$rootScope,$http,Search,$location,Advert) {
 console.log($location.host());
     Search.getResults(vm.currentpage-1,vm.limit)
     .success(function(data){
-      if($location.host()=='whatif.martijncassels.nl') {
-        Advert.getAdvert().success(function(data){
-          vm.advert = data;
-        }).catch(function(err){
-          vm.error = err;
-        });
-      }
+      //if($location.host()=='whatif.martijncassels.nl') {
+      // if($location.host()=='localhost') {
+      //   Advert.getAdvert().success(function(data){
+      //     vm.adverts = data.items[0];
+      //   }).catch(function(err){
+      //     vm.error = err;
+      //   });
+      // }
         //console.log(data);
         vm.messages = data.docs;
         vm.messages.splice(4,0,{
@@ -64,6 +65,8 @@ console.log($location.host());
           "lastupdate":new Date().toISOString(),
           "creationdate":new Date().toISOString(),
           "author":"",
+          // "body":vm.adverts.direct_url,
+          // "title":vm.adverts.title
           "body":"",
           "title":""
         });
