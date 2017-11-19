@@ -1,6 +1,7 @@
 var Messages = require('../models/messages.js');
 var mongoose = require('mongoose');
 var JSONStream = require('JSONStream');
+var moment = require('moment');
 
 /*
  * Serve JSON to our AngularJS client
@@ -13,11 +14,17 @@ exports.getall = function(req, res) {
 
     .then(function(messages) {
       //console.log(messages);
+      for (var i=0;i<messages.docs.length;i++){
+        messages.docs[i].lastupdated = moment(messages.docs[i].lastupdate).fromNow();
+        if(messages.docs[i].childs){
+          for (var u=0;u<messages.docs[i].childs.length;u++){
+            //console.log('do we iterate? '+u);
+            messages.docs[i].childs[u].lastupdated = moment(messages.docs[i].childs[u].lastupdate).fromNow();
+          }
+        }
+      }
 	    res.json(messages);
     })
-    // .then(function(messages) {
-    //   mongoose.connection.close();
-    // })
     .catch(function(err){
       res.send(err);
     })
@@ -50,18 +57,22 @@ exports.single = function(req, res) {
     }
     if(req.params.entity=='comment') {
         //Messages.findByIdAndUpdate({'_id': req.params.id},{$inc: {'hits':1}});
-        var promise = Messages.findById({'childs._id':req.params.id}).exec() //only parent messages, no comments
+        var promise = Messages.findOne({'childs._id':req.params.id}).exec() //only parent messages, no comments
     }
-        promise.then(function(message) {
-			      (req.params.entity=='message') ? res.json(message) : res.json(message.childs.id(req.params.id));
-            //console.log(message);
-        })
-        // .then(function(messages) {
-        //     mongoose.connection.close();
-        // })
-        .catch(function(err){
-            res.send(err);
-        });
+    promise
+    .then(function(message) {
+      message.lastupdated = moment(message.lastupdate).fromNow();
+      if(message.childs){
+        for (var u=0;u<message.childs.length;u++){
+          message.childs[u].lastupdated = moment(message.childs[u].lastupdate).fromNow();
+        }
+      }
+			(req.params.entity=='message') ? res.json(message) : res.json(message.childs.id(req.params.id));
+    })
+    .catch(function(err){
+        res.send(err);
+        //res.render('error',err);
+    });
 }
 
 exports.search = function(req, res) {
@@ -157,7 +168,14 @@ exports.updatemessage = function(req, res) {
 exports.deletemessage = function(req, res) {
     var promise = Messages.remove({_id : req.params.id})
     .then(function(data) {
-      res.json(data);
+      // res.json(data);
+      var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{creationdate:'desc'}})
+      .then(function(messages){
+          res.json(messages);
+      })
+      .catch(function(err){
+          res.send(err);
+      });
     })
     .catch(function(err){
       res.send(err);
@@ -167,6 +185,7 @@ exports.deletemessage = function(req, res) {
 
 // add a comment
 exports.postcomment = function(req, res) {
+        console.log(req.body);
         var promise = Messages.findOneAndUpdate({'_id':req.params.id},
         	{$push: {"childs": {
         		title: 		req.body.title,
@@ -176,16 +195,23 @@ exports.postcomment = function(req, res) {
         		parent:     req.params.id,
         		iscomment: 	true,
       			isfactory: 	false,
+            lastupdate: new Date()
         	}}},
         	{safe: true, upsert: true, new: true}
         ).exec()
 
         promise.then(function(comments) {
-            // return all messages or just one?
-        	Messages.find({isparent:true},function(err, messages) {
-        		if (err) res.send(err)
-				    res.json(messages);
-			    });
+        	// Messages.find({isparent:true},function(err, messages) {
+        	// 	if (err) res.send(err)
+				  //   res.json(messages);
+			    // });
+          var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{creationdate:'desc'}})
+          .then(function(messages){
+              res.json(messages);
+          })
+          .catch(function(err){
+              res.send(err);
+          });
         })
         // .then(function(messages) {
         //   mongoose.connection.close();
@@ -205,9 +231,16 @@ exports.deletecomment = function(req, res) {
     	return comment.save();
     })
     .then(function(comment){
-    	Messages.find({isparent:true},function(err, messages) {
-    		if (err) res.send(err);
-			  res.json(messages);
+    	// Messages.find({isparent:true},function(err, messages) {
+    	// 	if (err) res.send(err);
+			//   res.json(messages);
+      // });
+      var promise = Messages.paginate({isparent:true},{page:Number(req.params.page)+1,limit:Number(req.params.limit),sort:{creationdate:'desc'}})
+      .then(function(messages){
+          res.json(messages);
+      })
+      .catch(function(err){
+          res.send(err);
       });
     })
     // .then(function(messages) {
@@ -299,6 +332,42 @@ exports.updatecomment = function(req, res) {
     // .then(function(messages) {
     //   mongoose.connection.close();
     // })
+    .catch(function(err){
+        res.send(err)
+    });
+}
+
+// update a message
+exports.addthumb = function(req, res) {
+
+    var promise = Messages.findOneAndUpdate( {_id: req.params.id}, { $addToSet: {thumbs: req.params.uid } } )
+    .then(function(messages){
+        Messages.paginate({isparent:true},{page:Number(req.params.page),limit:Number(req.params.limit),sort:{creationdate:'desc'}})
+        .then(function(messages){
+            res.json(messages);
+        })
+        .catch(function(err){
+          res.send(err);
+        });
+    })
+    .catch(function(err){
+        res.send(err)
+    });
+}
+
+// update a message
+exports.removethumb = function(req, res) {
+
+    var promise = Messages.findOneAndUpdate( {_id: req.params.id}, { $pullAll: {thumbs: [req.params.uid] } } )
+    .then(function(messages){
+        Messages.paginate({isparent:true},{page:Number(req.params.page),limit:Number(req.params.limit),sort:{creationdate:'desc'}})
+        .then(function(messages){
+            res.json(messages);
+        })
+        .catch(function(err){
+          res.send(err);
+        });
+    })
     .catch(function(err){
         res.send(err)
     });

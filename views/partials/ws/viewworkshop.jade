@@ -1,0 +1,127 @@
+//- header
+//-   nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
+//-     a.navbar-brand(href='#') Dashboard
+//-     button.navbar-toggler.d-lg-none(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
+//-       span.navbar-toggler-icon
+//-     #navbarsExampleDefault.collapse.navbar-collapse
+//-       ul.navbar-nav.mr-auto
+//-         li.nav-item.active
+//-           a.nav-link(href='#')
+//-             | Home
+//-             span.sr-only (current)
+//-         li.nav-item
+//-           a.nav-link(href='#') Settings
+//-         li.nav-item
+//-           a.nav-link(href='#') Profile
+//-         li.nav-item
+//-           a.nav-link(href='#') Help
+//-       form.form-inline.mt-2.mt-md-0
+//-         input.form-control.mr-sm-2(type='text', placeholder='Search', aria-label='Search')
+//-         button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
+
+block extraHeader
+		link(rel='stylesheet', href='/css/workshop.css')
+.container-fluid
+	.row
+		//- Sidebar
+		nav.col-sm-3.col-md-2.d-none.d-sm-block.bg-light.sidebar
+			ul.nav.nav-pills.flex-column
+				li.nav-item
+					a.nav-link.active(href='#')
+						| Overview
+						span.sr-only (current)
+				li.nav-item
+					a.nav-link(href='#') Reports
+				li.nav-item
+					a.nav-link(href='#') Analytics
+				li.nav-item
+					a.nav-link(href='#') Export
+			ul.nav.nav-pills.flex-column
+				li.nav-item
+					a.nav-link(href='#') Nav item
+				li.nav-item
+					a.nav-link(href='#') Nav item again
+				li.nav-item
+					a.nav-link(href='#') One more nav
+				li.nav-item
+					a.nav-link(href='#') Another nav item
+			ul.nav.nav-pills.flex-column
+				li.nav-item
+					a.nav-link(href='#') Nav item again
+				li.nav-item
+					a.nav-link(href='#') One more nav
+				li.nav-item
+					a.nav-link(href='#') Another nav item
+		main.col-sm-6.ml-sm-auto.col-md-8.pt-3(role='main')
+			h1 Dashboard {{vm.workshop.members.length}}
+			section.row.text-center.placeholders
+				//- div(ng-repeat='member in vm.workshop.members').col-6.col-sm-3.placeholder
+				//- 	img.img-fluid.rounded-circle(src='{{member.avatar.URL}}', width='200', height='200', alt='Generic placeholder thumbnail')
+				//- 	h4 {{member.username}}
+				//- 	.text-muted {{member.firstname}} {{member.lastname}}
+				.card-deck
+					div(ng-repeat='member in vm.workshop.workshop.members').card
+						img(class="card-img-top",src="{{member.avatar.URL}}",alt="Card image cap")
+						.card-block
+							h4.card-title {{member.username}}
+							p.card-text {{member.firstname}} {{member.lastname}}
+						.card-footer.text-muted
+							a(href='profiles/view/{{member._id}}').card-link profile
+			h2 Raw output
+			section.row.text-center.placeholders
+				.col-12.col-sm-12.placeholder
+					span.text-muted {{vm.workshop}}
+			h2 Messages
+			.table-responsive
+				table.table.table-striped
+					thead
+						tr
+							th #
+							th Title
+							th Author
+							th Header
+							th Header
+					tbody
+						tr(ng-repeat='message in vm.workshop.workshop.messages')
+							td 
+								a(href='messages/view/message/{{message._id}}') {{$index+1}}
+							td {{message.title}}
+							td {{message.author}}
+							td 
+							td 
+			h2 New Message
+			section.row.placeholders
+				.col-12.col-sm-12.placeholder
+					form(name='vm.formData',method='post',novalidate)
+						div(ng-class="{ 'has-danger' : vm.formData.title.$invalid && !vm.formData.title.$pristine , 'has-success' : vm.formData.title.$valid && !vm.formData.title.$pristine }").form-group
+							label.col-sm-2.col-form-label title
+							input(ng-class="{ 'form-control-danger' : vm.formData.title.$invalid && !vm.formData.title.$pristine , 'form-control-success' : vm.formData.title.$valid && !vm.formData.title.$pristine }",type='text',name='title',id='title',placeholder='title',ng-model='vm.formmodel.title',required,ng-minlength='3').form-control
+							div(ng-show='vm.formData.title.$invalid && !vm.formData.title.$pristine').form-control-feedback Title is required and a minimum of 3 characters.
+						div(ng-class="{ 'has-danger' : vm.formData.body.$invalid && !vm.formData.body.$pristine , 'has-success' : !vm.formData.body.$invalid && !vm.formData.body.$pristine }").form-group
+							label.col-sm-2.col-form-label body
+							input(ng-class="{ 'form-control-danger' : vm.formData.body.$invalid && !vm.formData.body.$pristine , 'form-control-success' : !vm.formData.body.$invalid && !vm.formData.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='vm.formmodel.body',required,ng-minlength='3').form-control
+							div(ng-show='vm.formData.body.$invalid && !vm.formData.body.$pristine').form-control-feedback Body is required and a minimum of 3 characters.
+						div(ng-class="{ 'has-danger' : vm.formData.author.$invalid && !vm.formData.author.$pristine , 'has-success' : !vm.formData.author.$invalid && !vm.formData.author.$pristine }").form-group
+							label.col-sm-2.col-form-label author
+							input(ng-class="{ 'form-control-danger' : vm.formData.author.$invalid && !vm.formData.author.$pristine , 'form-control-success' : !vm.formData.author.$invalid && !vm.formData.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='vm.formmodel.author',required,ng-minlength='3').form-control
+							div(ng-show='vm.formData.author.$invalid && !vm.formData.author.$pristine').form-control-feedback Author is required and a minimum of 3 characters.
+						.form-group
+							input(type='submit',value='submit',ng-disabled='vm.formData.$invalid',ng-click='vm.createMessage(vm.workshop.workshop._id)').btn.btn-sm.btn-primary
+		div.col-sm-3.col-md-2
+			h2 Side
+			// Form
+			.card.mb-3
+				.card-block
+					h3.card-title Main Stats
+					div(style='font-size:0.8em').card-text
+						p Creation Date: {{vm.workshop.workshop.creationdatepretty}}
+						p Last Updated: {{vm.workshop.workshop.lastupdatepretty}}
+						p Messages: {{vm.workshop.workshop.messages.length}}
+			.card.mb-3
+				.card-block
+					h3.card-title Own Stats
+					div(style='font-size:0.8em').card-text
+						p Your total messages: {{vm.workshop.counttotalmessages[0].count}}
+						p Your total comments: {{vm.workshop.counttotalcomments[0].count}}
+						p Your local messages: {{vm.workshop.countworkshopmessages[0].count}}
+						p Your local comments: {{vm.workshop.countworkshopcomments[0].count}}

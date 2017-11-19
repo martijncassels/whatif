@@ -1,32 +1,33 @@
 div(class='btn-group',role='group',aria-label='Basic Example')
-	a(ng-if='vm.message.isparent',href='messages/').btn.btn-sm.btn-primary
+	a(ng-if='vm.message.isparent',href='messages').btn.btn-sm.btn-primary
 		i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Back to messages').fa.fa-arrow-left
 	a(ng-if='vm.message.iscomment',href='messages/view/message/{{vm.message.parent}}').btn.btn-sm.btn-primary
 		i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Back to message view').fa.fa-arrow-left
 br
 br
 div(ng-show='vm.success',class="alert alert-success",role="alert")
-	strong Well done! {{vm.success}}
+	strong(style='white-space: pre;') Well done! {{vm.success}}
 div(ng-show='vm.error',class="alert alert-danger",role="alert")
-	strong Oh no! {{vm.error}}
+	strong(style='white-space: pre;') Oh no! {{vm.error}}
 div(class='card',ng-show='vm.message')
 	h3.card-header.text-center Featured 
 	.card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
 				h4.card-title {{vm.message.title}}
+				h6.card-subtitle.mb-2.text-muted {{vm.message.lastupdated}}
 				span.badge.badge-pill.badge-primary hits : {{vm.message.hits}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					//- a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary view 
-					a(ng-if='vm.message.isparent && vm.isLoggedIn',href='message/update/{{vm.message._id}}').btn.btn-sm.btn-primary
+					a(ng-if='vm.message.isparent && isLoggedIn && (vm.activeuser.username===vm.message.author)',href='message/update/{{vm.message._id}}').btn.btn-sm.btn-primary
 						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update message').fa.fa-pencil
-					a(ng-if='vm.message.iscomment && vm.isLoggedIn',href='comment/update/{{vm.message._id}}').btn.btn-sm.btn-primary
+					a(ng-if='vm.message.iscomment && isLoggedIn && (vm.activeuser.username===vm.message.author)',href='comment/update/{{vm.message._id}}').btn.btn-sm.btn-primary
 						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update comment').fa.fa-pencil
-					button(type='button',data-toggle='modal',data-target='#Modal{{vm.message._id}}',ng-if='vm.isLoggedIn').btn.btn-sm.btn-primary 
+					button(type='button',data-toggle='modal',data-target='#Modal{{vm.message._id}}',ng-if='isLoggedIn && (vm.activeuser.username===vm.message.author)').btn.btn-sm.btn-primary 
 						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
 		p(class='card-text') {{vm.message.body}}
-		a(href='#').btn.btn-primary Go somewhere
+		//- a(href='#').btn.btn-sm.btn-primary Go somewhere
 		//- Modal goes here
 		div(id='Modal{{vm.message._id}}',tabindex='-1',role='dialog',aria-labelledby='Modal{{vm.message._id}}Label',aria-hidden='true').modal.fade
 			div(role='document').modal-dialog
@@ -43,14 +44,18 @@ div(class='card',ng-show='vm.message')
 	div(ng-repeat='child in vm.message.childs').card-footer.text-muted.justify-content-end
 			.d-flex.flex-row
 				.mr-auto.p-2
-					p(ng-show='child.title') title: {{child.title}} {{child._id}}
+					p(ng-show='child.title') {{child.title}}
+						br
+						small.card-subtitle.mb-2.text-muted {{child.lastupdated}}
 				.p-2
 					div(class='btn-group',role='group',aria-label='Basic Example')
-						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}',ng-if='vm.isLoggedIn')
+						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}',ng-if='(isLoggedIn && (vm.activeuser.username===vm.message.author) || isLoggedIn && (vm.activeuser.username===child.author))')
 							i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update comment').fa.fa-pencil
-						button(type='button',data-toggle='modal',data-target='#Modal{{child._id}}',ng-if='vm.isLoggedIn').btn.btn-sm.btn-primary 
+						button(type='button',data-toggle='modal',data-target='#Modal{{child._id}}',ng-if='(isLoggedIn && (vm.activeuser.username===vm.message.author) || isLoggedIn && (vm.activeuser.username===child.author))').btn.btn-sm.btn-primary 
 							i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
-			p {{child.body}}
+			blockquote.blockquote
+				p.mb-0 {{child.body}}
+				footer.blockquote-footer {{child.author}}
 			//- Modal goes here
 			div(id='Modal{{child._id}}',tabindex='-1',role='dialog',aria-labelledby='Modal{{child._id}}Label',aria-hidden='true').modal.fade
 				div(role='document').modal-dialog

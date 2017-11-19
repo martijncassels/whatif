@@ -4,6 +4,8 @@ div(class='card')
 		.d-flex.flex-row
 			.mr-auto.p-2
 				h4.card-title Name: {{vm.factory.title}}
+				h6.card-title Owner: {{vm.factory.author}}
+				a(href='workshops/view/1') Go to workshop
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					//- a(href='factorys/view/factory/{{factory._id}}').btn.btn-sm.btn-primary view 
@@ -18,14 +20,19 @@ div(class='card')
 			li(ng-repeat='member in vm.factory.members')
 				a(href='/profiles/view/{{member._id}}') {{member.username}}
 	.card-footer.text-muted
-		p {{vm.totals}}
+		//- p {{vm.totals}}
 		.alert.alert-info
+			button(type="button",class="close",data-dismiss="alert",aria-label="Close").close
+				span(aria-hidden="true") &times;
 			p You'll need someone with {{vm.worst_skill.name}} skills!
 			P Hey, look at these winners in {{vm.worst_skill.name}}. They're not in a factory yet! *wink*wink*
 			ul
 				li(ng-repeat='profile in vm.prodigies')
-					a(href='/profiles/view/{{profile._id}}') {{profile.username}} (scores {{profile.skills.value}}!)
+					a(href='/profiles/view/{{profile._id}}') {{profile.username}} 
+					| (scores {{profile.skills.value}})
 		.alert.alert-info
+			button(type="button",class="close",data-dismiss="alert",aria-label="Close").close
+				span(aria-hidden="true") &times;
 			p Wow, you've a lot of people with {{vm.best_skill.name}} skills!
 		.container
 			.row.align-items-center

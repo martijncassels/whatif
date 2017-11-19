@@ -1,46 +1,54 @@
-div(ng-controller='SearchCtrl as vm',ng-cloak).navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
-  button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
-    span.navbar-toggler-icon
-  a(class='navbar-brand',href='home') Whatif! 
-    //- i(ng-class="{ 'fa fa-thumbs-o-up' : vm.isLoggedIn, 'fa fa-thumbs-o-down' : !vm.isLoggedIn }",aria-hidden="true")
-  div.collapse.navbar-collapse#navbarsExampleDefault
-    ul.navbar-nav.mr-auto
-      //- li.nav-item active
-      //-   a(href='#').nav-link
-      //-     span.sr-only (current)
-      //- li.nav-item
-      //-   a(href='messages').nav-link Messages
-      li.nav-item.dropdown
-        a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Messages
-        div(class='dropdown-menu',aria-labelledby='dropdown01')
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages/new').dropdown-item 
-            i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-plus 
-            | 
-            | New
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages').dropdown-item 
-            i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-files-o 
-            | 
-            | All
-          //- a(href='#').dropdown-item Something else
-      li.nav-item
-        a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='profiles').nav-link Profiles
-      li.nav-item
-        a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='factories').nav-link Factories
-      //- li.nav-item
-      //-   a(href='#').nav-link.disabled
-      li.nav-item.dropdown
-        a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown02 Your profile
-        div(class='dropdown-menu',aria-labelledby='dropdown02')
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-hide='vm.isLoggedIn',href='/login').dropdown-item Log in
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-show='vm.isLoggedIn',ng-click='vm.logout()').dropdown-item Log out
-          a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-hide='vm.isLoggedIn',href='/register').dropdown-item Register
-      //- li.nav-item.dropdown
-      //-   a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Empty
-      //-   div(class='dropdown-menu',aria-labelledby='dropdown03')
-      //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#',).dropdown-item Action
-      //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Another action
-      //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Something else
-    form(name='vm.searchForm',method='post',novalidate).form-inline.my-2.my-lg-0
-      p{{vm.title}}
-      input(type='text',name='value',id='value',placeholder='Search',ng-model='vm.searchvalue').form-control.mr-sm-2
-      input(data-toggle='collapse',data-target='#navbarsExampleDefault',type='submit',value='Search',ng-click='vm.onSearchClick(vm.searchForm)').btn.btn-outline-success.my-2.my-sm-0 Search
+header(ng-controller='SearchCtrl as vm',ng-cloak,ng-show='vm.templateurl!="partials/ws/viewworkshop1" && vm.templateurl!="partials/ws/viewworkshop2"')
+  div.navbar.navbar-toggleable-md.navbar-inverse.fixed-top.bg-inverse
+    button(type='button',data-toggle='collapse',data-target='#navbarsExampleDefault',aria-controls='navbarsExampleDefault',aria-expanded='false',aria-label='Toggle navigation').navbar-toggler.navbar-toggler-right
+      span.navbar-toggler-icon
+    a(class='navbar-brand',href='home') Whatif! 
+      //- i(ng-class="{ 'fa fa-thumbs-o-up' : vm.isLoggedIn, 'fa fa-thumbs-o-down' : !vm.isLoggedIn }",aria-hidden="true")
+    div.collapse.navbar-collapse#navbarsExampleDefault
+      ul.navbar-nav.mr-auto
+        //- li.nav-item active
+        //-   a(href='#').nav-link
+        //-     span.sr-only (current)
+        //- li.nav-item
+        //-   a(href='messages').nav-link Messages
+        li.nav-item.dropdown
+          a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Messages
+          div(class='dropdown-menu',aria-labelledby='dropdown01')
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages/new').dropdown-item 
+              i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-plus 
+              | 
+              | New
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='messages').dropdown-item 
+              i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update message").fa.fa-files-o 
+              | 
+              | All
+            //- a(href='#').dropdown-item Something else
+        li.nav-item
+          a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='profiles').nav-link Profiles
+        li.nav-item.dropdown
+          a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown03 Factories
+          div(class='dropdown-menu',aria-labelledby='dropdown03')
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='factories').dropdown-item Factories
+        li.nav-item.dropdown
+          a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown04 Workshops
+          div(class='dropdown-menu',aria-labelledby='dropdown04')
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='workshops/view/5a022566c8c6884e54750211/{{$parent.activeuser.username}}').dropdown-item Workshop
+        //- li.nav-item
+        //-   a(href='#').nav-link.disabled
+        li.nav-item.dropdown
+          a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown02 Your profile
+          div(class='dropdown-menu',aria-labelledby='dropdown02')
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-show='$parent.isLoggedIn',href='/profiles/view/{{$parent.activeuser.id}}').dropdown-item View Profile
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-hide='$parent.isLoggedIn',href='/login').dropdown-item Log in
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-show='$parent.isLoggedIn',ng-click='vm.logout()').dropdown-item Log out
+            a(data-toggle='collapse',data-target='#navbarsExampleDefault',ng-hide='$parent.isLoggedIn',href='/register').dropdown-item Register
+        //- li.nav-item.dropdown
+        //-   a(href='#',data-toggle='dropdown',aria-haspopup='true',aria-expanded='false').nav-link.dropdown-toggle#dropdown01 Empty
+        //-   div(class='dropdown-menu',aria-labelledby='dropdown03')
+        //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#',).dropdown-item Action
+        //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Another action
+        //-     a(data-toggle='collapse',data-target='#navbarsExampleDefault',href='#').dropdown-item Something else
+      form(name='vm.searchForm',method='post',novalidate).form-inline.my-2.my-lg-0
+        p{{vm.title}}
+        input(type='text',name='value',id='value',placeholder='Search',ng-model='vm.searchvalue').form-control.mr-sm-2
+        input(data-toggle='collapse',data-target='#navbarsExampleDefault',type='submit',value='Search',ng-click='vm.onSearchClick(vm.searchForm)').btn.btn-outline-success.my-2.my-sm-0 Search

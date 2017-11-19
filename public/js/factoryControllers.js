@@ -1,70 +1,62 @@
-// angular.module('myApp.controllers')
-
-// .controller('FactoryCtrl', ['$scope', '$http', '$routeParams',function($scope, $http, $routeParams) {
-
-// 	$http.get('/api/messages')
-//         .success(function(data) {
-//             $scope.name = 'Whatif...!';
-//             $rootScope.messages = data;
-//             console.log(data);
-//         })
-//         .error(function(data) {
-//             console.log('Error: ' + data);
-//         });
-// }]);
-
 angular
 
 .module('whatif.Factorycontrollers',[])
 
-// We are adding a function called Ctrl1
-// to the module we got in the line above
 .controller('FactoryCtrl', FactoryCtrl)
 .controller('FacViewCtrl', FacViewCtrl)
 .controller('FacUpdateCtrl',FacUpdateCtrl);
 
-// Inject my dependencies
-FactoryCtrl.$inject = ['$scope', '$http', '$routeParams'];
+FactoryCtrl.$inject = ['$scope', '$http', '$routeParams', 'AuthService'];
 FacViewCtrl.$inject = ['$scope', '$http', '$routeParams', '_'];
 FacUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
 
-// Now create our controller function with all necessary logic
-function FactoryCtrl($scope, $http, $routeParams) {
+function FactoryCtrl($scope, $http, $routeParams, AuthService) {
 	var vm = this;
 
-  	$http.get('/api/factories')
-        .success(function(data) {
-            vm.factories = data;
-            //console.log(data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        });
+	vm.activeuser = {};
 
-    vm.deleteFactory = function(id) {
-        $http.delete('/api/factories/' + id)
-            .success(function(data) {
-                vm.factories = data;
-                //console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
+	AuthService.getUserStatus().then(function(data){
+			if(AuthService.isLoggedIn()) {
+				vm.activeuser = data.data.user;
+			}
+	});
 
-    vm.createFactory = function() {
-        if(vm.formData.$valid){
-            $http.post('/api/factories', vm.formData)
-                .success(function(data) {
-                    vm.formData = {}; // clear the form so our user is ready to enter another
-                    vm.data = data;
-                    //console.log(data);
-                })
-                .error(function(data) {
-                    console.log('Error: ' + data);
-                });
-        }
-    };
+	$http.get('/api/factories')
+      .success(function(data) {
+          vm.factories = data;
+          //console.log(data);
+      })
+      .error(function(data) {
+          console.log('Error: ' + data);
+					vm.error = data;
+      });
+
+  vm.deleteFactory = function(id) {
+      $http.delete('/api/factories/' + id)
+          .success(function(data) {
+              vm.factories = data;
+              //console.log(data);
+          })
+          .error(function(data) {
+              console.log('Error: ' + data);
+							vm.error = data;
+          });
+  }
+
+  vm.createFactory = function() {
+      if(vm.formData.$valid){
+          $http.post('/api/factories', vm.formData)
+              .success(function(data) {
+                  vm.formData = {}; // clear the form so our user is ready to enter another
+                  vm.data = data;
+                  //console.log(data);
+              })
+              .error(function(data) {
+                  console.log('Error: ' + data);
+									vm.error = data;
+              });
+      }
+  }
 }
 
 function FacViewCtrl($scope, $http, $routeParams) {
@@ -131,8 +123,10 @@ function FacViewCtrl($scope, $http, $routeParams) {
             // get some data about skills you have or haven't
             vm.best_skill = _.max(vm.totals.skills,function(skill){ return skill.value});
             vm.worst_skill = _.min(vm.totals.skills,function(skill){ return skill.value});
-            console.log(vm.worst_skill);
+            //console.log('best skill: '+JSON.stringify(vm.best_skill));
+						//console.log('worst skill: '+JSON.stringify(vm.worst_skill));
 
+						// get those members with awesome skills needed for this factory AND are not in a factory yet!
             vm.prodigies = {};
             $http.get('/api/profiles/search_skill/'+vm.worst_skill.name)
             .success(function(data){
@@ -140,26 +134,14 @@ function FacViewCtrl($scope, $http, $routeParams) {
             })
             .error(function(err){
                 console.log(err);
+								vm.error = data;
             });
 
         })
         .error(function(data) {
             console.log('Error: ' + data);
+						vm.error = data;
         });
-
-
-    // when submitting the add form, send the text to the node API
-    // vm.createFactory = function() {
-    //     $http.post('/api/profiles', vm.formData)
-    //         .success(function(data) {
-    //             vm.formData = {}; // clear the form so our user is ready to enter another
-    //             vm.profiles = data;
-    //             //console.log(data);
-    //         })
-    //         .error(function(data) {
-    //             console.log('Error: ' + data);
-    //         });
-    // };
 
     // delete a factory
     vm.deleteFactory = function(id) {
@@ -169,6 +151,7 @@ function FacViewCtrl($scope, $http, $routeParams) {
             })
             .error(function(data) {
                 console.log('Error: ' + data);
+								vm.error = data;
             });
     };
 
@@ -184,15 +167,8 @@ function FacUpdateCtrl($scope, $http, $routeParams) {
         })
         .error(function(data) {
             console.log('Error: ' + data);
+						vm.error = data;
         });
-
-    // $http.get('/api/members')
-    //     .success(function(data) {
-    //         vm.members = data;
-    //     })
-    //     .error(function(data) {
-    //         console.log('Error: ' + data);
-    //     });
 
     vm.updateFactory = function(id) {
         //console.log($scope.formData8);

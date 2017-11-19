@@ -1,4 +1,4 @@
-div(ng-repeat='profile in profiles')
+div(ng-repeat='profile in vm.profiles')
 	.d-flex.flex-row
 		.mr-auto.p-2
 			img(src='{{profile.avatar.URL}}',alt='Card image cap').card-img-top.rounded-circle.img-fluid
@@ -7,9 +7,9 @@ div(ng-repeat='profile in profiles')
 			div(class='btn-group',role='group',aria-label='Basic Example')
 				a(href='profiles/view/{{profile._id}}').btn.btn-sm.btn-primary 
 					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="View profile").fa.fa-eye
-				a(class='btn btn-sm btn-primary',href='profile/update/{{profile._id}}',ng-if='isLoggedIn') 
+				a(class='btn btn-sm btn-primary',href='profile/update/{{profile._id}}',ng-if='$parent.$parent.isLoggedIn && vm.activeuser.username===profile.username') 
 					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Update profile").fa.fa-pencil
-				button(class='btn btn-sm btn-primary',ng-click='deleteProfile(profile._id)',value='button',ng-if='isLoggedIn') 
+				button(class='btn btn-sm btn-primary',ng-click='vm.deleteProfile(profile._id)',value='button',ng-if='$parent.$parent.isLoggedIn && vm.activeuser.username===profile.username') 
 					i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete profile").fa.fa-trash 
 	.d-flex.flex-row
 		.mr-auto.p-2

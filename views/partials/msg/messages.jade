@@ -11,14 +11,6 @@ script(id='pagination.html',type='text/ng-template')
 		li(role="menuitem",ng-if="::boundaryLinks",ng-class="{disabled: noNext()||ngDisabled}").page-item
 			button(ng-click="selectPage(totalPages,$event)",ng-disabled="noNext()||ngDisabled",uib-tabindex-toggle).page-link {{::getText('last')}}
 ul(uib-pagination,ng-change="pageChanged()",total-items='vm.totalmsgs',ng-model='vm.currentpage',rotate='true',force-ellipses='true',max-size='maxSize',class='pagination-sm',boundary-links='true',template-url='pagination.html')
-//- nav(aria-label="Page navigation example")
-//- 	ul.pagination.pagination-sm
-//- 		li.page-item
-//- 			a(href="#").page-link Previous1
-//- 		li.page-item
-//- 			a(href="#").page-link Previous2
-//- 		li.page-item
-//- 			a(href="#").page-link Previous3
 div(class='card mb-3',ng-repeat='message in vm.messages | filter:search.text')
 	h3(ng-show='message.isadvert').card-header.text-center Advert
 	div(ng-show='message.isadvert').card-block.justify-content-end
@@ -27,24 +19,39 @@ div(class='card mb-3',ng-repeat='message in vm.messages | filter:search.text')
 		p(class='card-text').text-center 
 			//- a(href='{{message.body}}',role="button").btn.btn-light Link to advert
 			//- button(type="button").btn.btn-light Light
-	h3(ng-hide='message.isadvert').card-header.text-center Featured
+	h3(ng-hide='message.isadvert').card-header.text-center {{message.hits>vm.hot ? 'Hot' : ''}} 
+		i(ng-show='message.hits>vm.hot',class="fa fa-fire",aria-hidden="true")
 	div(ng-hide='message.isadvert').card-block.justify-content-end
 		.d-flex.flex-row
 			.mr-auto.p-2
 				h4(ng-bind-html="message.title | highlight:vm.searchvalue").card-title {{message.title}}
+				h6.card-subtitle.mb-2.text-muted {{message.lastupdated}} by {{message.author}}
 				span.badge.badge-pill.badge-primary hits : {{message.hits}}
+				span.badge.badge-pill.badge-primary thumbs : {{message.thumbs.length}}
 			.p-2
 				div(class='btn-group',role='group',aria-label='Basic Example')
 					a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-primary 
 						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='View message').fa.fa-eye
-					a(href='message/update/{{message._id}}',ng-if='$parent.vm.isLoggedIn').btn.btn-sm.btn-primary
+					a(href='message/update/{{message._id}}',ng-if='isLoggedIn && activeuser.username === message.author').btn.btn-sm.btn-primary
 						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update message').fa.fa-pencil
 					//- button(ng-click='deleteMessage(message._id)',value='button').btn.btn-sm.btn-primary 
 					//- 	i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Delete message").fa.fa-trash
-					button(type='button',data-toggle='modal',data-target='#Modal{{message._id}}',ng-if='vm.isLoggedIn').btn.btn-sm.btn-primary 
+					button(type='button',data-toggle='modal',data-target='#Modal{{message._id}}',ng-if='isLoggedIn && activeuser.username === message.author').btn.btn-sm.btn-primary 
 						i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
-		p(class='card-text',ng-bind-html="message.body | highlight:vm.searchvalue") {{message.body}}
-		a(href='#').btn.btn-primary Go somewhere
+		.d-flex.flex-row
+			p(ng-bind-html="message.body | highlight:vm.searchvalue").mr-auto.p-2 {{message.body}}
+		//- a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-secondary View message &raquo;
+		.d-flex.flex-row
+			.mr-auto.p-2
+				a(href='messages/view/message/{{message._id}}').btn.btn-sm.btn-secondary View message &raquo;
+			.p-2
+				div(class='btn-group',role='group',aria-label='Basic Example')
+					button(ng-if='message.thumbs.indexOf(activeuser.id)===-1',type='button',ng-click='vm.addThumb(message._id,activeuser.id,vm.currentpage,vm.limit)').btn.btn-sm.btn-success
+						i(aria-hidden='true').fa.fa-thumbs-o-up
+						span.badge.badge-success {{message.thumbs.length}}
+					button(ng-if='message.thumbs.indexOf(activeuser.id)!==-1',type='button',ng-click='vm.removeThumb(message._id,activeuser.id,vm.currentpage,vm.limit)').btn.btn-sm.btn-danger
+						i(aria-hidden='true').fa.fa-thumbs-o-down
+						span.badge.badge-danger {{message.thumbs.length}}
 		//- Modal goes here
 		div(id='Modal{{message._id}}',tabindex='-1',role='dialog',aria-labelledby='Modal{{message._id}}Label',aria-hidden='true').modal.fade
 			div(role='document').modal-dialog
@@ -61,16 +68,20 @@ div(class='card mb-3',ng-repeat='message in vm.messages | filter:search.text')
 	div(ng-hide='message.isadvert',ng-repeat='child in message.childs').card-footer.text-muted.justify-content-end
 			.d-flex.flex-row
 				.mr-auto.p-2
-					p(ng-show='child.title') title: {{child.title}}
+					p(ng-show='child.title') {{child.title}}
+						br
+						small.card-subtitle.mb-2.text-muted {{child.lastupdated}} by {{child.author}}
 				.p-2
 					div(class='btn-group',role='group',aria-label='Basic Example')
-						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}',ng-if='$parent.vm.isLoggedIn') 
+						a(class='btn btn-sm btn-primary',href='comment/update/{{child._id}}',ng-if='isLoggedIn && activeuser.username === child.author') 
 							i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Update comment').fa.fa-pencil
 						//- button(ng-show='child.title',class='btn btn-sm btn-primary',ng-click='deleteComment(child._id)',value='button')
 						//- 	i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
-						button(type='button',data-toggle='modal',data-target='#Modal{{child._id}}',ng-if='vm.isLoggedIn').btn.btn-sm.btn-primary 
+						button(type='button',data-toggle='modal',data-target='#Modal{{child._id}}',ng-if='isLoggedIn && activeuser.username === child.author').btn.btn-sm.btn-primary 
 							i(aria-hidden='true',data-toggle='tooltip',data-placement='top',title='Delete message').fa.fa-trash
-			p {{child.body}}
+			blockquote.blockquote
+				p.mb-0 {{child.body}}
+				footer.blockquote-footer {{child.author}}
 			//- Modal goes here
 			div(id='Modal{{child._id}}',tabindex='-1',role='dialog',aria-labelledby='Modal{{child._id}}Label',aria-hidden='true').modal.fade
 				div(role='document').modal-dialog
@@ -84,6 +95,8 @@ div(class='card mb-3',ng-repeat='message in vm.messages | filter:search.text')
 							button(type='button',data-dismiss='modal').btn.btn-secondary Cancel
 							button(ng-click='vm.deleteComment(child._id)',value='button',data-dismiss='modal').btn.btn-primary Delete item
 			//- end of modal
+	//- div(ng-hide='message.isadvert').card-footer.text-muted
+	//- 	p {{message.lastupdated}}
 	div(ng-hide='message.isadvert').card-footer.text-muted
 		include ../forms/commentForm.jade
 br

@@ -24,7 +24,7 @@
 //- 	input(type='submit',ng-click='updateProfile(formData4._id)',value='submit')
 div(class='btn-group',role='group',aria-label='Basic Example')
 	a(href='profiles/view/{{profile._id}}').btn.btn-sm.btn-primary
-		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to profiles").fa.fa-arrow-left
+		i(aria-hidden="true",data-toggle="tooltip",data-placement="top",title="Back to profile view").fa.fa-arrow-left
 br
 br
 form(name='formData4',method='post',novalidate)
@@ -41,6 +41,9 @@ form(name='formData4',method='post',novalidate)
 	div(ng-class="{ 'has-danger' : formData4.lastname.$invalid && !formData4.lastname.$pristine , 'has-success' : formData4.lastname.$valid && !formData4.lastname.$pristine }").form-group.row
 		label.col-form-label Lastname
 		input(ng-class="{ 'form-control-danger' : formData4.lastname.$invalid && !formData4.lastname.$pristine , 'form-control-success' : formData4.lastname.$valid && !formData4.lastname.$pristine }",type='text',name='lastname',id='lastname',placeholder='lastname',ng-model='profile.lastname',required).form-control.form-control-sm
+	div.form-group.row
+		label.col-form-label Bio
+		textarea(rows="5",name='bio',id='bio',placeholder='bio',ng-model='profile.bio').form-control.form-control-sm
 	.form-group.row
 		label.col-form-label Avatar Gender
 		select(ng-options='option for option in gender',name='gender',id='gender',ng-model='genderoption').form-control

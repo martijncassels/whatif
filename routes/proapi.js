@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 
 exports.getall = function(req, res) {
 
-        var promise = Profiles.find().exec() 
+        var promise = Profiles.find().exec()
 
         promise.then(function(profiles) {
             res.json(profiles);
@@ -46,7 +46,7 @@ exports.postprofile = function(req, res) {
             {name: '4',value: req.body.skill4},
             {name: '5',value: req.body.skill5},
             ]
-        
+
         // isparent:   true,
         // isfactory:  false,
         // iscomment:  false
@@ -89,7 +89,7 @@ exports.updateprofile = function(req, res) {
         profile.avatar.URL          =       'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/'+req.body.gender.$modelValue+'/'+req.body.avatarID.$modelValue+'.png';
         profile.avatar.gender       =       req.body.gender.$modelValue;
         profile.avatar.avatarID     =       req.body.avatarID.$modelValue;
-        
+        profile.bio                 =       req.body.bio.$modelValue;
 
         return profile.save();
     })
@@ -125,7 +125,7 @@ exports.members = function(req, res) {
         {username:new RegExp(req.params.val, "i")},
         {firstname:new RegExp(req.params.val, "i")},
         {lastnamename:new RegExp(req.params.val, "i")}
-        ]}).select('username').exec() 
+        ]}).select('username').exec()
 
         promise.then(function(profiles) {
             res.json(profiles);

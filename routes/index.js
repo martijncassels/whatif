@@ -20,7 +20,7 @@ exports.partial = function (req, res) {
 }
 
 exports.register = function(req, res) {
-  Profile.register(new Profile({ 
+  Profile.register(new Profile({
         username:           req.body.username,
         firstname:          req.body.firstname,
         lastname:           req.body.lastname,
@@ -55,19 +55,21 @@ exports.login = function(req, res, next) {
         return res.status(500).json({
           err: 'Could not log in user'
         });
-        console.log('Could not log in user ',user);
+        //console.log('Could not log in user ',user);
       }
       res.status(200).json({
         status: 'Login successful!'
       });
-      console.log('Login successful! ',user);
+      //console.log('Login successful! ',user);
     });
   })(req, res, next);
 }
 
 exports.logout = function(req, res) {
   req.logOut();
-  //req.session.destroy();
+  req.session.destroy();
+  // store.destroy(req.sessionID, err)
+  // if(err) res.status(500).json({ err: 'Something went wrong deleting your session' });
   res.status(200).json({
     status: 'Bye!'
   });
@@ -79,7 +81,10 @@ exports.status = function(req, res) {
       status: false
     });
   }
+  //console.log(req.user);
   res.status(200).json({
-    status: true
+    status: true,
+    user: {username: req.user.username, // only username, safer
+    id: req.user._id}
   });
 }

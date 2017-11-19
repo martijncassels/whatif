@@ -1,4 +1,5 @@
 var Messages = require('../models/messages.js');
+var Workshops = require('../models/workshops.js');
 var Profiles = require('../models/profiles.js');
 var mongoose = require('mongoose');
 
@@ -22,9 +23,9 @@ exports.getall = function(req, res) {
 
 // get a single factory
 exports.single = function(req, res) {
-    
+
         var promise = Messages.findById(req.params.id).populate('members').exec() //only parent messages, no comments
-    
+
         promise.then(function(factory) {
 			res.json(factory);
         })
@@ -38,7 +39,7 @@ exports.single = function(req, res) {
 //         {body:new RegExp(req.body.searchvalue, "i")},
 //         {title:new RegExp(req.body.searchvalue, "i")}
 //         ]}).limit(10).sort({hits:-1}).exec();
-    
+
 //     promise.then(function(messages) {
 //         //console.log(messages.length);
 //         res.json(messages);
@@ -158,7 +159,7 @@ exports.deletefactory = function(req, res) {
 // exports.deletecomment = function(req, res) {
 
 //     var promise = Messages.findOne({'childs._id':req.params.id}).exec()
-	
+
 // 	promise.then(function(comment){
 //     	comment.childs.id(req.params.id).remove();
 //     	return comment.save();
@@ -205,3 +206,15 @@ exports.deletefactory = function(req, res) {
 //     });
 
 // }
+// get a single workshop
+exports.getworkshop = function(req, res) {
+
+        var promise = Messages.find({'_id': req.params.id}).exec() //only parent messages, no comments
+
+        promise.then(function(workshops) {
+            res.json(workshops);
+        })
+        .catch(function(err){
+            res.send(err);
+        })
+}

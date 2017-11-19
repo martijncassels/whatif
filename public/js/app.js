@@ -8,6 +8,7 @@ var whatif = angular.module('whatif',[
     'whatif.Factorycontrollers',
     'whatif.Messagecontrollers',
     'whatif.Profilecontrollers',
+    'whatif.Workshopcontrollers',
     'whatif.filters',
     'whatif.services',
     'whatif.directives',
@@ -26,10 +27,17 @@ whatif
         .when('/messages/new', {templateUrl: 'partials/msg/newmessage', controller: 'MsgNewCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/messages/search', {templateUrl: 'partials/msg/messages', controller: 'SearchCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/messages/view/:entity/:id', {templateUrl: 'partials/msg/viewmessage', controller: 'MsgViewCtrl', controllerAs: 'vm', access: {restricted: false}})
+        .when('/messages/thumbs/:id/:uid/:page/:limit', {controller: 'AppCtrl', controllerAs: 'vm', access: {restricted: false}})
+        .when('/messages/thumbs/:id/:uid/:page/:limit', {controller: 'AppCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/factories',{templateUrl: 'partials/fac/factories', controller: 'FactoryCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/factories/view/:id',{templateUrl: 'partials/fac/viewfactory', controller: 'FacViewCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/factories/update/:id',{templateUrl: 'partials/fac/factoryupdate', controller: 'FacUpdateCtrl', controllerAs: 'vm', access: {restricted: true}})
-        .when('/profiles', {templateUrl: 'partials/pro/profiles', controller: 'ProfileCtrl', access: {restricted: false}})
+        .when('/workshops/view/:id/:username',{templateUrl: 'partials/ws/viewworkshop', controller: 'WSViewCtrl', controllerAs: 'vm', access: {restricted: true}})
+        .when('/workshops1/view/:id/:username',{templateUrl: 'partials/ws/viewworkshop1', controller: 'WSViewCtrl', controllerAs: 'vm', access: {restricted: true}})
+        .when('/workshops/new',{templateUrl: 'partials/ws/viewworkshop1', controller: 'WSViewCtrl', controllerAs: 'vm', access: {restricted: true}})
+        .when('/workshops/update/:id',{templateUrl: 'partials/ws/viewworkshop1', controller: 'WSViewCtrl', controllerAs: 'vm', access: {restricted: true}})
+        .when('/workshops/delete/:id',{templateUrl: 'partials/ws/viewworkshop1', controller: 'WSViewCtrl', controllerAs: 'vm', access: {restricted: true}})
+        .when('/profiles', {templateUrl: 'partials/pro/profiles', controller: 'ProfileCtrl', controllerAs: 'vm', access: {restricted: false}})
         .when('/profiles/view/:id', {templateUrl: 'partials/pro/viewprofile', controller: 'PrfViewCtrl', access: {restricted: false}})
         .when('/profile/update/:id', {templateUrl: 'partials/pro/profileupdate', controller: 'PrfUpdateCtrl', access: {restricted: true}})
         .when('/:entity/update/:id', {templateUrl: 'partials/msg/messageupdate', controller: 'MsgUpdateCtrl', controllerAs: 'vm', access: {restricted: true}})

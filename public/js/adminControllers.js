@@ -54,6 +54,7 @@ function AdminCtrl($scope, $http, $routeParams) {
         })
         .error(function(data) {
             console.log('Error: ' + data);
+            vm.error = data;
         });
 
     // $http.get('/api/admin/prostats')

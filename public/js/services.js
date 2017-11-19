@@ -8,7 +8,7 @@ angular
 
 .module('whatif.services', [])
 
-.value('version', '0.3')
+.value('version', '3.0.1')
 .factory('broadcastService', broadcastService)
 .service('Search',Search)
 .factory('_', _)
@@ -73,12 +73,15 @@ function _($window) {
 function AuthService($q, $timeout, $http) {
 
     // create user variable
-    var user = null;
+    var user = null,
+        profile = null;
 
     // return available functions for use in the controllers
     return ({
       isLoggedIn: isLoggedIn,
       getUserStatus: getUserStatus,
+      getUserStatus2: getUserStatus2,
+      //returnUser: returnUser,
       login: login,
       logout: logout,
       register: register
@@ -115,6 +118,22 @@ function AuthService($q, $timeout, $http) {
         user = false;
       });
     }
+
+    function getUserStatus2() {
+      return $http.get('/status')
+      // handle success
+      // .success(function (data) {
+      //   return data;
+      // })
+      // // handle error
+      // .error(function (data) {
+      //   //user = false;
+      // });
+    }
+
+    // function returnUser() {
+    //   return user;
+    // }
 
     function login(username, password) {
 

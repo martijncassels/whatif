@@ -32,12 +32,15 @@ for (let i = 0; i < 10; i++) {
 }
 */
 
-var mongoose = require('mongoose');
-var mongoosePaginate = require('mongoose-paginate');
-var Schema = mongoose.Schema;
-mongoose.Promise = require('bluebird');
+var 	mongoose 						= require('mongoose'),
+			mongoosePaginate 		= require('mongoose-paginate'),
+			moment 							= require('moment'),
+			Schema 							= mongoose.Schema;
+mongoose.Promise 					= require('bluebird');
 
-var profiles = mongoose.model('profiles').schema
+moment().format();
+
+var profiles 							= mongoose.model('profiles').schema
 
 var childSchema = mongoose.Schema({
 		    title: {type : String, default: ''},
@@ -50,7 +53,8 @@ var childSchema = mongoose.Schema({
 		    tags: [String],
 		    isfactory: {type : Boolean, default: false},
 		    iscomment: {type : Boolean, default: false},
-		    hits: {type: Number, default: 0}
+		    hits: {type: Number, default: 0},
+				lastupdated: {type: String, default: null}
 		});
 
 var messageSchema = mongoose.Schema({
@@ -71,8 +75,25 @@ var messageSchema = mongoose.Schema({
 		    isfactory: {type : Boolean, default: false},
 		    iscomment: {type : Boolean, default: false},
 		    isfrontpage: {type : Boolean, default: false},
-		    hits: {type: Number, default: 0}
+				//workshop: {type: Schema.Types.ObjectId, ref: 'messages'},
+		    hits: {type: Number, default: 0},
+				thumbs: [{type: Schema.Types.ObjectId, ref: 'profiles'}],
+				lastupdated: {type: String, default: null}
 		});
+
+// messageSchema.methods.lastupdated = function() {
+// 	var lastupdated = this.lastupdate;
+// 	var diff = moment(this.lastupdate).fromNow();
+// 	//return diff;
+// 	console.log(diff);
+// }
+
+// messageSchema.virtual('lastupdated').get(function () {
+// 	var lastupdated = this.lastupdate;
+// 	var diff = moment(this.lastupdate).fromNow();
+//   return diff;
+// });
+
 messageSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('messages', messageSchema);

@@ -23,5 +23,4 @@ script(type="text/ng-template",id="customSlideTemplate.html")
 	div(ng-repeat='message in vm.messages').col-md-4
 		.h2 {{message.title}}
 		p {{message.body}}
-		p
-			a(class="btn btn-secondary",href="/messages/view/message/{{message._id}}",role="button") View details &raquo;
+		a(href="/messages/view/message/{{message._id}}",role="button").btn.btn-sm.btn-secondary View message &raquo;

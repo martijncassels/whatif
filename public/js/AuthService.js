@@ -34,10 +34,13 @@ function AuthService($q, $timeout, $http) {
       return $http.get('/status')
       // handle success
       .success(function (data) {
+        console.log(data);
         if(data.status){
           user = true;
+          profile = data.user;
         } else {
           user = false;
+          profile = null;
         }
       })
       // handle error

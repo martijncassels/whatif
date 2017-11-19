@@ -8,41 +8,51 @@ angular
 
 ProfileCtrl.$inject = ['$scope', '$http', 'AuthService'];
 PrfViewCtrl.$inject = ['$scope', '$http', '$routeParams', '$location', 'AuthService'];
-PrfUpdateCtrl.$inject = ['$scope', '$http', '$routeParams'];
+PrfUpdateCtrl.$inject = ['$scope', '$http', '$routeParams', '$location'];
 
 function ProfileCtrl($scope, $http, AuthService) {
-    $scope.isLoggedIn = AuthService.isLoggedIn();
+  var vm = this;
+    //$scope.isLoggedIn = AuthService.isLoggedIn();
+
+    AuthService.getUserStatus().then(function(data){
+        if(AuthService.isLoggedIn()) {
+          vm.activeuser = data.data.user;
+        }
+    });
+
     $http.get('/api/profiles')
         .success(function(data) {
-            $scope.profiles = data;
+            vm.profiles = data;
             //console.log(data);
         })
         .error(function(data) {
             console.log('Error: ' + data);
+            vm.error = data;
         });
 
     // when submitting the add form, send the text to the node API
-    $scope.createProfile = function() {
-        $http.post('/api/profiles', $scope.formData)
-            .success(function(data) {
-                $scope.formData = {}; // clear the form so our user is ready to enter another
-                $scope.profiles = data;
-                //console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    };
-
-    // delete a todo after checking it
-    $scope.deleteProfile = function(id) {
+    // $scope.createProfile = function() {
+    //     $http.post('/api/profiles', $scope.formData)
+    //         .success(function(data) {
+    //             $scope.formData = {}; // clear the form so our user is ready to enter another
+    //             $scope.profiles = data;
+    //             //console.log(data);
+    //         })
+    //         .error(function(data) {
+    //             console.log('Error: ' + data);
+    //         });
+    // };
+    //
+    // // delete a todo after checking it
+    vm.deleteProfile = function(id) {
         $http.delete('/api/profiles/' + id)
             .success(function(data) {
-                $scope.profiles = data;
+                vm.profiles = data;
                 //console.log(data);
             })
             .error(function(data) {
                 console.log('Error: ' + data);
+                vm.error = data;
             });
     };
 //}
@@ -50,7 +60,13 @@ function ProfileCtrl($scope, $http, AuthService) {
 
 //function PrfViewCtrl($scope, $http, $routeParams) {
 function PrfViewCtrl($scope, $http, $routeParams, $location, AuthService) {
-    $scope.isLoggedIn = AuthService.isLoggedIn();
+
+    AuthService.getUserStatus().then(function(data){
+        if(AuthService.isLoggedIn()) {
+          $scope.activeuser = data.data.user;
+        }
+    });
+
     $scope.labels = [];
     $scope.data = [];
     $http.get('/api/profiles/' + $routeParams.id)
@@ -87,33 +103,8 @@ function PrfViewCtrl($scope, $http, $routeParams, $location, AuthService) {
         })
         .error(function(data) {
             console.log('Error: ' + data);
+            vm.error = data;
         });
-
-    // when submitting the add form, send the text to the node API
-    // $scope.viewProfile = function(id) {
-    //     $http.post('/api/profiles/' + id)
-    //         .success(function(data) {
-    //             $scope.formData = {}; // clear the form so our user is ready to enter another
-    //             $scope.profiles = data;
-    //             //console.log(data);
-    //         })
-    //         .error(function(data) {
-    //             console.log('Error: ' + data);
-    //         });
-    // };
-
-    // when submitting the add form, send the text to the node API
-    // $scope.createProfile = function() {
-    //     $http.post('/api/profiles', $scope.formData)
-    //         .success(function(data) {
-    //             $scope.formData = {}; // clear the form so our user is ready to enter another
-    //             $scope.profiles = data;
-    //             //console.log(data);
-    //         })
-    //         .error(function(data) {
-    //             console.log('Error: ' + data);
-    //         });
-    // };
 
     // delete a todo after checking it
     $scope.deleteProfile = function(id) {
@@ -121,18 +112,17 @@ function PrfViewCtrl($scope, $http, $routeParams, $location, AuthService) {
             .success(function(data) {
                 $scope.profiles = data;
                 $location.path('/profiles');
-                //console.log(data);
             })
             .error(function(data) {
                 console.log('Error: ' + data);
+                vm.error = data;
             });
-    };
-//}
+    }
 }
 
 //function PrfUpdateCtrl($scope, $http, $routeParams) {
-function PrfUpdateCtrl($scope, $http, $routeParams) {
-    $scope.isLoggedIn = AuthService.isLoggedIn();
+function PrfUpdateCtrl($scope, $http, $routeParams, $location) {
+    //$scope.isLoggedIn = AuthService.isLoggedIn();
     //$scope.formData4 = {};
     $http.get('/api/profiles/' + $routeParams.id)
         .success(function(data) {
@@ -160,12 +150,12 @@ function PrfUpdateCtrl($scope, $http, $routeParams) {
         })
         .error(function(data) {
             console.log('Error: ' + data);
+            vm.error = data;
         });
 
 
 
     $scope.updateProfile = function(id) {
-        console.log($scope.formData4);
         $http({
             method      : 'PUT',
             url         : '/api/profiles/' + $routeParams.id,
@@ -175,7 +165,7 @@ function PrfUpdateCtrl($scope, $http, $routeParams) {
             .success(function(data) {
                 $scope.formData4 = data;
                 $scope.success = 'done updating profile!';
-                //console.log(data);
+                $location.path('profiles/view/' + $routeParams.id);
             })
             .error(function(data) {
                 $scope.error = 'error updating profile!';

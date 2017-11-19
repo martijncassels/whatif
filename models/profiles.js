@@ -48,6 +48,7 @@ var Profile = new Schema({
 		    deleted: {type: Boolean, default: false},
 		    creationdate: {type: Date, default: Date.now},
 		    lastlogin: {type: Date, default: Date.now},
+				bio: {type: String, default: null},
 		    avatar: {
 		    	URL: String,
 		    	gender: String,

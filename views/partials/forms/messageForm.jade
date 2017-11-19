@@ -8,7 +8,7 @@ form(name='vm.formData',method='post',novalidate)
 		input(ng-class="{ 'form-control-danger' : vm.formData.body.$invalid && !vm.formData.body.$pristine , 'form-control-success' : !vm.formData.body.$invalid && !vm.formData.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='vm.formmodel.body',required,ng-minlength='3').form-control
 		div(ng-show='vm.formData.body.$invalid && !vm.formData.body.$pristine').form-control-feedback Body is required and a minimum of 3 characters.
 	div(ng-class="{ 'has-danger' : vm.formData.author.$invalid && !vm.formData.author.$pristine , 'has-success' : !vm.formData.author.$invalid && !vm.formData.author.$pristine }").form-group
-		label.col-sm-2.col-form-label author 
+		label.col-sm-2.col-form-label author
 		input(ng-class="{ 'form-control-danger' : vm.formData.author.$invalid && !vm.formData.author.$pristine , 'form-control-success' : !vm.formData.author.$invalid && !vm.formData.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='vm.formmodel.author',required,ng-minlength='3').form-control
 		div(ng-show='vm.formData.author.$invalid && !vm.formData.author.$pristine').form-control-feedback Author is required and a minimum of 3 characters.
 	.form-group

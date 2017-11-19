@@ -7,6 +7,7 @@ form(ng-hide='vm.message.isfrontpage',name='form',method='post',novalidate)
 		input(ng-class="{ 'form-control-danger' : form.body.$invalid && !form.body.$pristine , 'form-control-success' : form.body.$valid && !form.body.$pristine }",type='text',name='body',id='body',placeholder='body',ng-model='child.form.body',required).form-control.form-control-sm
 	div(ng-class="{ 'has-danger' : form.author.$invalid && !form.author.$pristine , 'has-success' : form.author.$valid && !form.author.$pristine }").form-group.row
 		//- label.col-form-label author
+		//- input(ng-show='vm.activeuser.username',ng-class="{ 'form-control-danger' : form.author.$invalid && !form.author.$pristine , 'form-control-success' : form.author.$valid && !form.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='vm.activeuser.username',required).form-control.form-control-sm
 		input(ng-class="{ 'form-control-danger' : form.author.$invalid && !form.author.$pristine , 'form-control-success' : form.author.$valid && !form.author.$pristine }",type='text',name='author',id='author',placeholder='author',ng-model='child.form.author',required).form-control.form-control-sm
 	.form-group.row
 		//- 2 inputs below to support both controller as controllerAS functionality for the time being
