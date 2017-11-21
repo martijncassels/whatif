@@ -154,7 +154,7 @@ exports.getworkshop2 = function(req, res) {
         data.workshop.lastupdatepretty = moment(data.workshop.lastupdate).format('YYYY-MM-DD');
         //data.countmessages[0].currentcount = 1;
         //data.countcomments[0].countcurrent = 1;
-        console.log(data);
+        //console.log(data);
         res.json(data);
     })
     .catch(function(err){

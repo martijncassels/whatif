@@ -50,7 +50,7 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
 					}
         })
         .error(function(data) {
-            console.log('Error: ' + data);
+            //console.log('Error: ' + data);
 						vm.error = data;
         });
 
@@ -61,7 +61,7 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
                 vm.workshop = data;
             })
             .error(function(data) {
-                console.log('Error: ' + data);
+                //console.log('Error: ' + data);
 								vm.error = data;
             });
     };
@@ -73,7 +73,7 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
 								vm.workshop = data;
 						})
 						.error(function(data) {
-								console.log('Error: ' + data);
+								//console.log('Error: ' + data);
 								vm.error = data;
 						});
 		};
@@ -94,12 +94,11 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
                     //console.log(data);
                 })
                 .error(function(data) {
-                    console.log('Error: ' + data);
+                    //console.log('Error: ' + data);
 										vm.error = data;
                 });
         }
     };
-	// }
 }
 
 function WSUpdateCtrl($scope, $http, $routeParams) {
@@ -111,40 +110,8 @@ function WSUpdateCtrl($scope, $http, $routeParams) {
             vm.data = data;
         })
         .error(function(data) {
-            console.log('Error: ' + data);
+            //console.log('Error: ' + data);
 						vm.error = data;
         });
-
-    // vm.updateworkshop = function(id) {
-    //     //console.log($scope.formData8);
-    //     $http.put('/api/factories/' + id , $scope.formData8)
-    //         .success(function(data) {
-    //             vm.formData8 = data;
-    //             vm.success = 'done updating message!';
-    //         })
-    //         .error(function(data) {
-    //             vm.error = 'error updating message!';
-    //             console.log('Error: ' + data);
-    //         });
-    // };
-
-    // vm.getMembers = function(val) {
-    //     return $http.get('/api/members/' + val).then(function(response){
-    //         return response.data;
-    //     });
-    // };
-		//
-    // vm.pushMember = function(val) {
-    //     //console.log(val);
-    //     var newmember = {'_id':val._id,'username':val.username};
-    //     vm.data.members.push(newmember);
-    //     //console.log(vm.data.members);
-    //     vm.selected = [];
-    // };
-		//
-    // vm.removeMember = function(member) {
-    //     vm.data.members.splice(member,1);
-    //     vm.selected = [];
-    // };
 
 }

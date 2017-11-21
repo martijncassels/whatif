@@ -36,6 +36,7 @@ module.exports = function(grunt) {
               './public/js/profileControllers.js',
               './public/js/factoryControllers.js',
               './public/js/adminControllers.js',
+              './public/js/workshopControllers.js',
               './public/js/filters.js',
               './public/js/directives.js',
               './public/js/services.js',

@@ -88,12 +88,8 @@ var sess = {
       autoRemoveInterval: 10 // In minutes. Default
     })
 }
-if (app.get('env') === 'development') {
-  //app.use(express.errorHandler());
-  app.use(pmx.expressErrorHandler());
-};
+
 if (app.get('env') === 'production') {
-  app.use(pmx.expressErrorHandler());
   app.set('trust proxy', 1) // trust first proxy
   sess.cookie.secure = true // serve secure cookies
 };
@@ -166,10 +162,6 @@ if (app.get('env') === 'development') {
    app.use(function(err, req, res, next) {
      res.status(err.status || 500);
      res.send('Something went wrong!\n'+err);
-     // res.render('error', {
-     //     message: err.message,
-     //     error: err
-     // });
    });
 };
 
@@ -180,10 +172,6 @@ if (app.get('env') === 'production') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.send('Something went wrong!\n');
-    // res.render('error', {
-    //     message: err.message,
-    //     error: err
-    // });
   });
 };
 
