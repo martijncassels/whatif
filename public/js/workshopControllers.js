@@ -50,7 +50,7 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
 					}
         })
         .error(function(data) {
-            //console.log('Error: ' + data);
+            console.log('Error: ' + data);
 						vm.error = data;
         });
 
@@ -61,7 +61,7 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
                 vm.workshop = data;
             })
             .error(function(data) {
-                //console.log('Error: ' + data);
+                console.log('Error: ' + data);
 								vm.error = data;
             });
     };
@@ -73,7 +73,7 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
 								vm.workshop = data;
 						})
 						.error(function(data) {
-								//console.log('Error: ' + data);
+								console.log('Error: ' + data);
 								vm.error = data;
 						});
 		};
@@ -94,7 +94,7 @@ function WSViewCtrl($scope, $rootScope, $http, $routeParams, $location, AuthServ
                     //console.log(data);
                 })
                 .error(function(data) {
-                    //console.log('Error: ' + data);
+                    console.log('Error: ' + data);
 										vm.error = data;
                 });
         }
@@ -110,7 +110,7 @@ function WSUpdateCtrl($scope, $http, $routeParams) {
             vm.data = data;
         })
         .error(function(data) {
-            //console.log('Error: ' + data);
+            console.log('Error: ' + data);
 						vm.error = data;
         });
 

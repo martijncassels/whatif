@@ -155,6 +155,11 @@ exports.getworkshop2 = function(req, res) {
         //data.countmessages[0].currentcount = 1;
         //data.countcomments[0].countcurrent = 1;
         //console.log(data);
+        for(let i=0;i<data.workshop.messages.length;i++){
+          data.workshop.messages[i].creationdatepretty = moment(data.workshop.messages[i].creationdate).format('MMMM Do YYYY, hh:mm');
+          data.workshop.messages[i].lastupdatepretty = moment(data.workshop.messages[i].lastupdate).format('MMMM Do YYYY, hh:mm');
+          data.workshop.messages[i].lastupdatefromnow = moment(data.workshop.messages[i].lastupdate).fromNow();
+        }
         res.json(data);
     })
     .catch(function(err){
